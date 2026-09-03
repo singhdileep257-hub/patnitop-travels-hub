@@ -1,0 +1,9 @@
+# Netlify configuration — Patnitop Travels Hub
+# Minimal, static-site-only config. No build step, no functions,
+# no paid add-ons. Netlify's default "pretty URL" behavior (serving
+# /taxi-services for taxi-services.html) is automatic for a site with
+# no build command and no [[redirects]] overriding it, so nothing
+# further is needed here to keep that working.
+
+[build]
+  publish = "."
