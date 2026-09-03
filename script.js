@@ -17,17 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // WhatsApp buttons: the href built into the HTML at build time (see
-  // build.py / wa_href()) already works with JS off, so this only
-  // ENHANCES buttons that carry a page-specific data-wa-message —
-  // it never creates the link from scratch and never overwrites a
-  // working href with nothing.
+  // WhatsApp buttons: build a pre-filled message from data attributes,
+  // or fall back to a generic enquiry message.
   var WA_NUMBER = '919103331334'; // country code + 9103331334
-  document.querySelectorAll('[data-whatsapp][data-wa-message]').forEach(function (btn) {
-    var msg = btn.getAttribute('data-wa-message');
-    if (msg) {
-      btn.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
-    }
+  document.querySelectorAll('[data-whatsapp]').forEach(function (btn) {
+    var customMsg = btn.getAttribute('data-wa-message');
+    var msg = customMsg || "Hello Patnitop Travels Hub, I would like to enquire about a taxi/hotel booking.";
+    btn.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
   });
 
   // Booking form: build a WhatsApp message from the filled fields and
