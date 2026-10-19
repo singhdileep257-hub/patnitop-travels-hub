@@ -10,7 +10,11 @@ import os
 import re
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SITE_URL = "https://www.patnitoptravelshub.com"  # placeholder — update once domain is live
+# TEMPORARY canonical domain: the Netlify site address, because the custom
+# domain (www.patnitoptravelshub.com) was not loading when this was set.
+# Once the custom domain works, change this ONE value, re-run build.py, and
+# the canonicals, social tags, schema, sitemap.xml and robots.txt all follow.
+SITE_URL = "https://tubular-zabaione-c8e3eb.netlify.app"
 PHONE = "9103331334"
 PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
@@ -243,6 +247,9 @@ def footer():
           <li><a href="nathatop-sanasar-taxi.html">Nathatop &amp; Sanasar Taxi</a></li>
           <li><a href="srinagar-taxi.html">Srinagar Taxi</a></li>
           <li><a href="bhaderwah-taxi.html">Bhaderwah Taxi</a></li>
+          <li><a href="sudh-mahadev-taxi.html">Sudh Mahadev Taxi</a></li>
+          <li><a href="mantalai-taxi.html">Mantalai Taxi</a></li>
+          <li><a href="gauri-kund-taxi.html">Gauri Kund Taxi</a></li>
           <li><a href="airport-railway-transfer.html">Airport &amp; Railway Transfer</a></li>
         </ul>
       </div>
@@ -519,6 +526,9 @@ TAXI_SERVICES = [
     ("Nathatop &amp; Sanasar Taxi", "Dedicated taxi service for the Nathatop and Sanasar viewpoints.", "nathatop-sanasar-taxi.html"),
     ("Srinagar Taxi", "Taxi service from Patnitop or Jammu towards Srinagar.", "srinagar-taxi.html"),
     ("Bhaderwah Taxi", "Taxi service to Bhaderwah from Patnitop and Jammu.", "bhaderwah-taxi.html"),
+    ("Sudh Mahadev Taxi", "Taxi to the ancient Sudh Mahadev temple from Patnitop, Jammu and Katra.", "sudh-mahadev-taxi.html"),
+    ("Mantalai Taxi", "Taxi to Mantalai, the place linked in local belief to the Shiv-Parvati wedding.", "mantalai-taxi.html"),
+    ("Gauri Kund Taxi", "Taxi to the sacred Gauri Kund near Sudh Mahadev, from Patnitop and Jammu.", "gauri-kund-taxi.html"),
     ("Hotel Pickup &amp; Drop", "Pickup and drop from your Patnitop hotel for onward travel.", "hotel-booking.html"),
 ]
 
@@ -794,6 +804,100 @@ ROUTES = [
         agent_default_drop="Bhaderwah",
         agent_ask_sightseeing=True, agent_ask_hotel=True,
     ),
+    dict(
+        id="sudh-mahadev",
+        path="sudh-mahadev-taxi.html",
+        title="Sudh Mahadev Taxi from Patnitop &amp; Jammu | Patnitop Travels Hub",
+        meta_desc="Book a Sudh Mahadev taxi from Patnitop, Jammu or Katra for a temple visit or yatra. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Sudh Mahadev Taxi",
+        intro=[
+            "Sudh Mahadev is an ancient Shiva temple in the hills of the Udhampur region of Jammu &amp; Kashmir, and a well-known pilgrimage stop for devotees travelling through Patnitop. Patnitop Travels Hub arranges taxi service to Sudh Mahadev from Patnitop, Jammu and Katra.",
+            "You can book it as a one-way drop, a round trip, or a full-day temple visit. An annual yatra is held in the month of Shravan; dates and arrangements are announced locally each year, so please check with us before planning a yatra-season trip."
+        ],
+        points=[
+            "Taxi from Patnitop to Sudh Mahadev and back",
+            "Pickup from Jammu, Jammu Airport, Jammu Railway Station or Katra",
+            "One-way drop, round trip or full-day temple visit",
+            "Can be combined with <a href=\"gauri-kund-taxi.html\">Gauri Kund</a> and <a href=\"mantalai-taxi.html\">Mantalai</a> on the same trip",
+            "Family and group transportation, including Tempo Traveller",
+        ],
+        faqs=[
+            ("How do I book a taxi to Sudh Mahadev?", "Call or WhatsApp Dileep Singh at 9103331334 with your pickup place, travel date and number of people. We will confirm vehicle availability and the current fare."),
+            ("Can I visit Sudh Mahadev from Patnitop in one day?", "Yes, a day trip from Patnitop is commonly arranged. Exact timing depends on road and weather conditions, so call us and we will help plan an early start."),
+            ("Is a taxi available during the Sudh Mahadev yatra?", "Taxi service is available subject to demand and local traffic arrangements during the yatra season. Please book early and ask us about the current situation before you travel."),
+            ("Can I combine Sudh Mahadev with Gauri Kund and Mantalai?", "Yes, these places are close to each other and are often visited together. Tell us what you want to see and we will plan the route and timing with you."),
+        ],
+        crumb_name="Sudh Mahadev Taxi",
+        related=[("Gauri Kund Taxi", "gauri-kund-taxi.html"), ("Mantalai Taxi", "mantalai-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        area_served=["Sudh Mahadev", "Patnitop", "Jammu", "Katra"],
+        active="patnitop-sightseeing.html",
+        agent_label="Sudh Mahadev Taxi",
+        agent_default_pickup="Patnitop, Jammu or Katra",
+        agent_default_drop="Sudh Mahadev (return if needed)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
+        id="mantalai",
+        path="mantalai-taxi.html",
+        title="Mantalai Taxi from Patnitop &amp; Jammu | Patnitop Travels Hub",
+        meta_desc="Book a Mantalai taxi from Patnitop, Jammu or Katra, alone or with Sudh Mahadev and Gauri Kund. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Mantalai Taxi",
+        intro=[
+            "Mantalai is a quiet hill village in the Udhampur region, which local belief associates with the wedding of Lord Shiva and Goddess Parvati. It is visited by pilgrims and by travellers who want to see a less crowded side of Jammu &amp; Kashmir. Patnitop Travels Hub arranges taxi service to Mantalai from Patnitop, Jammu and Katra.",
+            "Mantalai is usually visited together with Sudh Mahadev and Gauri Kund. Road conditions on the hill routes can change with the season and weather, so we recommend calling us before you travel."
+        ],
+        points=[
+            "Taxi from Patnitop to Mantalai and back",
+            "Pickup from Jammu, Jammu Airport, Jammu Railway Station or Katra",
+            "Combine with <a href=\"sudh-mahadev-taxi.html\">Sudh Mahadev</a> and <a href=\"gauri-kund-taxi.html\">Gauri Kund</a> in a single day trip",
+            "One-way drop, round trip or full-day hire",
+            "Family and group transportation, including Tempo Traveller",
+        ],
+        faqs=[
+            ("How do I book a Mantalai taxi?", "Call or WhatsApp 9103331334, or use the booking form on this website with your pickup place, date and group size."),
+            ("Is Mantalai connected to Sudh Mahadev?", "Mantalai lies in the same region and is commonly visited along with Sudh Mahadev. We can plan both, and Gauri Kund, as one trip."),
+            ("What is the road like to Mantalai?", "Hill roads can be narrow and affected by rain or snow. Call us before you travel and we will advise based on current conditions and the vehicle that suits your group."),
+        ],
+        crumb_name="Mantalai Taxi",
+        related=[("Sudh Mahadev Taxi", "sudh-mahadev-taxi.html"), ("Gauri Kund Taxi", "gauri-kund-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Vehicles", "vehicles.html")],
+        area_served=["Mantalai", "Sudh Mahadev", "Patnitop", "Jammu"],
+        active="patnitop-sightseeing.html",
+        agent_label="Mantalai Taxi",
+        agent_default_pickup="Patnitop, Jammu or Katra",
+        agent_default_drop="Mantalai (return if needed)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
+        id="gauri-kund",
+        path="gauri-kund-taxi.html",
+        title="Gauri Kund Taxi from Patnitop &amp; Jammu | Patnitop Travels Hub",
+        meta_desc="Book a Gauri Kund taxi near Sudh Mahadev from Patnitop, Jammu or Katra, with optional Mantalai stop. Call or WhatsApp 9103331334.",
+        h1="Gauri Kund Taxi",
+        intro=[
+            "Gauri Kund is a sacred spring-fed pool near Sudh Mahadev, which local belief associates with Goddess Parvati. Pilgrims visiting Sudh Mahadev often stop here too. Patnitop Travels Hub arranges taxi service to Gauri Kund from Patnitop, Jammu and Katra.",
+            "Part of the way to some sacred sites in this area may need to be covered on foot, depending on the season and local arrangements. Tell us your group's needs, such as elderly or young travellers, so we can advise before you set out."
+        ],
+        points=[
+            "Taxi from Patnitop to Gauri Kund and back",
+            "Pickup from Jammu, Jammu Airport, Jammu Railway Station or Katra",
+            "Easily combined with <a href=\"sudh-mahadev-taxi.html\">Sudh Mahadev</a> and <a href=\"mantalai-taxi.html\">Mantalai</a>",
+            "One-way drop, round trip or full-day hire",
+            "Family and group transportation, including Tempo Traveller",
+        ],
+        faqs=[
+            ("How do I book a taxi to Gauri Kund?", "Call or WhatsApp Dileep Singh at 9103331334 with your pickup place, date and group size. We will confirm availability and the current fare."),
+            ("Is Gauri Kund near Sudh Mahadev?", "Yes, Gauri Kund is in the Sudh Mahadev area and is commonly visited on the same trip. We can arrange both in one taxi booking."),
+            ("Is the walk to Gauri Kund difficult for elders or children?", "This depends on the season and local arrangements. Please tell us who is travelling when you call, so we can advise on timing and what to expect."),
+        ],
+        crumb_name="Gauri Kund Taxi",
+        related=[("Sudh Mahadev Taxi", "sudh-mahadev-taxi.html"), ("Mantalai Taxi", "mantalai-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        area_served=["Gauri Kund", "Sudh Mahadev", "Patnitop", "Jammu"],
+        active="patnitop-sightseeing.html",
+        agent_label="Gauri Kund Taxi",
+        agent_default_pickup="Patnitop, Jammu or Katra",
+        agent_default_drop="Gauri Kund (return if needed)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
 ]
 
 for r in ROUTES:
@@ -843,6 +947,19 @@ def build_sightseeing():
   <div class="container">
     <div class="section-head"><h2>Combine sightseeing with your taxi route</h2></div>
     <p>Sightseeing can be added on to a <a href="katra-to-patnitop-taxi.html">Katra to Patnitop taxi</a>, <a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop taxi</a>, or arranged as a standalone half-day or full-day local taxi hire. <a href="nathatop-sanasar-taxi.html">See Nathatop &amp; Sanasar taxi details</a>.</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>Sudh Mahadev, Mantalai &amp; Gauri Kund</h2>
+      <p>Three sacred places in the hills near Patnitop, popular with pilgrims and often visited together in one day trip.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card service-card"><h3>Sudh Mahadev</h3><p>An ancient Shiva temple and well-known pilgrimage stop.</p><a class="card-link" href="sudh-mahadev-taxi.html">Sudh Mahadev taxi →</a></div>
+      <div class="card service-card"><h3>Mantalai</h3><p>A quiet hill village linked in local belief to the Shiv-Parvati wedding.</p><a class="card-link" href="mantalai-taxi.html">Mantalai taxi →</a></div>
+      <div class="card service-card"><h3>Gauri Kund</h3><p>A sacred pool near Sudh Mahadev, associated with Goddess Parvati.</p><a class="card-link" href="gauri-kund-taxi.html">Gauri Kund taxi →</a></div>
+    </div>
   </div>
 </section>
 {faq_block(sightseeing_faqs, "Sightseeing FAQs")}
@@ -1176,6 +1293,32 @@ def build_agent_data():
     print("wrote js/agent-data.js")
 
 build_agent_data()
+
+# ---------------------------------------------------------------
+# SITEMAP + ROBOTS (generated from SITE_URL and the real page list, so
+# they can never point at a different domain than the canonical tags)
+# ---------------------------------------------------------------
+
+# Every indexable page this script builds. index-1.html (an old duplicate of
+# the homepage) and the Google verification file are deliberately excluded.
+SITEMAP_PAGES = (
+    ["index.html", "taxi-services.html", "patnitop-sightseeing.html",
+     "hotel-booking.html", "tour-packages.html", "vehicles.html",
+     "faq.html", "contact.html"]
+    + [r["path"] for r in ROUTES]
+)
+
+def build_sitemap_and_robots():
+    entries = []
+    for path in SITEMAP_PAGES:
+        loc = f"{SITE_URL}/" if path == "index.html" else f"{SITE_URL}/{path}"
+        priority = "1.0" if path == "index.html" else ("0.8" if path in ("taxi-services.html", "patnitop-sightseeing.html", "contact.html") else "0.7")
+        entries.append(f"  <url>\n    <loc>{loc}</loc>\n    <priority>{priority}</priority>\n  </url>")
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(entries) + "\n</urlset>\n"
+    write("sitemap.xml", sitemap)
+    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+
+build_sitemap_and_robots()
 
 print("ALL PAGES BUILT")
 

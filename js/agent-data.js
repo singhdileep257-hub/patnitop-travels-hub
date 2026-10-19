@@ -134,6 +134,82 @@ var AGENT_DATA = {
           "a": "Yes, this route is often combined with a Patnitop or wider Jammu & Kashmir itinerary \u2014 call us to plan it."
         }
       ]
+    },
+    {
+      "id": "sudh-mahadev",
+      "label": "Sudh Mahadev Taxi",
+      "path": "sudh-mahadev-taxi.html",
+      "summary": "Sudh Mahadev is an ancient Shiva temple in the hills of the Udhampur region of Jammu & Kashmir, and a well-known pilgrimage stop for devotees travelling through Patnitop. Patnitop Travels Hub arranges taxi service to Sudh Mahadev from Patnitop, Jammu and Katra.",
+      "defaultPickup": "Patnitop, Jammu or Katra",
+      "defaultDrop": "Sudh Mahadev (return if needed)",
+      "askSightseeing": true,
+      "askHotel": true,
+      "faqs": [
+        {
+          "q": "How do I book a taxi to Sudh Mahadev?",
+          "a": "Call or WhatsApp Dileep Singh at 9103331334 with your pickup place, travel date and number of people. We will confirm vehicle availability and the current fare."
+        },
+        {
+          "q": "Can I visit Sudh Mahadev from Patnitop in one day?",
+          "a": "Yes, a day trip from Patnitop is commonly arranged. Exact timing depends on road and weather conditions, so call us and we will help plan an early start."
+        },
+        {
+          "q": "Is a taxi available during the Sudh Mahadev yatra?",
+          "a": "Taxi service is available subject to demand and local traffic arrangements during the yatra season. Please book early and ask us about the current situation before you travel."
+        },
+        {
+          "q": "Can I combine Sudh Mahadev with Gauri Kund and Mantalai?",
+          "a": "Yes, these places are close to each other and are often visited together. Tell us what you want to see and we will plan the route and timing with you."
+        }
+      ]
+    },
+    {
+      "id": "mantalai",
+      "label": "Mantalai Taxi",
+      "path": "mantalai-taxi.html",
+      "summary": "Mantalai is a quiet hill village in the Udhampur region, which local belief associates with the wedding of Lord Shiva and Goddess Parvati. It is visited by pilgrims and by travellers who want to see a less crowded side of Jammu & Kashmir. Patnitop Travels Hub arranges taxi service to Mantalai from Patnitop, Jammu and Katra.",
+      "defaultPickup": "Patnitop, Jammu or Katra",
+      "defaultDrop": "Mantalai (return if needed)",
+      "askSightseeing": true,
+      "askHotel": true,
+      "faqs": [
+        {
+          "q": "How do I book a Mantalai taxi?",
+          "a": "Call or WhatsApp 9103331334, or use the booking form on this website with your pickup place, date and group size."
+        },
+        {
+          "q": "Is Mantalai connected to Sudh Mahadev?",
+          "a": "Mantalai lies in the same region and is commonly visited along with Sudh Mahadev. We can plan both, and Gauri Kund, as one trip."
+        },
+        {
+          "q": "What is the road like to Mantalai?",
+          "a": "Hill roads can be narrow and affected by rain or snow. Call us before you travel and we will advise based on current conditions and the vehicle that suits your group."
+        }
+      ]
+    },
+    {
+      "id": "gauri-kund",
+      "label": "Gauri Kund Taxi",
+      "path": "gauri-kund-taxi.html",
+      "summary": "Gauri Kund is a sacred spring-fed pool near Sudh Mahadev, which local belief associates with Goddess Parvati. Pilgrims visiting Sudh Mahadev often stop here too. Patnitop Travels Hub arranges taxi service to Gauri Kund from Patnitop, Jammu and Katra.",
+      "defaultPickup": "Patnitop, Jammu or Katra",
+      "defaultDrop": "Gauri Kund (return if needed)",
+      "askSightseeing": true,
+      "askHotel": true,
+      "faqs": [
+        {
+          "q": "How do I book a taxi to Gauri Kund?",
+          "a": "Call or WhatsApp Dileep Singh at 9103331334 with your pickup place, date and group size. We will confirm availability and the current fare."
+        },
+        {
+          "q": "Is Gauri Kund near Sudh Mahadev?",
+          "a": "Yes, Gauri Kund is in the Sudh Mahadev area and is commonly visited on the same trip. We can arrange both in one taxi booking."
+        },
+        {
+          "q": "Is the walk to Gauri Kund difficult for elders or children?",
+          "a": "This depends on the season and local arrangements. Please tell us who is travelling when you call, so we can advise on timing and what to expect."
+        }
+      ]
     }
   ],
   "taxiServices": [
@@ -164,6 +240,18 @@ var AGENT_DATA = {
     {
       "name": "Bhaderwah Taxi",
       "desc": "Taxi service to Bhaderwah from Patnitop and Jammu."
+    },
+    {
+      "name": "Sudh Mahadev Taxi",
+      "desc": "Taxi to the ancient Sudh Mahadev temple from Patnitop, Jammu and Katra."
+    },
+    {
+      "name": "Mantalai Taxi",
+      "desc": "Taxi to Mantalai, the place linked in local belief to the Shiv-Parvati wedding."
+    },
+    {
+      "name": "Gauri Kund Taxi",
+      "desc": "Taxi to the sacred Gauri Kund near Sudh Mahadev, from Patnitop and Jammu."
     },
     {
       "name": "Hotel Pickup & Drop",
