@@ -9,8 +9,30 @@
     "verified_on": "YYYY-MM-DD",
     "verified_by": "Dileep Singh"
   },
-  "_allowed_route_ids": ["katra", "jammu", "udhampur", "chenani", "kudh", "airport-railway", "nathatop-sanasar", "srinagar", "bhaderwah"],
-  "_allowed_vehicles": ["Dzire", "Ertiga", "Innova / Toyota Crysta", "Tempo Traveller"],
-  "_allowed_trip_types": ["one-way", "round-trip", "local-sightseeing"],
+  "_allowed_route_ids": [
+    "katra",
+    "jammu",
+    "udhampur",
+    "chenani",
+    "kudh",
+    "airport-railway",
+    "nathatop-sanasar",
+    "srinagar",
+    "bhaderwah",
+    "sudh-mahadev",
+    "mantalai",
+    "gauri-kund"
+  ],
+  "_allowed_vehicles": [
+    "Dzire",
+    "Ertiga",
+    "Innova / Toyota Crysta",
+    "Tempo Traveller"
+  ],
+  "_allowed_trip_types": [
+    "one-way",
+    "round-trip",
+    "local-sightseeing"
+  ],
   "rates": []
 }
