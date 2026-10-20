@@ -1,0 +1,31 @@
+{
+  "_readme": "VERIFIED RATES ONLY. The website assistant may quote a fare only if it is listed here AND the customer's pickup/drop are the two ends of that route (Katra, Jammu, Udhampur, Chenani or Kudh <-> Patnitop). Every other trip is left for you to quote manually. This file ships EMPTY on purpose: no price has been entered. To add a rate, copy the example into the 'rates' list, fill in the real fare you have confirmed yourself, then run: python3 build.py. A fare is not quoted 90 days after verified_on, so re-verify and update the date regularly.",
+  "_example_not_active": {
+    "route_id": "katra",
+    "vehicle": "Dzire",
+    "trip_type": "one-way",
+    "amount_inr": 0,
+    "includes": "Describe what the fare covers, e.g. tolls/parking/waiting/night charges included or not",
+    "verified_on": "YYYY-MM-DD",
+    "verified_by": "Dileep Singh"
+  },
+  "_allowed_route_ids": [
+    "katra",
+    "jammu",
+    "udhampur",
+    "chenani",
+    "kudh"
+  ],
+  "_allowed_vehicles": [
+    "Dzire",
+    "Ertiga",
+    "Innova / Toyota Crysta",
+    "Tempo Traveller"
+  ],
+  "_allowed_trip_types": [
+    "one-way",
+    "round-trip",
+    "local-sightseeing"
+  ],
+  "rates": []
+}
