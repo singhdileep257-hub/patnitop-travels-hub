@@ -171,8 +171,8 @@ header.site-header {
 .brand-text strong { font-family: 'Fraunces', serif; font-size: 1.15rem; display: block; color: var(--white); }
 .brand-text span { font-size: 0.72rem; color: #a9c2ae; letter-spacing: 0.02em; }
 
-nav.main-nav { display: flex; align-items: center; gap: 26px; }
-nav.main-nav a { color: #E8EEE9; font-size: 0.95rem; font-weight: 500; }
+nav.main-nav { display: flex; align-items: center; gap: 20px; }
+nav.main-nav a { color: #E8EEE9; font-size: 0.95rem; font-weight: 500; white-space: nowrap; }
 nav.main-nav a:hover, nav.main-nav a.active { color: var(--saffron); }
 .nav-toggle { display: none; background: none; border: none; color: var(--white); font-size: 1.6rem; cursor: pointer; }
 
@@ -180,11 +180,11 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--saffron); }
   display: flex; align-items: center; gap: 8px;
   color: var(--white); font-weight: 600;
   border: 1.5px solid var(--saffron);
-  padding: 8px 16px; border-radius: 3px;
+  padding: 8px 16px; border-radius: 3px; white-space: nowrap;
 }
 .header-call:hover { background: var(--saffron); color: var(--white); }
 
-@media (max-width: 900px) {
+@media (max-width: 1140px) { /* 8 nav links + brand + call button need ~1140px; collapse to the menu below that */
   nav.main-nav {
     display: none;
     position: absolute;
@@ -360,7 +360,7 @@ footer.site-footer a:hover { color: var(--saffron); }
 .mobile-bar .icon { font-size: 1.1rem; }
 @media (max-width: 780px) {
   .mobile-bar { display: block; }
-  body { padding-bottom: 58px; }
+  body { padding-bottom: 84px; } /* bar is ~79px tall; 58px used to hide the page bottom behind it */
 }
 
 /* ---------- Breadcrumbs ---------- */
@@ -388,3 +388,83 @@ footer.site-footer a:hover { color: var(--saffron); }
 .small { font-size: 0.85rem; color: var(--slate); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .tag-list span { background: var(--snow-warm); border: 1px solid var(--line); padding: 4px 10px; font-size: 0.8rem; color: var(--slate); }
+
+/* ---------- Form additions: consent, product checkboxes, bot honeypot ---------- */
+.consent-row label { display: flex; align-items: flex-start; gap: 10px; font-weight: 400; font-size: 0.9rem; color: var(--slate); margin: 0; }
+.consent-row input { width: auto; margin-top: 4px; flex: none; }
+.check-row { display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 6px; }
+.check-row label { display: flex; align-items: center; gap: 6px; font-weight: 500; margin: 0; }
+.check-row input { width: auto; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* =========================================================
+   Chat assistant widget (js/agent.js)
+   Launcher sits bottom-right above the mobile call bar (z-index 70).
+   ========================================================= */
+#ptv-agent-root { position: fixed; right: 16px; bottom: 16px; z-index: 70; font-family: 'Work Sans', -apple-system, sans-serif; }
+#ptv-agent-launcher {
+  width: 58px; height: 58px; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--saffron); color: var(--white); font-size: 1.6rem; line-height: 1;
+  box-shadow: 0 6px 18px rgba(20, 39, 32, 0.35); display: flex; align-items: center; justify-content: center;
+}
+#ptv-agent-launcher:hover { background: var(--saffron-dark); }
+#ptv-agent-launcher:focus-visible, .ptv-choice-btn:focus-visible, #ptv-agent-close:focus-visible { outline: 3px solid var(--pine); outline-offset: 2px; }
+
+#ptv-agent-panel {
+  position: absolute; right: 0; bottom: 70px;
+  width: min(390px, calc(100vw - 24px)); height: min(600px, calc(100vh - 110px));
+  display: flex; flex-direction: column;
+  background: var(--snow); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(20, 39, 32, 0.3); overflow: hidden;
+}
+#ptv-agent-panel[hidden] { display: none; }
+
+.ptv-agent-header { display: flex; align-items: center; justify-content: space-between; background: var(--pine); color: var(--white); padding: 12px 14px; }
+.ptv-agent-title { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 1.05rem; }
+#ptv-agent-close { background: transparent; border: 0; color: var(--white); font-size: 1.6rem; line-height: 1; cursor: pointer; padding: 0 4px; }
+
+.ptv-agent-body { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; -webkit-overflow-scrolling: touch; }
+.ptv-agent-footer { padding: 10px 12px; border-top: 1px solid var(--line); background: var(--white); display: flex; gap: 8px; }
+.ptv-agent-footer .btn, .ptv-inline-wa { flex: 1; justify-content: center; text-align: center; }
+.ptv-agent-wa-small { padding: 10px 12px; font-size: 0.9rem; }
+.ptv-inline-wa { display: inline-flex; align-self: flex-start; margin-top: 2px; }
+
+.ptv-msg { max-width: 88%; padding: 10px 12px; border-radius: 12px; font-size: 0.93rem; line-height: 1.45; overflow-wrap: anywhere; }
+.ptv-msg p { margin: 0.5em 0 0; max-width: none; }
+.ptv-msg-bot { background: var(--white); border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 4px; }
+.ptv-msg-user { background: var(--pine); color: var(--white); align-self: flex-end; border-bottom-right-radius: 4px; }
+
+.ptv-btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.ptv-choice-btn {
+  font: inherit; font-size: 0.9rem; padding: 9px 13px; border-radius: 999px; cursor: pointer;
+  background: var(--white); color: var(--pine); border: 1.5px solid var(--pine); min-height: 40px;
+}
+.ptv-choice-btn:hover:not(:disabled) { background: var(--pine); color: var(--white); }
+.ptv-choice-btn:disabled { opacity: 0.45; cursor: default; }
+.ptv-choice-btn.ptv-primary { background: var(--saffron); border-color: var(--saffron); color: var(--white); }
+.ptv-choice-btn.ptv-primary:hover:not(:disabled) { background: var(--saffron-dark); border-color: var(--saffron-dark); }
+
+.ptv-input-row { display: flex; gap: 8px; }
+.ptv-input-row input { flex: 1; min-width: 0; font: inherit; font-size: 1rem; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--white); }
+.ptv-input-row input:focus { outline: none; border-color: var(--pine); }
+.ptv-input-submit { white-space: nowrap; }
+
+.ptv-list { margin: 8px 0 0; padding-left: 18px; }
+.ptv-list li { margin-bottom: 6px; }
+.ptv-note { font-size: 0.82rem; color: var(--slate); margin-top: 8px; }
+.ptv-error { font-size: 0.85rem; color: #9b2c1d; }
+
+.ptv-summary-card { background: var(--snow-warm); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin: 2px 0; }
+.ptv-summary-title { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin-bottom: 6px; color: var(--pine-dark); }
+.ptv-summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px dashed var(--line); font-size: 0.88rem; }
+.ptv-summary-row:last-child { border-bottom: 0; }
+.ptv-summary-row span { color: var(--slate); flex: none; }
+.ptv-summary-row strong { text-align: right; overflow-wrap: anywhere; }
+.ptv-quote { background: #eef6ef; border: 1px solid #b9d3bd; border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; }
+
+@media (max-width: 780px) {
+  /* keep the launcher clear of the fixed Call / WhatsApp / Book bar */
+  #ptv-agent-root { right: 12px; bottom: 92px; }
+  #ptv-agent-panel { position: fixed; left: 8px; right: 8px; bottom: 88px; width: auto; height: min(68vh, 560px); }
+  #ptv-agent-launcher { width: 52px; height: 52px; font-size: 1.4rem; }
+}

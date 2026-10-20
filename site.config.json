@@ -1,0 +1,7 @@
+{
+  "_readme": "Edit these values, then run: python3 build.py  (and commit the regenerated files). Leave a value empty to keep that feature switched off.",
+  "site_url": "https://tubular-zabaione-c8e3eb.netlify.app",
+  "ga4_measurement_id": "",
+  "lead_endpoint": "",
+  "indexable_products_page": false
+}

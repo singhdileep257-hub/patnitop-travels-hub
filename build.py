@@ -8,9 +8,43 @@ page instantly after editing shared header/footer/schema in one place.
 """
 import os
 import re
+import json
+import datetime
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-SITE_URL = "https://www.patnitoptravelshub.com"  # placeholder — update once domain is live
+
+# ---------------------------------------------------------------
+# Site configuration — values live in site.config.json (committed),
+# and can be overridden by environment variables of the same name in
+# upper case (SITE_URL, GA4_MEASUREMENT_ID, LEAD_ENDPOINT).
+#   site_url            canonical base URL. Keep it on the Netlify URL until
+#                       www.patnitoptravelshub.com actually points at the site.
+#   ga4_measurement_id  e.g. G-XXXXXXXXXX. Empty = no analytics script loaded.
+#   lead_endpoint       Google Apps Script web-app URL (see docs/SETUP.md).
+#                       Empty = enquiries go to WhatsApp only (no storage).
+# ---------------------------------------------------------------
+def _load_config():
+    cfg = {}
+    path = os.path.join(ROOT, "site.config.json")
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            cfg = json.load(f)
+    cfg["site_url"] = os.environ.get("SITE_URL", cfg.get("site_url", "")).rstrip("/")
+    cfg["ga4_measurement_id"] = os.environ.get("GA4_MEASUREMENT_ID", cfg.get("ga4_measurement_id", "")).strip()
+    cfg["lead_endpoint"] = os.environ.get("LEAD_ENDPOINT", cfg.get("lead_endpoint", "")).strip()
+    cfg["indexable_products_page"] = bool(cfg.get("indexable_products_page", False))
+    if not re.match(r"^https?://[^/\s]+$", cfg["site_url"]):
+        raise SystemExit("site_url in site.config.json must look like https://example.com (no trailing path)")
+    if cfg["ga4_measurement_id"] and not re.match(r"^G-[A-Z0-9]{6,14}$", cfg["ga4_measurement_id"]):
+        raise SystemExit("ga4_measurement_id must look like G-XXXXXXXXXX")
+    if cfg["lead_endpoint"] and not cfg["lead_endpoint"].startswith("https://"):
+        raise SystemExit("lead_endpoint must be an https:// URL")
+    return cfg
+
+CONFIG = _load_config()
+SITE_URL = CONFIG["site_url"]
+GA4_ID = CONFIG["ga4_measurement_id"]
+LEAD_ENDPOINT = CONFIG["lead_endpoint"]
 PHONE = "9103331334"
 PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
@@ -44,7 +78,7 @@ def road_divider():
 <path d="M0 20 Q 150 4, 300 20 T 600 20 T 900 20 T 1180 20"/>
 </svg>'''
 
-def head(title, description, canonical_path, extra_schema="", extra_meta=""):
+def head(title, description, canonical_path, extra_schema="", extra_meta="", robots="index, follow"):
     canonical = f"{SITE_URL}/{canonical_path}" if canonical_path != "index.html" else f"{SITE_URL}/"
     og_image = f"{SITE_URL}/images/patnitop-hero.jpg"
     return f'''<!DOCTYPE html>
@@ -55,7 +89,7 @@ def head(title, description, canonical_path, extra_schema="", extra_meta=""):
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="{robots}">
 {extra_meta}<meta name="geo.region" content="IN-JK">
 <meta name="geo.placename" content="Patnitop, Jammu and Kashmir">
 
@@ -97,16 +131,15 @@ def local_business_schema():
     "streetAddress": "Patnitop",
     "addressLocality": "Patnitop",
     "addressRegion": "Jammu and Kashmir",
-    "postalCode": "182121",
+    "postalCode": "182142",
     "addressCountry": "IN"
   }},
   "geo": {{
     "@type": "GeoCoordinates",
-    "latitude": 33.0994,
-    "longitude": 75.3244
+    "latitude": 33.0903,
+    "longitude": 75.3264
   }},
-  "areaServed": ["Patnitop", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
-  "priceRange": "$$",
+  "areaServed": ["Patnitop", "Kud (Kudh)", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
   "founder": {{ "@type": "Person", "name": "Dileep Singh" }},
   "sameAs": []
 }}
@@ -217,6 +250,18 @@ def mobile_bar():
   </div>
 </div>'''
 
+def analytics_snippet():
+    # Loaded only when a GA4 measurement ID is set in site.config.json.
+    # With no ID, no third-party analytics script is requested at all;
+    # js/tracking.js still queues events in window.dataLayer harmlessly.
+    if not GA4_ID:
+        return ""
+    return (
+        '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GA4_ID + '"></script>\n'
+        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+        "gtag('js',new Date());gtag('config','" + GA4_ID + "');</script>\n"
+    )
+
 def footer():
     return f'''<footer class="site-footer">
   <div class="container">
@@ -240,6 +285,9 @@ def footer():
         <ul>
           <li><a href="katra-to-patnitop-taxi.html">Katra to Patnitop Taxi</a></li>
           <li><a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop Taxi</a></li>
+          <li><a href="udhampur-to-patnitop-taxi.html">Udhampur to Patnitop Taxi</a></li>
+          <li><a href="chenani-to-patnitop-taxi.html">Chenani to Patnitop Taxi</a></li>
+          <li><a href="kudh-to-patnitop-taxi.html">Kudh (Kud) to Patnitop Taxi</a></li>
           <li><a href="nathatop-sanasar-taxi.html">Nathatop &amp; Sanasar Taxi</a></li>
           <li><a href="srinagar-taxi.html">Srinagar Taxi</a></li>
           <li><a href="bhaderwah-taxi.html">Bhaderwah Taxi</a></li>
@@ -258,7 +306,7 @@ def footer():
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> Patnitop Travels Hub. All rights reserved.</span>
+      <span>© <span id="year"></span> Patnitop Travels Hub. All rights reserved. · <a href="privacy.html">Privacy</a></span>
       <span>Wherever you want to travel in Jammu &amp; Kashmir, our team is ready to assist you.</span>
     </div>
   </div>
@@ -270,17 +318,18 @@ def footer():
        guaranteed here, consistent with the rest of the site. -->
   <a href="{wa_href()}" class="btn btn-whatsapp" style="position:fixed; right:16px; bottom:16px; z-index:70;">💬 Chat on WhatsApp</a>
 </noscript>
+{analytics_snippet()}<script src="js/tracking.js"></script>
 <script src="js/script.js"></script>
 <script src="js/agent-data.js"></script>
 <script src="js/agent.js"></script>
 </body>
 </html>'''
 
-def page(title, description, path, active_nav, body_html, breadcrumb_items=None, extra_schema="", schema_list=None, extra_meta=""):
+def page(title, description, path, active_nav, body_html, breadcrumb_items=None, extra_schema="", schema_list=None, extra_meta="", robots="index, follow"):
     schemas = extra_schema
     if schema_list:
         schemas = "\n".join(schema_list)
-    html = head(title, description, path, schemas, extra_meta)
+    html = head(title, description, path, schemas, extra_meta, robots)
     html += "<body>\n"
     html += header(active_nav)
     if breadcrumb_items:
@@ -388,6 +437,7 @@ def build_home():
       <div class="card service-card"><h3>Outstation Taxi</h3><p>One-way and round-trip outstation taxi anywhere in Jammu &amp; Kashmir.</p><a class="card-link" href="tour-packages.html">See destinations →</a></div>
       <div class="card service-card"><h3>Tempo Traveller</h3><p>For families and groups travelling together, with more luggage space.</p><a class="card-link" href="vehicles.html">View vehicles →</a></div>
     </div>
+    <p class="small">Popular pickup points for Patnitop: <a href="katra-to-patnitop-taxi.html">Katra</a> · <a href="jammu-to-patnitop-taxi.html">Jammu</a> · <a href="udhampur-to-patnitop-taxi.html">Udhampur</a> · <a href="chenani-to-patnitop-taxi.html">Chenani</a> · <a href="kudh-to-patnitop-taxi.html">Kudh (Kud)</a></p>
     <div class="btn-row"><a href="taxi-services.html" class="btn btn-pine">View All Taxi Services</a></div>
   </div>
 </section>
@@ -514,6 +564,9 @@ print("home built")
 TAXI_SERVICES = [
     ("Katra to Patnitop Taxi", "Pickup from Katra town or Katra Railway Station, direct to Patnitop.", "katra-to-patnitop-taxi.html"),
     ("Jammu to Patnitop Taxi", "Jammu Airport or Jammu Railway Station to Patnitop, one-way or round trip.", "jammu-to-patnitop-taxi.html"),
+    ("Udhampur to Patnitop Taxi", "Taxi between Udhampur and Patnitop, one-way or round trip.", "udhampur-to-patnitop-taxi.html"),
+    ("Chenani to Patnitop Taxi", "Taxi between Chenani and Patnitop, in both directions.", "chenani-to-patnitop-taxi.html"),
+    ("Kudh (Kud) to Patnitop Taxi", "Short-hop taxi between Kudh (Kud) and Patnitop.", "kudh-to-patnitop-taxi.html"),
     ("Airport &amp; Railway Station Transfers", "Jammu Airport, Jammu Railway Station, Katra Railway Station pickup &amp; drop.", "airport-railway-transfer.html"),
     ("Patnitop Sightseeing Taxi", "Local taxi for Nathatop, Sanasar and nearby attractions.", "patnitop-sightseeing.html"),
     ("Nathatop &amp; Sanasar Taxi", "Dedicated taxi service for the Nathatop and Sanasar viewpoints.", "nathatop-sanasar-taxi.html"),
@@ -639,7 +692,7 @@ ROUTES = [
             ("Can you pick us up from Katra Railway Station?", "Yes, we provide Katra Railway Station pickup and drop as part of this route."),
             ("Is a round trip available, or only one-way drop?", "Both one-way taxi drop and full round-trip taxi service are available for Katra to Patnitop."),
         ],
-        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
         area_served=["Katra", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
         agent_label="Katra to Patnitop",
@@ -669,7 +722,7 @@ ROUTES = [
             ("Do you provide Jammu Railway Station pickup?", "Yes, Jammu Railway Station pickup and drop is available as part of this route."),
             ("Can I book a one-way taxi from Jammu to Patnitop?", "Yes, one-way taxi drop is available, along with full round-trip service if you need a return journey."),
         ],
-        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
         area_served=["Jammu", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
         agent_label="Jammu to Patnitop",
@@ -678,9 +731,93 @@ ROUTES = [
         agent_ask_sightseeing=True, agent_ask_hotel=True,
     ),
     dict(
+        id="udhampur",
+        path="udhampur-to-patnitop-taxi.html",
+        title="Udhampur to Patnitop Taxi | Patnitop Travels Hub",
+        meta_desc="Book an Udhampur to Patnitop taxi or Patnitop to Udhampur taxi, one-way or round trip. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Udhampur to Patnitop Taxi",
+        intro=[
+            "Patnitop Travels Hub arranges taxi service between Udhampur and Patnitop, in both directions. Patnitop is in Udhampur district on the Jammu&ndash;Srinagar highway (NH 44), so Udhampur is a common starting or ending point for Patnitop trips.",
+            "Tell us your exact pickup point in Udhampur and your travel date, and we will confirm whether we can arrange it and at what fare."
+        ],
+        points=[
+            "Udhampur to Patnitop taxi and Patnitop to Udhampur taxi, both directions",
+            "One-way drop or round-trip taxi service, subject to availability",
+            "Can be extended onward to Katra, Jammu, Bhaderwah or Srinagar",
+            "Family and group transportation, including Tempo Traveller for larger groups",
+        ],
+        faqs=[
+            ("Do you provide Udhampur to Patnitop taxi service?", "Yes, Patnitop Travels Hub arranges taxi service between Udhampur and Patnitop. Call or WhatsApp 9103331334 with your pickup point and date to confirm availability and fare."),
+            ("Can I book a one-way taxi from Udhampur to Patnitop?", "Yes, one-way drop is available, along with round-trip service if you need a return journey."),
+        ],
+        related=[("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Chenani to Patnitop Taxi", "chenani-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html")],
+        area_served=["Udhampur", "Patnitop"],
+        active="taxi-services.html", crumb_name=None,
+        agent_label="Udhampur to Patnitop",
+        agent_default_pickup="Udhampur (your pickup point)",
+        agent_default_drop="Patnitop (your hotel)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
+        id="chenani",
+        path="chenani-to-patnitop-taxi.html",
+        title="Chenani to Patnitop Taxi | Patnitop Travels Hub",
+        meta_desc="Book a Chenani to Patnitop taxi or Patnitop to Chenani taxi with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Chenani to Patnitop Taxi",
+        intro=[
+            "Patnitop Travels Hub arranges taxi service between Chenani and Patnitop in both directions. Chenani lies on the highway south of Patnitop, towards Udhampur and Jammu.",
+            "Share your pickup point in Chenani and your travel date, and we will confirm availability and the current fare for your trip."
+        ],
+        points=[
+            "Chenani to Patnitop taxi and Patnitop to Chenani taxi, both directions",
+            "One-way drop or round-trip taxi service, subject to availability",
+            "Can be combined with Nathatop and Sanasar sightseeing",
+            "Family and group transportation, including Tempo Traveller for larger groups",
+        ],
+        faqs=[
+            ("Do you provide taxi service from Chenani to Patnitop?", "Yes, Patnitop Travels Hub arranges taxi service between Chenani and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare for your date."),
+            ("Can I add sightseeing to a Chenani to Patnitop trip?", "Yes, local sightseeing around Patnitop, Nathatop and Sanasar can be added. Let us know when you enquire."),
+        ],
+        related=[("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Kudh to Patnitop Taxi", "kudh-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html")],
+        area_served=["Chenani", "Patnitop"],
+        active="taxi-services.html", crumb_name=None,
+        agent_label="Chenani to Patnitop",
+        agent_default_pickup="Chenani (your pickup point)",
+        agent_default_drop="Patnitop (your hotel)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
+        id="kudh",
+        path="kudh-to-patnitop-taxi.html",
+        title="Kudh (Kud) to Patnitop Taxi | Patnitop Travels Hub",
+        meta_desc="Taxi from Kudh (Kud) to Patnitop and back, one-way or round trip, with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Kudh (Kud) to Patnitop Taxi",
+        intro=[
+            "Patnitop Travels Hub arranges taxi service between Kudh (also written Kud) and Patnitop. Kud is a town on the Jammu&ndash;Srinagar highway (NH 44), roughly 10 km before Patnitop when travelling from Udhampur.",
+            "Tell us your pickup point in Kudh and your travel date, and we will confirm availability and the current fare."
+        ],
+        points=[
+            "Kudh to Patnitop taxi and Patnitop to Kudh taxi, both directions",
+            "One-way drop or round-trip taxi service, subject to availability",
+            "Can be combined with Nathatop and Sanasar sightseeing",
+            "Onward travel to Katra, Jammu, Bhaderwah or Srinagar can be arranged",
+        ],
+        faqs=[
+            ("Do you provide taxi service from Kudh to Patnitop?", "Yes, Patnitop Travels Hub arranges taxi service between Kudh (Kud) and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare."),
+            ("Is Kudh the same as Kud?", "Yes, the town is written both ways. Either spelling works when you enquire with us."),
+        ],
+        related=[("Chenani to Patnitop Taxi", "chenani-to-patnitop-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Nathatop &amp; Sanasar Taxi", "nathatop-sanasar-taxi.html")],
+        area_served=["Kud (Kudh)", "Patnitop"],
+        active="taxi-services.html", crumb_name=None,
+        agent_label="Kudh (Kud) to Patnitop",
+        agent_default_pickup="Kudh / Kud (your pickup point)",
+        agent_default_drop="Patnitop (your hotel)",
+        agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
         id="airport-railway",
         path="airport-railway-transfer.html",
-        title="Jammu Airport to Patnitop Taxi | Railway Station Transfer | Patnitop Travels Hub",
+        title="Jammu Airport &amp; Railway Taxi to Patnitop | Patnitop Travels Hub",
         meta_desc="Jammu Airport to Patnitop taxi and Jammu Railway Station to Patnitop taxi, plus Katra Railway Station pickup. Call 9103331334.",
         h1="Airport &amp; Railway Station Pickup and Drop",
         intro=[
@@ -924,6 +1061,9 @@ PACKAGE_DESTINATIONS = [
     ("Patnitop", None),
     ("Katra", "katra-to-patnitop-taxi.html"),
     ("Jammu", "jammu-to-patnitop-taxi.html"),
+    ("Udhampur", "udhampur-to-patnitop-taxi.html"),
+    ("Chenani", "chenani-to-patnitop-taxi.html"),
+    ("Kudh (Kud)", "kudh-to-patnitop-taxi.html"),
     ("Bhaderwah", "bhaderwah-taxi.html"),
     ("Srinagar", "srinagar-taxi.html"),
     ("Gulmarg", None),
@@ -1078,7 +1218,7 @@ def build_contact():
         <form id="enquiry-form">
           <div class="form-grid">
             <div><label for="name">Name</label><input id="name" name="name" required></div>
-            <div><label for="mobile">Mobile Number</label><input id="mobile" name="mobile" type="tel" required></div>
+            <div><label for="mobile">Mobile Number</label><input id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
             <div><label for="pickup">Pickup Location</label><input id="pickup" name="pickup" required></div>
             <div><label for="drop">Drop Location</label><input id="drop" name="drop" required></div>
             <div><label for="travel_date">Travel Date</label><input id="travel_date" name="travel_date" type="date" required></div>
@@ -1105,9 +1245,11 @@ def build_contact():
               </div>
             </div>
             <div class="full"><label for="message">Message</label><textarea id="message" name="message" rows="3"></textarea></div>
+            <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+            <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
           </div>
           <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Submit Enquiry</button>
-          <p class="form-note">Submitting prepares a WhatsApp message with your details — you send it to us with one tap, or call {PHONE} directly.</p>
+          <p class="form-note">Submitting prepares a WhatsApp message with your details — you send it to us with one tap, or call {PHONE} directly. We use your details only to respond to your enquiry — see our <a href="privacy.html">Privacy page</a>.</p>
         </form>
         <div class="form-success" id="form-success"></div>
       </div>
@@ -1127,6 +1269,170 @@ def build_contact():
 write("contact.html", build_contact())
 
 # ---------------------------------------------------------------
+# PRIVACY NOTICE
+# Plain-language notice shown wherever contact details are collected.
+# ---------------------------------------------------------------
+
+PRIVACY_UPDATED = "20 October 2026"
+
+def build_privacy():
+    storage_line = (
+        "Enquiries you submit through the chat assistant or the forms may also be recorded in a private spreadsheet that only Patnitop Travels Hub can access, so that we can track and answer them."
+        if LEAD_ENDPOINT else
+        "At present, enquiries reach us through WhatsApp, phone or email only."
+    )
+    analytics_line = (
+        "This website uses Google Analytics to count visits and button clicks (for example, Call and WhatsApp buttons). These counts are used only to understand which pages help travellers reach us."
+        if GA4_ID else
+        "This website does not currently run analytics or advertising trackers."
+    )
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <h1>Privacy Notice</h1>
+    <p>Last updated: {PRIVACY_UPDATED}</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <h2>Who we are</h2>
+    <p>Patnitop Travels Hub, run by Dileep Singh, Patnitop, Jammu &amp; Kashmir, India. Contact: <a href="tel:+91{PHONE}">{PHONE}</a> or <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
+    <h2>What we collect</h2>
+    <p>Only what you choose to give us when you make an enquiry: your name, mobile number, trip details (pickup, drop, dates, passengers, vehicle), any message you write, and whether you tick the optional box allowing us to follow up.</p>
+    <h2>How we use it</h2>
+    <p>To reply to your enquiry, prepare a fare or itinerary, and, only if you ticked the follow-up box, to contact you again about that enquiry by call or WhatsApp. An enquiry is not a confirmed booking until we confirm it with you directly.</p>
+    <h2>Where it goes</h2>
+    <p>When you tap a WhatsApp button, your message is sent through WhatsApp and is subject to WhatsApp&rsquo;s own terms. {storage_line}</p>
+    <h2>Analytics</h2>
+    <p>{analytics_line}</p>
+    <h2>Your choices</h2>
+    <p>You can ask us to correct or delete the details from your enquiry by calling or emailing us at the contact details above.</p>
+  </div>
+</section>
+'''
+    return page(
+        "Privacy Notice | Patnitop Travels Hub",
+        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel or product enquiry.",
+        "privacy.html", "", body,
+        breadcrumb_items=[("Home", "index.html"), ("Privacy", "privacy.html")],
+        schema_list=[breadcrumb_schema([("Home", "index.html"), ("Privacy", "privacy.html")])]
+    )
+
+write("privacy.html", build_privacy())
+
+# ---------------------------------------------------------------
+# LOCAL PRODUCTS ENQUIRY (separate from taxi bookings)
+# Enquiry form only. No catalogue, prices, stock or cart — those do not
+# exist yet and must be verified before anything is advertised for sale.
+# The page is noindex and is not in the nav, footer or sitemap unless
+# "indexable_products_page" is switched on in site.config.json.
+# ---------------------------------------------------------------
+
+PRODUCT_INTERESTS = ["Honey", "Dry fruits", "Rajma", "Handicrafts", "Gift hampers", "Something else"]
+
+def build_products_enquiry():
+    checks = "".join(
+        f'<label><input type="checkbox" name="products" value="{p}"> {p}</label>' for p in PRODUCT_INTERESTS
+    )
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <h1>Local Products Enquiry</h1>
+    <p>Honey, dry fruits, rajma, handicrafts and gift hampers from the Patnitop region &mdash; enquiry only.</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="booking-panel" id="product-form">
+      <h2 class="mt-0">Tell us what you are looking for</h2>
+      <p class="small"><strong>This is an enquiry form, not a shop.</strong> No prices, stock or online ordering are listed here. Send your enquiry and we will get back to you about what we can arrange. This is separate from taxi bookings.</p>
+      <form id="product-enquiry-form" data-lead-type="product">
+        <div class="form-grid">
+          <div><label for="p-name">Name</label><input id="p-name" name="name" required></div>
+          <div><label for="p-mobile">Mobile Number</label><input id="p-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
+          <div class="full">
+            <label>Products you are interested in</label>
+            <div class="check-row">{checks}</div>
+          </div>
+          <div><label for="p-qty">Approximate quantity (optional)</label><input id="p-qty" name="quantity" placeholder="e.g. 2 kg, 10 gift boxes"></div>
+          <div><label for="p-city">Delivery city / state (optional)</label><input id="p-city" name="delivery_place"></div>
+          <div class="full"><label for="p-message">Message</label><textarea id="p-message" name="message" rows="3"></textarea></div>
+          <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+          <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Submit Product Enquiry</button>
+        <p class="form-note">Submitting prepares a WhatsApp message marked as a product enquiry &mdash; you send it with one tap. We use your details only to respond &mdash; see our <a href="privacy.html">Privacy page</a>.</p>
+      </form>
+      <div class="form-success" id="product-form-success"></div>
+    </div>
+  </div>
+</section>
+'''
+    robots = "index, follow" if CONFIG["indexable_products_page"] else "noindex, nofollow"
+    return page(
+        "Local Products Enquiry | Patnitop Travels Hub",
+        "Enquire about local products from the Patnitop region. Enquiry only: no prices or online ordering.",
+        "local-products-enquiry.html", "", body,
+        breadcrumb_items=[("Home", "index.html"), ("Local Products Enquiry", "local-products-enquiry.html")],
+        schema_list=[], robots=robots
+    )
+
+write("local-products-enquiry.html", build_products_enquiry())
+
+# ---------------------------------------------------------------
+# 404 PAGE (Netlify serves /404.html automatically for unknown URLs)
+# ---------------------------------------------------------------
+
+def build_404():
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <h1>Page not found</h1>
+    <p>That page does not exist, but we can still help with your trip.</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    {cta_buttons()}
+    <p class="small" style="margin-top:20px;"><a href="index.html">Home</a> · <a href="taxi-services.html">Taxi Services</a> · <a href="contact.html">Contact</a></p>
+  </div>
+</section>
+'''
+    html = page(
+        "Page not found | Patnitop Travels Hub",
+        "Page not found. Call or WhatsApp Patnitop Travels Hub on 9103331334 for taxi service in Patnitop.",
+        "404.html", "", body, schema_list=[], robots="noindex, follow"
+    )
+    # Netlify serves this file at whatever URL was requested (e.g. /a/b/c),
+    # so relative css/js/links would break. Make them root-absolute.
+    return re.sub(r'(href|src)="(?!https?://|tel:|mailto:|#|data:|/)', r'\1="/', html)
+
+write("404.html", build_404())
+
+# ---------------------------------------------------------------
+# SITEMAP + ROBOTS (generated, so they can never drift from the pages)
+# Lists every indexable page built above. Excludes: 404, the Google
+# verification file, and the products page unless made indexable.
+# ---------------------------------------------------------------
+
+def build_sitemap_and_robots():
+    paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [
+        "patnitop-sightseeing.html", "hotel-booking.html", "tour-packages.html",
+        "vehicles.html", "faq.html", "contact.html", "privacy.html",
+    ]
+    if CONFIG["indexable_products_page"]:
+        paths.append("local-products-enquiry.html")
+    entries = []
+    for p in paths:
+        loc = f"{SITE_URL}/" if p == "index.html" else f"{SITE_URL}/{p}"
+        entries.append(f"  <url>\n    <loc>{loc}</loc>\n  </url>")
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(entries) + "\n</urlset>\n"
+    write("sitemap.xml", sitemap)
+    write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n")
+
+build_sitemap_and_robots()
+
+# ---------------------------------------------------------------
 # AI AGENT KNOWLEDGE SOURCE
 # Generated entirely from the constants above (GLOBAL_FAQS, ROUTES,
 # TAXI_SERVICES, SIGHTSEEING_PLACES, HOTEL_CATEGORIES, VEHICLES,
@@ -1135,21 +1441,64 @@ write("contact.html", build_contact())
 # widget and the pages can never drift out of sync.
 # ---------------------------------------------------------------
 
-def build_agent_data():
-    import json as _json
+import html as _html
 
+def _plain(s):
+    """Strip tags and decode HTML entities (&amp;, &ndash; ...) for plain-text JS data."""
+    return _html.unescape(re.sub("<[^>]+>", "", s))
+
+RATE_TRIP_TYPES = ("one-way", "round-trip", "local-sightseeing")
+
+def load_verified_rates():
+    """Read data/rates.json and validate it strictly.
+
+    Rates are the ONLY source of prices the assistant may ever quote, and only
+    entries that carry a verification date and the person who verified them.
+    The file ships empty: no price is invented. Invalid entries stop the build
+    rather than being silently published.
+    """
+    path = os.path.join(ROOT, "data", "rates.json")
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        raw = json.load(f)
+    route_ids = {r["id"] for r in ROUTES}
+    vehicle_names = {n for n, _ in VEHICLES}
+    out = []
+    for i, e in enumerate(raw.get("rates", [])):
+        where = f"data/rates.json entry #{i + 1}"
+        if e.get("route_id") not in route_ids:
+            raise SystemExit(f"{where}: route_id must be one of {sorted(route_ids)}")
+        if e.get("vehicle") not in vehicle_names:
+            raise SystemExit(f"{where}: vehicle must be one of {sorted(vehicle_names)}")
+        if e.get("trip_type") not in RATE_TRIP_TYPES:
+            raise SystemExit(f"{where}: trip_type must be one of {RATE_TRIP_TYPES}")
+        if not isinstance(e.get("amount_inr"), int) or e["amount_inr"] <= 0:
+            raise SystemExit(f"{where}: amount_inr must be a positive whole number of rupees")
+        if not str(e.get("includes", "")).strip():
+            raise SystemExit(f"{where}: includes must say what the fare covers (tolls, waiting, etc.)")
+        if not str(e.get("verified_by", "")).strip():
+            raise SystemExit(f"{where}: verified_by is required")
+        try:
+            datetime.date.fromisoformat(e.get("verified_on", ""))
+        except ValueError:
+            raise SystemExit(f"{where}: verified_on must be a date like 2026-10-20")
+        out.append({k: e[k] for k in ("route_id", "vehicle", "trip_type", "amount_inr", "includes", "verified_on", "verified_by")})
+    return out
+
+def build_agent_data():
     routes_out = []
     for r in ROUTES:
         routes_out.append({
             "id": r["id"],
             "label": r["agent_label"],
             "path": r["path"],
-            "summary": re.sub("<[^>]+>", "", r["intro"][0]).replace("&amp;", "&"),
+            "summary": _plain(r["intro"][0]),
             "defaultPickup": r["agent_default_pickup"],
             "defaultDrop": r["agent_default_drop"],
             "askSightseeing": r["agent_ask_sightseeing"],
             "askHotel": r["agent_ask_hotel"],
-            "faqs": [{"q": q, "a": re.sub("<[^>]+>", "", a).replace("&amp;", "&")} for q, a in r["faqs"]],
+            "faqs": [{"q": q, "a": _plain(a)} for q, a in r["faqs"]],
         })
 
     data = {
@@ -1157,19 +1506,23 @@ def build_agent_data():
         "phone": PHONE,
         "phone2": PHONE2,
         "businessName": "Patnitop Travels Hub",
+        "leadEndpoint": LEAD_ENDPOINT,
+        "privacyPath": "privacy.html",
         "routes": routes_out,
-        "taxiServices": [{"name": re.sub("<[^>]+>", "", n).replace("&amp;", "&"), "desc": d} for n, d, _ in TAXI_SERVICES],
+        "taxiServices": [{"name": _plain(n), "desc": d} for n, d, _ in TAXI_SERVICES],
         "sightseeing": [{"name": n, "desc": d} for n, d in SIGHTSEEING_PLACES],
         "hotelCategories": [{"name": n, "desc": d} for n, d in HOTEL_CATEGORIES],
         "vehicles": [{"name": n, "desc": d} for n, d in VEHICLES],
         "packageDestinations": [d for d, _ in PACKAGE_DESTINATIONS],
-        "faqs": [{"q": q, "a": re.sub("<[^>]+>", "", a).replace("&amp;", "&")} for q, a in GLOBAL_FAQS],
+        "productInterests": PRODUCT_INTERESTS,
+        "faqs": [{"q": q, "a": _plain(a)} for q, a in GLOBAL_FAQS],
+        "rates": load_verified_rates(),
     }
 
-    js = "// AUTO-GENERATED by build.py from GLOBAL_FAQS / ROUTES / TAXI_SERVICES /\n"
-    js += "// SIGHTSEEING_PLACES / HOTEL_CATEGORIES / VEHICLES / PACKAGE_DESTINATIONS.\n"
-    js += "// Do not hand-edit — edit the source lists in build.py and re-run it.\n"
-    js += "var AGENT_DATA = " + _json.dumps(data, indent=2) + ";\n"
+    js = "// AUTO-GENERATED by build.py from site.config.json, data/rates.json and the\n"
+    js += "// content lists in build.py (GLOBAL_FAQS / ROUTES / VEHICLES / ...).\n"
+    js += "// Do not hand-edit: change the sources and re-run  python3 build.py\n"
+    js += "var AGENT_DATA = " + json.dumps(data, indent=2) + ";\n"
 
     with open(os.path.join(ROOT, "js", "agent-data.js"), "w", encoding="utf-8") as f:
         f.write(js)
