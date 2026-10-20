@@ -78,25 +78,32 @@
     cleanMobile: cleanMobile,
     newId: newLeadId,
     enabled: function () { return !!endpoint(); },
-    // Best-effort: a cross-origin "no-cors" POST cannot report the server's
-    // answer, so {sent:true} means "handed to the browser", not "stored".
+    // Resolves {sent:true} when the request was handed to the network and the
+    // browser reported no error; {sent:false, reason} when offline, timed out
+    // or failed. A cross-origin "no-cors" POST cannot read the server's reply,
+    // so {sent:true} means "delivered to the endpoint", not "row confirmed".
     submit: function (payload) {
       var url = endpoint();
       if (!url) return Promise.resolve({ sent: false, reason: 'no-endpoint' });
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) return Promise.resolve({ sent: false, reason: 'offline' });
       payload = payload || {};
       if (!payload.lead_id) payload.lead_id = newLeadId();
       payload.submitted_at = new Date().toISOString();
       payload.page = location.pathname;
+      var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 10000) : null;
       try {
         return fetch(url, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload),
-          keepalive: true
-        }).then(function () { return { sent: true, lead_id: payload.lead_id }; })
-          .catch(function () { return { sent: false, reason: 'network' }; });
+          keepalive: true,
+          signal: ctrl ? ctrl.signal : undefined
+        }).then(function () { if (timer) clearTimeout(timer); return { sent: true, lead_id: payload.lead_id }; })
+          .catch(function (e) { if (timer) clearTimeout(timer); return { sent: false, reason: (e && e.name === 'AbortError') ? 'timeout' : 'network' }; });
       } catch (e) {
+        if (timer) clearTimeout(timer);
         return Promise.resolve({ sent: false, reason: 'error' });
       }
     }

@@ -42,6 +42,8 @@ Do not switch `site_url` before the domain works, or Google is told to index add
 
 ## 3. Google Search Console and Google Business Profile (the biggest lever for local searches)
 
+Step-by-step phone instructions are in **`docs/GOOGLE_BUSINESS_PROFILE.md`**. Summary:
+
 * Search Console: the site already carries your verification meta tag and file. Submit `<site_url>/sitemap.xml`, then use *URL inspection → Request indexing* on the home page and on each route page (Katra, Jammu, Udhampur, Chenani, Kudh).
 * **Google Business Profile** matters more than anything on the website for "taxi near me" and map results. Create or claim the profile for Patnitop Travels Hub, use the exact same name, phone (9103331334) and website, pick the category *Taxi service*, add real photos of your own vehicles, and ask real customers for reviews. The website cannot do this for you, and it never shows reviews that do not exist.
 
@@ -66,7 +68,7 @@ Follow-up: the site never messages customers by itself. A customer who ticks *"y
 
 ## 5. Fares the assistant may quote
 
-`data/rates.json` ships **empty**, so the assistant currently quotes **no prices at all** and tells customers you will confirm the fare. To let it quote a fare, add an entry you have personally verified:
+`data/rates.json` ships **empty**, so the assistant currently quotes **no prices at all** and tells customers you will confirm the fare. A fare can only ever be shown when **all** of these are true: the customer's pickup and drop are the two ends of one of these routes — **Katra, Jammu, Udhampur, Chenani or Kudh ↔ Patnitop** — the vehicle and one-way/round-trip choice are specific, and you have entered a matching fare verified in the last 90 days. Every other trip (Srinagar, Bhaderwah, Sudh Mahadev, airport transfers, anything else) is left for you to quote by hand, and the assistant says so. To let it quote a fare, add an entry you have personally verified:
 
 ```json
 { "route_id": "katra", "vehicle": "Dzire", "trip_type": "one-way", "amount_inr": 0,
@@ -75,6 +77,14 @@ Follow-up: the site never messages customers by itself. A customer who ticks *"y
 ```
 
 Use your real figure in place of `0`. The build stops with a clear message if an entry is incomplete. A rate older than 90 days is not quoted, so refresh `verified_on` when you re-check fares. Allowed `route_id`, `vehicle` and `trip_type` values are listed at the top of the file.
+
+### How the assistant works for customers
+
+Customers can tap **Describe my trip** and type something like *"from Katra railway station to Patnitop on 25 December for 4 people, Innova, one way"*. It picks out places, date, head-count, vehicle and a phone number, asks only for what is missing, then shows a **summary, a draft trip outline and the fare status** and asks **"Is everything correct?"**. Customers can change any answer. Only after they confirm do the WhatsApp, Call and (if the lead sheet is connected) "Just send my details" buttons appear. It never says a booking is confirmed. If the details cannot be sent (offline, timeout, failure) it says so and offers *Try again*; the WhatsApp and Call buttons always work independently.
+
+### Optional: a real AI model (not enabled, and not needed to start)
+
+The assistant is rule-based on purpose: free, predictable, and unable to invent a fare. A language-model assistant (for example the Claude API) could understand messier messages and answer open questions, but it needs: (1) an **API account with a payment method**, billed per use — check the provider's current pricing page; (2) a small **server-side function** (for example a Netlify Function) that holds the **API key as a secret environment variable**, because a key placed in the website code would be public and could be stolen and run up your bill; (3) **spending limits and rate limits** to prevent misuse; and (4) the same hard rules as above (fares only from `data/rates.json`, no confirming bookings), enforced in that server code. The existing rule-based assistant stays as the fallback if the AI service is unavailable. I recommend adding this only after the basic enquiry flow is bringing in real leads. It needs your explicit approval and account, so nothing has been set up.
 
 ## 6. Conversion tracking (Google Analytics 4, free)
 
@@ -93,5 +103,6 @@ If you later use Google Ads call tracking or a cookie/consent banner, update `pr
 ## 8. What needs real photos and real facts from you
 
 * Real photos of your vehicles and Patnitop (the site deliberately has none; see `images/README.txt`). Add them, with `alt` text.
+* Your real Google Business Profile links (`gbp_maps_url`, `gbp_review_url`) once the profile is verified.
 * Your exact street/landmark address and, if you want, opening hours, for the business schema and Google Business Profile.
 * Real customer reviews, from Google, once you have them.

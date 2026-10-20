@@ -33,6 +33,10 @@ def _load_config():
     cfg["ga4_measurement_id"] = os.environ.get("GA4_MEASUREMENT_ID", cfg.get("ga4_measurement_id", "")).strip()
     cfg["lead_endpoint"] = os.environ.get("LEAD_ENDPOINT", cfg.get("lead_endpoint", "")).strip()
     cfg["indexable_products_page"] = bool(cfg.get("indexable_products_page", False))
+    for key in ("gbp_maps_url", "gbp_review_url"):
+        cfg[key] = os.environ.get(key.upper(), cfg.get(key, "")).strip()
+        if cfg[key] and not cfg[key].startswith("https://"):
+            raise SystemExit(f"{key} must be an https:// link (copy it from your Google Business Profile)")
     if not re.match(r"^https?://[^/\s]+$", cfg["site_url"]):
         raise SystemExit("site_url in site.config.json must look like https://example.com (no trailing path)")
     if cfg["ga4_measurement_id"] and not re.match(r"^G-[A-Z0-9]{6,14}$", cfg["ga4_measurement_id"]):
@@ -45,6 +49,8 @@ CONFIG = _load_config()
 SITE_URL = CONFIG["site_url"]
 GA4_ID = CONFIG["ga4_measurement_id"]
 LEAD_ENDPOINT = CONFIG["lead_endpoint"]
+GBP_MAPS_URL = CONFIG["gbp_maps_url"]      # your real Google Maps / Business Profile link (empty until it exists)
+GBP_REVIEW_URL = CONFIG["gbp_review_url"]  # your real "write a review" link (empty until it exists)
 PHONE = "9103331334"
 PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
@@ -141,7 +147,7 @@ def local_business_schema():
   }},
   "areaServed": ["Patnitop", "Kud (Kudh)", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
   "founder": {{ "@type": "Person", "name": "Dileep Singh" }},
-  "sameAs": []
+  "sameAs": {json.dumps([GBP_MAPS_URL] if GBP_MAPS_URL else [])}{(',' + chr(10) + '  "hasMap": ' + json.dumps(GBP_MAPS_URL)) if GBP_MAPS_URL else ''}
 }}
 </script>'''
 
@@ -304,7 +310,7 @@ def footer():
           <li><a href="tel:+91{PHONE}">{PHONE}</a></li>
           <li><a href="tel:+91{PHONE2}">{PHONE2}</a></li>
           <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
-          <li>Patnitop, Jammu &amp; Kashmir, India</li>
+          <li>Patnitop, Jammu &amp; Kashmir, India</li>{(f'{chr(10)}          <li><a href="{GBP_MAPS_URL}" target="_blank" rel="noopener">📍 Find us on Google Maps</a></li>') if GBP_MAPS_URL else ''}
         </ul>
       </div>
     </div>
@@ -356,6 +362,15 @@ def cta_buttons(context="general"):
   <a href="{wa_href()}" data-whatsapp class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp Now</a>
   <a href="contact.html#booking-form" class="btn btn-primary">🚕 Book a Taxi</a>
 </div>'''
+
+def google_links_html():
+    # Shown only once the real Business Profile links are set in site.config.json.
+    parts = []
+    if GBP_MAPS_URL:
+        parts.append(f'<a href="{GBP_MAPS_URL}" class="btn btn-outline" target="_blank" rel="noopener">📍 View on Google Maps</a>')
+    if GBP_REVIEW_URL:
+        parts.append(f'<a href="{GBP_REVIEW_URL}" class="btn btn-outline" target="_blank" rel="noopener">⭐ Review us on Google</a>')
+    return ('<div class="btn-row">' + "".join(parts) + '</div>') if parts else ""
 
 def faq_block(qas, heading="Frequently Asked Questions"):
     items = ""
@@ -552,7 +567,7 @@ def build_home():
     schemas = [local_business_schema(), website_schema(), faq_schema(GLOBAL_FAQS)]
     return page(
         "Patnitop Taxi Service &amp; Travel Agency | Patnitop Travels Hub",
-        "Patnitop Travels Hub offers taxi service, sightseeing and hotel booking in Patnitop, Jammu & Kashmir. Katra, Jammu, Nathatop, Sanasar & more. Call 9103331334.",
+        "Taxi service in Patnitop, Kud, Chenani, Udhampur, Katra and Jammu, plus sightseeing and hotel booking help. Call or WhatsApp Patnitop Travels Hub on 9103331334.",
         "index.html", "index.html", body, schema_list=schemas,
         extra_meta='<meta name="google-site-verification" content="LULNs-XkSlabxgey8_J3qHXofnjcPeqAF8OBtkCHO5I" />\n'
     )
@@ -617,7 +632,7 @@ def build_taxi_services():
     schemas = [local_business_schema(), breadcrumb_schema([("Home", "index.html"), ("Taxi Services", "taxi-services.html")]), faq_schema(taxi_faqs)]
     return page(
         "Patnitop Taxi Service | Airport, Railway &amp; Sightseeing Taxi",
-        "Book taxi service in Patnitop — airport pickup, railway station transfer, local sightseeing and outstation taxi across Jammu & Kashmir. Call 9103331334.",
+        "Taxi in Patnitop from Kud, Chenani, Udhampur, Katra and Jammu: airport and railway transfers, sightseeing and outstation trips. Call 9103331334.",
         "taxi-services.html", "taxi-services.html", body,
         breadcrumb_items=[("Home", "index.html"), ("Taxi Services", "taxi-services.html")],
         schema_list=schemas
@@ -1322,6 +1337,7 @@ def build_contact():
           ✉️ <a href="mailto:patnitoptravelshub@gmail.com">patnitoptravelshub@gmail.com</a>
         </p>
         {cta_buttons()}
+        {google_links_html()}
         <div style="margin-top:28px; border:1px solid var(--line); aspect-ratio:4/3; overflow:hidden;">
           <iframe title="Patnitop location map" src="https://www.google.com/maps?q=Patnitop,Jammu+and+Kashmir&output=embed" width="100%" height="100%" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
@@ -1562,6 +1578,21 @@ def _plain(s):
 
 RATE_TRIP_TYPES = ("one-way", "round-trip", "local-sightseeing")
 
+# A fare may only ever be shown for a trip whose two ends match one of these
+# routes. Each route lists two keyword groups; the customer's pickup and drop
+# must hit one group each (either way round). Every other trip is "manual
+# confirmation by Dileep" - the assistant never stretches a fare to fit.
+QUOTE_ENDPOINTS = {
+    "katra":    [["katra"], ["patnitop"]],
+    "jammu":    [["jammu"], ["patnitop"]],
+    "udhampur": [["udhampur"], ["patnitop"]],
+    "chenani":  [["chenani"], ["patnitop"]],
+    "kudh":     [["kudh", "kud"], ["patnitop"]],
+}
+
+# Seats per vehicle as already stated on vehicles.html (None = larger/varies).
+VEHICLE_CAPACITY = {"Dzire": 4, "Ertiga": 6, "Innova / Toyota Crysta": 7, "Tempo Traveller": None}
+
 def load_verified_rates():
     """Read data/rates.json and validate it strictly.
 
@@ -1575,7 +1606,7 @@ def load_verified_rates():
         return []
     with open(path, encoding="utf-8") as f:
         raw = json.load(f)
-    route_ids = {r["id"] for r in ROUTES}
+    route_ids = set(QUOTE_ENDPOINTS)
     vehicle_names = {n for n, _ in VEHICLES}
     out = []
     for i, e in enumerate(raw.get("rates", [])):
@@ -1611,6 +1642,7 @@ def build_agent_data():
             "defaultDrop": r["agent_default_drop"],
             "askSightseeing": r["agent_ask_sightseeing"],
             "askHotel": r["agent_ask_hotel"],
+            "quoteEndpoints": QUOTE_ENDPOINTS.get(r["id"]),
             "faqs": [{"q": q, "a": _plain(a)} for q, a in r["faqs"]],
         })
 
@@ -1625,7 +1657,7 @@ def build_agent_data():
         "taxiServices": [{"name": _plain(n), "desc": d} for n, d, _ in TAXI_SERVICES],
         "sightseeing": [{"name": n, "desc": d} for n, d in SIGHTSEEING_PLACES],
         "hotelCategories": [{"name": n, "desc": d} for n, d in HOTEL_CATEGORIES],
-        "vehicles": [{"name": n, "desc": d} for n, d in VEHICLES],
+        "vehicles": [{"name": n, "desc": d, "capacity": VEHICLE_CAPACITY.get(n)} for n, d in VEHICLES],
         "packageDestinations": [d for d, _ in PACKAGE_DESTINATIONS],
         "productInterests": PRODUCT_INTERESTS,
         "faqs": [{"q": q, "a": _plain(a)} for q, a in GLOBAL_FAQS],

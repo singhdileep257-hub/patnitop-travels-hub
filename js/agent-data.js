@@ -18,6 +18,14 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": [
+        [
+          "katra"
+        ],
+        [
+          "patnitop"
+        ]
+      ],
       "faqs": [
         {
           "q": "How far is Patnitop from Katra?",
@@ -42,6 +50,14 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": [
+        [
+          "jammu"
+        ],
+        [
+          "patnitop"
+        ]
+      ],
       "faqs": [
         {
           "q": "Do you provide Jammu Airport pickup for Patnitop?",
@@ -66,6 +82,14 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": [
+        [
+          "udhampur"
+        ],
+        [
+          "patnitop"
+        ]
+      ],
       "faqs": [
         {
           "q": "Do you provide Udhampur to Patnitop taxi service?",
@@ -86,6 +110,14 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": [
+        [
+          "chenani"
+        ],
+        [
+          "patnitop"
+        ]
+      ],
       "faqs": [
         {
           "q": "Do you provide taxi service from Chenani to Patnitop?",
@@ -106,6 +138,15 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": [
+        [
+          "kudh",
+          "kud"
+        ],
+        [
+          "patnitop"
+        ]
+      ],
       "faqs": [
         {
           "q": "Do you provide taxi service from Kudh to Patnitop?",
@@ -126,6 +167,7 @@ var AGENT_DATA = {
       "defaultDrop": "Patnitop or your onward destination",
       "askSightseeing": false,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "Which airport and railway stations do you cover?",
@@ -146,6 +188,7 @@ var AGENT_DATA = {
       "defaultDrop": "Nathatop & Sanasar (return to Patnitop)",
       "askSightseeing": false,
       "askHotel": false,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "Can Nathatop and Sanasar be covered in one day?",
@@ -166,6 +209,7 @@ var AGENT_DATA = {
       "defaultDrop": "Srinagar",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "Do you provide taxi service all the way to Srinagar?",
@@ -186,6 +230,7 @@ var AGENT_DATA = {
       "defaultDrop": "Bhaderwah",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "How do I book a Bhaderwah taxi?",
@@ -206,6 +251,7 @@ var AGENT_DATA = {
       "defaultDrop": "Sudh Mahadev (return if needed)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "How do I book a taxi to Sudh Mahadev?",
@@ -234,6 +280,7 @@ var AGENT_DATA = {
       "defaultDrop": "Mantalai (return if needed)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "How do I book a Mantalai taxi?",
@@ -258,6 +305,7 @@ var AGENT_DATA = {
       "defaultDrop": "Gauri Kund (return if needed)",
       "askSightseeing": true,
       "askHotel": true,
+      "quoteEndpoints": null,
       "faqs": [
         {
           "q": "How do I book a taxi to Gauri Kund?",
@@ -379,19 +427,23 @@ var AGENT_DATA = {
   "vehicles": [
     {
       "name": "Dzire",
-      "desc": "Compact sedan, suited to small families of up to 4 passengers with regular luggage."
+      "desc": "Compact sedan, suited to small families of up to 4 passengers with regular luggage.",
+      "capacity": 4
     },
     {
       "name": "Ertiga",
-      "desc": "MPV with more space, suited to 6 passengers with luggage."
+      "desc": "MPV with more space, suited to 6 passengers with luggage.",
+      "capacity": 6
     },
     {
       "name": "Innova / Toyota Crysta",
-      "desc": "Comfortable SUV, a common choice for mountain routes, 6-7 passengers."
+      "desc": "Comfortable SUV, a common choice for mountain routes, 6-7 passengers.",
+      "capacity": 7
     },
     {
       "name": "Tempo Traveller",
-      "desc": "Larger vehicle for groups and bigger families travelling together."
+      "desc": "Larger vehicle for groups and bigger families travelling together.",
+      "capacity": null
     }
   ],
   "packageDestinations": [

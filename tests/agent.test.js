@@ -53,7 +53,10 @@ async function test(name, fn) {
     page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) page.errors.push('console: ' + m.text()); });
     await page.route('**/*', route => {
       const u = route.request().url();
-      if (u === LEAD_URL) { page.posts.push(JSON.parse(route.request().postData())); return route.fulfill({ status: 200, body: '{"ok":true}' }); }
+      if (u === LEAD_URL) {
+        if (page.failLead) return route.abort('failed');
+        page.posts.push(JSON.parse(route.request().postData())); return route.fulfill({ status: 200, body: '{"ok":true}' });
+      }
       if (u.startsWith(base)) {
         if (mutateData && u.endsWith('/js/agent-data.js')) {
           let js = fs.readFileSync(path.join(ROOT, 'js', 'agent-data.js'), 'utf8');
@@ -78,7 +81,7 @@ async function test(name, fn) {
   const bodyText = page => page.locator('#ptv-agent-body').innerText();
 
   // Drives the Katra taxi flow up to the summary.
-  async function katraFlow(page, { vehicle = 'Dzire', mobile = '98765 43210' } = {}) {
+  async function katraFlow(page, { vehicle = 'Dzire', mobile = '98765 43210', pickup = 'Katra Railway Station', drop = 'Hotel in Patnitop', confirm = true } = {}) {
     await openAgent(page);
     await choose(page, '🚕 Book a Taxi');
     await choose(page, 'Katra to Patnitop');
@@ -86,8 +89,8 @@ async function test(name, fn) {
     await answer(page, 'Asha Test');
     await answer(page, mobile);
     await answer(page, daysFromNow(10));
-    await answer(page, 'Katra Railway Station');
-    await answer(page, 'Hotel in Patnitop');
+    await answer(page, pickup);
+    await answer(page, drop);
     await answer(page, '4');
     await choose(page, vehicle);
     await choose(page, 'One-way');
@@ -95,6 +98,7 @@ async function test(name, fn) {
     await choose(page, 'No');    // hotel
     await choose(page, 'Yes, you may follow up');
     await page.waitForSelector('.ptv-summary-card');
+    if (confirm) await choose(page, "✅ Yes, that's correct");
   }
 
   console.log('Assistant');
@@ -125,8 +129,12 @@ async function test(name, fn) {
     await answer(page, '98765 43210');
     const dateMin = await page.locator('#ptv-agent-body input[type=date]').last().getAttribute('min');
     assert.strictEqual(dateMin, daysFromNow(0), 'date picker must block past dates');
+    await answer(page, daysFromNow(-3));
+    assert(/already passed/.test(await bodyText(page)), 'a past date must be refused');
     await answer(page, daysFromNow(10));
     await answer(page, 'Katra Railway Station');
+    await answer(page, 'katra railway station');
+    assert(/same place/.test(await bodyText(page)), 'pickup = drop must be refused');
     await answer(page, 'Hotel in Patnitop');
     await answer(page, '0');                                                  // invalid passengers
     assert(/between 1 and 60/.test(await bodyText(page)));
@@ -137,13 +145,18 @@ async function test(name, fn) {
     await choose(page, 'No');
     await choose(page, 'Yes, you may follow up');
     await page.waitForSelector('.ptv-summary-card');
-    const t = await bodyText(page);
+    let t = await bodyText(page);
     assert(t.includes('9876543210'), 'cleaned mobile in summary');
     assert(/Trip outline/.test(t) && /Katra Railway Station → Hotel in Patnitop/.test(t));
     assert(/don't have a verified fare/.test(t), 'must say it has no verified fare');
     assert(!/₹/.test(t), 'no price may appear when data/rates.json is empty');
-    assert(/not a confirmed booking/.test(t));
+    assert(/Is everything correct\?/.test(t));
+    assert.strictEqual(await page.locator('#ptv-agent-body a.btn-whatsapp').count(), 0, 'no send buttons before the customer confirms');
     assert.strictEqual(page.posts.length, 0, 'nothing is stored before the visitor acts');
+    await choose(page, "✅ Yes, that's correct");
+    t = await bodyText(page);
+    assert(/not a confirmed booking/.test(t));
+    assert.strictEqual(page.posts.length, 0, 'confirming alone does not store anything; sending does');
     const wa = await page.getAttribute('#ptv-agent-body a.btn-whatsapp', 'href');
     assert(wa.startsWith('https://wa.me/919103331334?text='));
     const msg = decodeURIComponent(wa.split('text=')[1]);
@@ -191,7 +204,7 @@ async function test(name, fn) {
     page = await newPage('/index.html', { mutateData: withEndpoint });
     await katraFlow(page);
     await page.locator('#ptv-agent-body button', { hasText: 'Just send my details' }).click();
-    await page.waitForFunction(() => /have been submitted/.test(document.getElementById('ptv-agent-body').innerText));
+    await page.waitForFunction(() => /have been sent to Dileep/.test(document.getElementById("ptv-agent-body").innerText));
     assert.strictEqual(page.posts.length, 1);
     assert.strictEqual(page.posts[0].name, 'Asha Test');
   });
@@ -208,6 +221,7 @@ async function test(name, fn) {
     await answer(page, '2 kg, Delhi');
     await choose(page, "No, I'll contact you");
     await page.waitForSelector('.ptv-summary-card');
+    await choose(page, "✅ Yes, that's correct");
     const t = await bodyText(page);
     assert(!/Trip outline|verified fare|Pickup/.test(t));
     assert(/This is an enquiry, not an order/.test(t));
@@ -248,6 +262,130 @@ async function test(name, fn) {
     await openAgent(p5); await choose(p5, '❓ Ask a Question');
     await answer(p5, 'what is the meaning of life');
     assert(/continue on WhatsApp/.test(await bodyText(p5)));
+  });
+
+
+  await test('a fare is never stretched to a different trip: Katra button + Delhi→Goa gets no fare', async () => {
+    const rates = [{ route_id: 'katra', vehicle: 'Dzire', trip_type: 'one-way', amount_inr: 4321, includes: 'TEST', verified_on: daysFromNow(-5), verified_by: 'Test Owner' }];
+    const page = await newPage('/index.html', { mutateData: withRates(rates) });
+    await katraFlow(page, { vehicle: 'Dzire', pickup: 'Delhi', drop: 'Goa', confirm: false });
+    const t = await bodyText(page);
+    assert(!/₹|4,321/.test(t), 'no fare for a trip that is not Katra <-> Patnitop');
+    assert(/outside the routes I have verified fares for/.test(t) && /manual confirmation/.test(t));
+  });
+
+  await test('"Not sure" vehicle or trip type never gets a fare, even on a verified route', async () => {
+    const rates = [{ route_id: 'katra', vehicle: 'Dzire', trip_type: 'one-way', amount_inr: 4321, includes: 'TEST', verified_on: daysFromNow(-5), verified_by: 'Test Owner' }];
+    const page = await newPage('/index.html', { mutateData: withRates(rates) });
+    await katraFlow(page, { vehicle: 'Not sure — please suggest', confirm: false });
+    assert(!/₹/.test(await bodyText(page)));
+  });
+
+  await test('describe in your own words: details are picked out, only the missing ones are asked', async () => {
+    const page = await newPage('/index.html', { mutateData: withEndpoint });
+    await openAgent(page);
+    await choose(page, '✍️ Describe my trip');
+    await answer(page, 'from Katra railway station to Patnitop on 25 December for 4 people, innova one way, my name is Asha Test, 98765 43210');
+    const t = await bodyText(page);
+    assert(/Here is what I understood/.test(t));
+    for (const want of ['Name: Asha Test', 'Mobile: 9876543210', 'Pickup: Katra Railway Station', 'Drop: Patnitop', 'Passengers: 4', 'Vehicle: Innova / Toyota Crysta', 'Trip type: one-way'])
+      assert(t.includes(want), 'missing "' + want + '" in:\n' + t);
+    assert(/Date: 20\d\d-12-25/.test(t), 'date understood');
+    // everything was given except consent: that must be the very next question
+    await page.waitForSelector('#ptv-agent-body button:has-text("Yes, you may follow up")');
+    assert.strictEqual(await page.locator('#ptv-agent-body input:not([disabled])').count(), 0, 'no further typed answers needed');
+    await choose(page, 'Yes, you may follow up');
+    await page.waitForSelector('.ptv-summary-card');
+    const s2 = await bodyText(page);
+    assert(/Katra Railway Station → Patnitop/.test(s2) && /Is everything correct\?/.test(s2));
+    assert.strictEqual(page.posts.length, 0);
+    await choose(page, "✅ Yes, that's correct");
+    await page.evaluate(() => document.addEventListener('click', e => e.preventDefault()));
+    await page.click('#ptv-agent-body a.btn-whatsapp');
+    await new Promise(r => setTimeout(r, 200));
+    assert.strictEqual(page.posts.length, 1);
+    assert.strictEqual(page.posts[0].pickup, 'Katra Railway Station'); assert.strictEqual(page.posts[0].trip_type, 'one-way');
+    assert.strictEqual(page.posts[0].service, 'Taxi enquiry');
+  });
+
+  await test('describe: vague text falls back to step-by-step questions', async () => {
+    const page = await newPage('/index.html');
+    await openAgent(page);
+    await choose(page, '✍️ Describe my trip');
+    await answer(page, 'we want a cab for our family trip');
+    assert(/I'll ask step by step/.test(await bodyText(page)));
+    assert(/What name should I note down/.test(await bodyText(page)));
+  });
+
+  await test('trip parser: dates, head-counts, phone numbers and junk are read safely', async () => {
+    const page = await newPage('/index.html');
+    const parse = txt => page.evaluate(t => window.__ptvAgentTest.parseTrip(t), txt);
+    const d = n => daysFromNow(n);
+    assert.strictEqual((await parse('need taxi tomorrow')).date, d(1));
+    assert.strictEqual((await parse('day after tomorrow please')).date, d(2));
+    assert.strictEqual((await parse('on 5th nov 2027 for 2 adults')).date, '2027-11-05');
+    assert.strictEqual((await parse('12/03/2027')).date, '2027-03-12');
+    assert.strictEqual((await parse('31 feb 2027')).date, undefined, 'impossible date ignored');
+    assert.strictEqual((await parse('on 3 jan 2020')).date, undefined, 'a past date is ignored');
+    assert.strictEqual((await parse('family of 5')).passengers, '5');
+    assert.strictEqual((await parse('we are 6')).passengers, '6');
+    assert.strictEqual((await parse('99 people')).passengers, undefined, 'absurd head-count ignored');
+    const ph = await parse('call me on 98765 43210 or 98765-43210');
+    assert.strictEqual(ph.mobile, '9876543210'); assert.strictEqual(ph.date, undefined); assert.strictEqual(ph.passengers, undefined);
+    assert.strictEqual((await parse('call +91 91234 56789')).mobile, '9123456789');
+    assert.strictEqual((await parse('tempo traveller round trip')).vehicle, 'Tempo Traveller');
+    assert.strictEqual((await parse('tempo traveller round trip')).tripType, 'round-trip');
+    assert.deepStrictEqual(await parse('hello'), {});
+    assert.deepStrictEqual(await parse('from Jammu to Jammu'), {}, 'same pickup and drop ignored');
+    const ft = await parse('from kudh to patnitop for 3 people');
+    assert.strictEqual(ft.pickup, 'Kudh'); assert.strictEqual(ft.drop, 'Patnitop');
+    const rt = (a, b) => page.evaluate(([x, y]) => { const r = window.__ptvAgentTest.routeForTrip(x, y); return r ? r.id : null; }, [a, b]);
+    assert.strictEqual(await rt('Kudh', 'Patnitop hotel'), 'kudh');
+    assert.strictEqual(await rt('Hotel in Patnitop', 'Chenani'), 'chenani');
+    assert.strictEqual(await rt('Katra', 'Srinagar'), null);
+    assert.strictEqual(await rt('Udhampur', 'Jammu'), null, 'Udhampur<->Jammu is not a Patnitop route');
+  });
+
+  await test('confirm step: customer can change an answer, capacity is checked, nothing sent meanwhile', async () => {
+    const page = await newPage('/index.html', { mutateData: withEndpoint });
+    await katraFlow(page, { vehicle: 'Dzire', confirm: false });
+    await choose(page, '✏️ Change something');
+    await choose(page, 'Passengers: 4');
+    await answer(page, '5');
+    await page.waitForFunction(() => /Please check your enquiry/.test(document.getElementById('ptv-agent-body').innerText) && document.querySelectorAll('.ptv-summary-card').length === 2);
+    const t = await bodyText(page);
+    assert(/Passengers\s*5/.test(t), 'new head-count shown');
+    assert(/A Dzire seats up to 4/.test(t), 'capacity warning for 5 people in a Dzire');
+    assert.strictEqual(page.posts.length, 0);
+    await choose(page, '✏️ Change something');
+    await choose(page, 'Vehicle: Dzire');
+    await choose(page, 'Ertiga');
+    await page.waitForFunction(() => document.querySelectorAll('.ptv-summary-card').length === 3);
+    assert(!/A Ertiga seats/.test(await bodyText(page).then(x => x.split('Please check your enquiry').pop())), 'no warning once the vehicle fits');
+  });
+
+  await test('connection failure is reported honestly, can be retried, and never loses the WhatsApp route', async () => {
+    const page = await newPage('/index.html', { mutateData: withEndpoint });
+    page.failLead = true;
+    await katraFlow(page);
+    await page.locator('#ptv-agent-body button', { hasText: 'Just send my details' }).click();
+    await page.waitForFunction(() => /have not/.test(document.getElementById('ptv-agent-body').innerText) || /not been sent/.test(document.getElementById('ptv-agent-body').innerText));
+    let t = await bodyText(page);
+    assert(/not\s+been sent/.test(t) && /connection failed/.test(t), t.slice(-300));
+    assert(!/have been sent to Dileep/.test(t), 'must not claim success');
+    assert.strictEqual(page.posts.length, 0);
+    assert(await page.locator('#ptv-agent-body a.btn-whatsapp').count() === 1, 'WhatsApp button still available');
+    page.failLead = false;                                          // connection is back
+    await page.locator('#ptv-agent-body button', { hasText: 'Try again' }).click();
+    await page.waitForFunction(() => /have been sent to Dileep/.test(document.getElementById('ptv-agent-body').innerText));
+    assert.strictEqual(page.posts.length, 1, 'retry stores the lead exactly once');
+    // offline browser
+    const p2 = await newPage('/index.html', { mutateData: withEndpoint });
+    await katraFlow(p2);
+    await p2.context().setOffline(true);
+    await p2.locator('#ptv-agent-body button', { hasText: 'Just send my details' }).click();
+    await p2.waitForFunction(() => /offline/.test(document.getElementById('ptv-agent-body').innerText));
+    assert(/not\s+been sent/.test(await bodyText(p2)));
   });
 
   console.log('Forms and tracking');
@@ -343,6 +481,13 @@ async function test(name, fn) {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
     assert(!overflow, 'no horizontal scroll');
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'agent-mobile-menu.png') });
+    await page.context().close();
+    const pm = await newPage('/index.html', { viewport: { width: 390, height: 844 } });
+    await katraFlow(pm, { confirm: false });
+    const pmb = await pm.locator('#ptv-agent-panel').boundingBox();
+    assert(pmb.x >= 0 && pmb.x + pmb.width <= 390, 'panel fits the phone width on the confirm screen');
+    assert(!(await pm.evaluate(() => document.documentElement.scrollWidth > innerWidth)), 'no horizontal scroll on the confirm screen');
+    if (SHOTS) await pm.screenshot({ path: path.join(SHOTS, 'agent-mobile-confirm.png') });
     const p404 = await newPage('/no/such/page', { viewport: { width: 390, height: 844 } });
     const bg = await p404.$eval('.page-hero', el => getComputedStyle(el).backgroundColor);
     assert.notStrictEqual(bg, 'rgba(0, 0, 0, 0)', '404 must load css from root-absolute paths');
