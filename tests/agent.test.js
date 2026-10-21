@@ -29,8 +29,11 @@ function serve() {
   return new Promise(r => server.listen(0, '127.0.0.1', () => r(server)));
 }
 
-const iso = d => d.toISOString().slice(0, 10);
-const daysFromNow = n => iso(new Date(Date.now() + n * 86400000));
+// Local calendar dates, matching the site (js/agent.js uses the visitor's local date).
+// Using UTC here made the tests fail for a few hours every day in time zones such as India.
+const pad2 = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+const daysFromNow = n => { const t = new Date(); return iso(new Date(t.getFullYear(), t.getMonth(), t.getDate() + n)); };
 
 let passed = 0;
 const failures = [];
