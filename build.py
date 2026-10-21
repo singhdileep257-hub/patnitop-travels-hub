@@ -281,6 +281,7 @@ def footer():
         <ul>
           <li><a href="taxi-services.html">Taxi Services</a></li>
           <li><a href="patnitop-sightseeing.html">Patnitop Sightseeing</a></li>
+          <li><a href="things-to-do-in-patnitop.html">Things to Do in Patnitop</a></li>
           <li><a href="hotel-booking.html">Hotel Booking</a></li>
           <li><a href="tour-packages.html">J&amp;K Tour Packages</a></li>
           <li><a href="vehicles.html">Vehicles</a></li>
@@ -410,7 +411,7 @@ def build_home():
 <section class="hero">
   <div class="container">
     <span class="eyebrow-plain">Patnitop · Katra · Jammu · Kashmir</span>
-    <h1>Your Trusted Taxi &amp; Travel Partner in Jammu &amp; Kashmir</h1>
+    <h1>Patnitop Taxi Service &amp; Travel Partner in Jammu &amp; Kashmir</h1>
     <p class="lede">Patnitop Travels Hub arranges taxi service, local sightseeing, hotel booking and complete travel assistance for tourists visiting Patnitop, Katra, Jammu and across Jammu &amp; Kashmir.</p>
     <div class="hero-phone">Call <span class="num">{PHONE}</span> — Dileep Singh</div>
     <div class="btn-row">
@@ -472,7 +473,7 @@ def build_home():
       <div class="card place-card"><h3>Patnitop Meadows</h3><p>Open grassland at the heart of Patnitop town.</p></div>
       <div class="card place-card"><h3>Naag Temple</h3><p>Local temple site, easily combined with a sightseeing trip.</p></div>
     </div>
-    <div class="btn-row"><a href="patnitop-sightseeing.html" class="btn btn-pine">See Full Sightseeing Guide</a></div>
+    <div class="btn-row"><a href="patnitop-sightseeing.html" class="btn btn-pine">See Full Sightseeing Guide</a> <a href="things-to-do-in-patnitop.html" class="btn btn-outline">Things to Do in Patnitop</a></div>
   </div>
 </section>
 
@@ -1087,7 +1088,7 @@ def build_sightseeing():
   <div class="container">
     <p>Patnitop Travels Hub arranges a local sightseeing taxi so you can visit the main attractions around Patnitop without arranging separate transport for each stop. Exact stops, timing and route can be adjusted to your interests and the time you have available.</p>
     <div class="grid grid-4">{cards}</div>
-    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit.</p>
+    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit. Looking for activities such as paragliding, trekking or snow? See our guide to <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>.</p>
     {cta_buttons()}
   </div>
 </section>
@@ -1122,6 +1123,68 @@ def build_sightseeing():
     )
 
 write("patnitop-sightseeing.html", build_sightseeing())
+
+# ---------------------------------------------------------------
+# THINGS TO DO IN PATNITOP (activities and experiences guide)
+# Honest guide: we are a taxi / travel-assistance business. We do not
+# run or sell these activities, quote no prices, and say availability
+# must be confirmed on site.
+# ---------------------------------------------------------------
+
+ACTIVITY_IDEAS = [
+    ("Viewpoints and meadow walks", "Nathatop, Sanasar and the open meadows of Patnitop are the usual starting points for easy walks and mountain views.", "nathatop-sanasar-taxi.html", "Nathatop &amp; Sanasar taxi"),
+    ("Paragliding", "Paragliding is one of the activities visitors commonly ask about in the Patnitop and Sanasar area. It is run by separate local operators; season, weather and availability vary, so please confirm on arrival.", None, None),
+    ("Trekking and nature walks", "The forested hills around Patnitop are popular for short walks and day treks. Ask us to drop you at a starting point and arrange the pickup time.", None, None),
+    ("Snow in winter", "In winter, snowfall in and around Patnitop draws many visitors. Road and weather conditions change quickly, so please check with us before you travel.", None, None),
+    ("Temples and pilgrimage stops", "Naag Temple near Patnitop, and Sudh Mahadev, Mantalai and Gauri Kund in the hills nearby, are often combined into one day trip.", "sudh-mahadev-taxi.html", "Sudh Mahadev taxi"),
+    ("Family time at the parks", "Children Park, Padora Park and the meadows suit families who want a relaxed day rather than a long trek.", "patnitop-sightseeing.html", "Patnitop sightseeing taxi"),
+]
+
+THINGS_TO_DO_FAQS = [
+    ("What are the best things to do in Patnitop?", "Popular choices include the Nathatop viewpoint, Sanasar meadow, walks around Patnitop Meadows, nearby temples such as Naag Temple and Sudh Mahadev, and, depending on season and availability, activities such as paragliding, trekking and snow visits. Call or WhatsApp 9103331334 and we will help you plan a taxi route around your interests."),
+    ("Do you organise paragliding or other adventure activities?", "No. Patnitop Travels Hub provides taxi service and travel assistance. Adventure activities are run by separate local operators, so please confirm availability, timings and charges with them directly. We can drop you at the place and arrange your return pickup."),
+    ("How many days are enough for Patnitop?", "Many visitors spend one to two days, covering Nathatop, Sanasar and the meadows. If you want to add Sudh Mahadev, Mantalai and Gauri Kund, a second day helps. Tell us your plan and we can suggest a sensible route."),
+    ("Can you arrange a taxi for a full-day local trip?", "Yes. We arrange half-day and full-day local taxi hire around Patnitop. Call or WhatsApp 9103331334 to check the vehicle and current fare."),
+]
+
+def build_things_to_do():
+    cards = ""
+    for title, desc, link, link_text in ACTIVITY_IDEAS:
+        extra = f'<a class="card-link" href="{link}">{link_text} →</a>' if link else ""
+        cards += f'<div class="card service-card"><h3>{title}</h3><p>{desc}</p>{extra}</div>'
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <h1>Things to Do in Patnitop</h1>
+    <p>Places, activities and day-trip ideas around Patnitop, with taxi help from Patnitop Travels Hub.</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <p>Patnitop is a hill station in Jammu &amp; Kashmir, popular for cool weather, meadows and mountain views. Here are common ideas for a visit. Patnitop Travels Hub is a local taxi and travel-assistance service: we do not run these activities ourselves, but we can take you there, wait or arrange your pickup, and plan a route that fits your time.</p>
+    <div class="grid grid-3">{cards}</div>
+    <p class="small">Note: activity availability, timings, entry fees and road or weather conditions change through the year. Please confirm current details before you travel.</p>
+    {cta_buttons()}
+  </div>
+</section>
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head"><h2>Plan your trip with a local taxi</h2></div>
+    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kudh (Kud)</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>.</p>
+  </div>
+</section>
+{faq_block(THINGS_TO_DO_FAQS, "Things to Do in Patnitop: FAQs")}
+'''
+    crumbs = [("Home", "index.html"), ("Things to Do in Patnitop", "things-to-do-in-patnitop.html")]
+    schemas = [local_business_schema(), breadcrumb_schema(crumbs), faq_schema(THINGS_TO_DO_FAQS)]
+    return page(
+        "Things to Do in Patnitop | Activities &amp; Day Trips",
+        "Things to do in Patnitop: Nathatop, Sanasar, temples, walks, paragliding and snow, with local taxi help. Call 9103331334 to plan your trip.",
+        "things-to-do-in-patnitop.html", "patnitop-sightseeing.html", body,
+        breadcrumb_items=crumbs, schema_list=schemas
+    )
+
+write("things-to-do-in-patnitop.html", build_things_to_do())
 
 # ---------------------------------------------------------------
 # HOTEL BOOKING
@@ -1546,7 +1609,7 @@ write("404.html", build_404())
 
 def build_sitemap_and_robots():
     paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [
-        "patnitop-sightseeing.html", "hotel-booking.html", "tour-packages.html",
+        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", "hotel-booking.html", "tour-packages.html",
         "vehicles.html", "faq.html", "contact.html", "privacy.html",
     ]
     if CONFIG["indexable_products_page"]:
