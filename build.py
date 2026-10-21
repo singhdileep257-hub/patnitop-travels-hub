@@ -1088,7 +1088,7 @@ def build_sightseeing():
   <div class="container">
     <p>Patnitop Travels Hub arranges a local sightseeing taxi so you can visit the main attractions around Patnitop without arranging separate transport for each stop. Exact stops, timing and route can be adjusted to your interests and the time you have available.</p>
     <div class="grid grid-4">{cards}</div>
-    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit. Looking for activities such as paragliding, trekking or snow? See our guide to <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>.</p>
+    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit. Looking for activities such as the gondola ride, zip line, horse riding or trekking? See our guide to <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>.</p>
     {cta_buttons()}
   </div>
 </section>
@@ -1133,7 +1133,10 @@ write("patnitop-sightseeing.html", build_sightseeing())
 
 ACTIVITY_IDEAS = [
     ("Viewpoints and meadow walks", "Nathatop, Sanasar and the open meadows of Patnitop are the usual starting points for easy walks and mountain views.", "nathatop-sanasar-taxi.html", "Nathatop &amp; Sanasar taxi"),
-    ("Paragliding", "Paragliding is one of the activities visitors commonly ask about in the Patnitop and Sanasar area. It is run by separate local operators; season, weather and availability vary, so please confirm on arrival.", None, None),
+    ("Gondola ride", "A gondola ride is one of the popular activities for visitors to Patnitop, with views over the hills."+" It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings, tickets and weather closures on site.", None, None),
+    ("Zip line", "Zip lining is available in Patnitop for visitors who want a little adventure. It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings, tickets and safety rules on site.", None, None),
+    ("Horse riding", "Horse rides are a common way for families to enjoy the meadows and viewpoints around Patnitop. Horses are arranged by local operators; please agree the route and charges with them directly.", None, None),
+    ("Shikara boating", "Shikara boating is available for visitors who want a relaxed activity. It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings and tickets on site.", None, None),
     ("Trekking and nature walks", "The forested hills around Patnitop are popular for short walks and day treks. Ask us to drop you at a starting point and arrange the pickup time.", None, None),
     ("Snow in winter", "In winter, snowfall in and around Patnitop draws many visitors. Road and weather conditions change quickly, so please check with us before you travel.", None, None),
     ("Temples and pilgrimage stops", "Naag Temple near Patnitop, and Sudh Mahadev, Mantalai and Gauri Kund in the hills nearby, are often combined into one day trip.", "sudh-mahadev-taxi.html", "Sudh Mahadev taxi"),
@@ -1141,8 +1144,8 @@ ACTIVITY_IDEAS = [
 ]
 
 THINGS_TO_DO_FAQS = [
-    ("What are the best things to do in Patnitop?", "Popular choices include the Nathatop viewpoint, Sanasar meadow, walks around Patnitop Meadows, nearby temples such as Naag Temple and Sudh Mahadev, and, depending on season and availability, activities such as paragliding, trekking and snow visits. Call or WhatsApp 9103331334 and we will help you plan a taxi route around your interests."),
-    ("Do you organise paragliding or other adventure activities?", "No. Patnitop Travels Hub provides taxi service and travel assistance. Adventure activities are run by separate local operators, so please confirm availability, timings and charges with them directly. We can drop you at the place and arrange your return pickup."),
+    ("What are the best things to do in Patnitop?", "Popular choices include the Nathatop viewpoint, Sanasar meadow, walks around Patnitop Meadows, nearby temples such as Naag Temple and Sudh Mahadev, and, depending on season and availability, activities such as the gondola ride, zip line, trekking, horse riding, shikara boating and snow visits. Call or WhatsApp 9103331334 and we will help you plan a taxi route around your interests."),
+    ("Do you organise the gondola ride, zip line, horse riding or shikara boating?", "No. Patnitop Travels Hub provides taxi service and travel assistance. These activities are run by local operators, so please confirm availability, timings and charges with them directly. We can drop you at the place and arrange your return pickup."),
     ("How many days are enough for Patnitop?", "Many visitors spend one to two days, covering Nathatop, Sanasar and the meadows. If you want to add Sudh Mahadev, Mantalai and Gauri Kund, a second day helps. Tell us your plan and we can suggest a sensible route."),
     ("Can you arrange a taxi for a full-day local trip?", "Yes. We arrange half-day and full-day local taxi hire around Patnitop. Call or WhatsApp 9103331334 to check the vehicle and current fare."),
 ]
@@ -1179,7 +1182,7 @@ def build_things_to_do():
     schemas = [local_business_schema(), breadcrumb_schema(crumbs), faq_schema(THINGS_TO_DO_FAQS)]
     return page(
         "Things to Do in Patnitop | Activities &amp; Day Trips",
-        "Things to do in Patnitop: Nathatop, Sanasar, temples, walks, paragliding and snow, with local taxi help. Call 9103331334 to plan your trip.",
+        "Things to do in Patnitop: gondola ride, zip line, horse riding, shikara boating, trekking and sightseeing, with local taxi help. Call 9103331334.",
         "things-to-do-in-patnitop.html", "patnitop-sightseeing.html", body,
         breadcrumb_items=crumbs, schema_list=schemas
     )
