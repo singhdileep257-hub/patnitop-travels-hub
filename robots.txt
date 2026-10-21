@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tubular-zabaione-c8e3eb.netlify.app/sitemap.xml
+Sitemap: https://patnitoptravelshub.netlify.app/sitemap.xml
