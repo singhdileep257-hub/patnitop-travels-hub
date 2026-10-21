@@ -1133,19 +1133,19 @@ write("patnitop-sightseeing.html", build_sightseeing())
 
 ACTIVITY_IDEAS = [
     ("Viewpoints and meadow walks", "Nathatop, Sanasar and the open meadows of Patnitop are the usual starting points for easy walks and mountain views.", "nathatop-sanasar-taxi.html", "Nathatop &amp; Sanasar taxi"),
-    ("Gondola ride", "A gondola ride is one of the popular activities for visitors to Patnitop, with views over the hills."+" It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings, tickets and weather closures on site.", None, None),
-    ("Zip line", "Zip lining is available in Patnitop for visitors who want a little adventure. It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings, tickets and safety rules on site.", None, None),
-    ("Horse riding", "Horse rides are a common way for families to enjoy the meadows and viewpoints around Patnitop. Horses are arranged by local operators; please agree the route and charges with them directly.", None, None),
-    ("Shikara boating", "Shikara boating is available for visitors who want a relaxed activity. It is run by a local operator, not by Patnitop Travels Hub, so please confirm timings and tickets on site.", None, None),
+    ("Gondola ride", "A gondola ride is one of the activities available in Patnitop. Please confirm availability, timings and charges before you go.", None, None),
+    ("Zip line", "A zip line is one of the activities available in Patnitop. Please confirm availability, timings and charges before you go.", None, None),
+    ("Horse riding", "Horse riding is one of the activities available in Patnitop. Please confirm availability, timings and charges before you go.", None, None),
+    ("Shikara boating", "Shikara boating is one of the activities available in Patnitop. Please confirm availability, timings and charges before you go.", None, None),
     ("Trekking and nature walks", "The forested hills around Patnitop are popular for short walks and day treks. Ask us to drop you at a starting point and arrange the pickup time.", None, None),
-    ("Snow in winter", "In winter, snowfall in and around Patnitop draws many visitors. Road and weather conditions change quickly, so please check with us before you travel.", None, None),
+    ("Snow in winter", "Patnitop sometimes receives snowfall in winter, but snow is not guaranteed and varies from year to year. Road and weather conditions can change quickly, so please check with us before you travel.", None, None),
     ("Temples and pilgrimage stops", "Naag Temple near Patnitop, and Sudh Mahadev, Mantalai and Gauri Kund in the hills nearby, are often combined into one day trip.", "sudh-mahadev-taxi.html", "Sudh Mahadev taxi"),
     ("Family time at the parks", "Children Park, Padora Park and the meadows suit families who want a relaxed day rather than a long trek.", "patnitop-sightseeing.html", "Patnitop sightseeing taxi"),
 ]
 
 THINGS_TO_DO_FAQS = [
     ("What are the best things to do in Patnitop?", "Popular choices include the Nathatop viewpoint, Sanasar meadow, walks around Patnitop Meadows, nearby temples such as Naag Temple and Sudh Mahadev, and, depending on season and availability, activities such as the gondola ride, zip line, trekking, horse riding, shikara boating and snow visits. Call or WhatsApp 9103331334 and we will help you plan a taxi route around your interests."),
-    ("Do you organise the gondola ride, zip line, horse riding or shikara boating?", "No. Patnitop Travels Hub provides taxi service and travel assistance. These activities are run by local operators, so please confirm availability, timings and charges with them directly. We can drop you at the place and arrange your return pickup."),
+    ("Can you take me to the gondola ride, zip line, horse riding or shikara boating?", "Patnitop Travels Hub provides taxi service and travel assistance, so we can plan your taxi and your return pickup. Please confirm availability, timings and charges of the activities themselves before you go."),
     ("How many days are enough for Patnitop?", "Many visitors spend one to two days, covering Nathatop, Sanasar and the meadows. If you want to add Sudh Mahadev, Mantalai and Gauri Kund, a second day helps. Tell us your plan and we can suggest a sensible route."),
     ("Can you arrange a taxi for a full-day local trip?", "Yes. We arrange half-day and full-day local taxi hire around Patnitop. Call or WhatsApp 9103331334 to check the vehicle and current fare."),
 ]
@@ -1164,7 +1164,7 @@ def build_things_to_do():
 </section>
 <section>
   <div class="container">
-    <p>Patnitop is a hill station in Jammu &amp; Kashmir, popular for cool weather, meadows and mountain views. Here are common ideas for a visit. Patnitop Travels Hub is a local taxi and travel-assistance service: we do not run these activities ourselves, but we can take you there, wait or arrange your pickup, and plan a route that fits your time.</p>
+    <p>Patnitop is a hill station in Jammu &amp; Kashmir, popular for cool weather, meadows and mountain views. Here are common ideas for a visit. Patnitop Travels Hub is a local taxi and travel-assistance service: we can take you there, arrange your pickup, and plan a route that fits your time.</p>
     <div class="grid grid-3">{cards}</div>
     <p class="small">Note: activity availability, timings, entry fees and road or weather conditions change through the year. Please confirm current details before you travel.</p>
     {cta_buttons()}
