@@ -248,7 +248,7 @@ async function test(name, fn) {
     await openAgent(p2); await choose(p2, '❓ Ask a Question');
     await answer(p2, 'how much is a taxi to kudh');
     let t = await bodyText(p2);
-    assert(/can't give a price without checking/.test(t) && /Enquire: Kudh \(Kud\) to Patnitop/.test(t));
+    assert(/can't give a price without checking/.test(t) && /Enquire: Kud to Patnitop/.test(t));
     assert(!/₹/.test(t));
     const p3 = await newPage('/index.html');
     await openAgent(p3); await choose(p3, '❓ Ask a Question');

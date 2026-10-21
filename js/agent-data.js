@@ -131,10 +131,10 @@ var AGENT_DATA = {
     },
     {
       "id": "kudh",
-      "label": "Kudh (Kud) to Patnitop",
+      "label": "Kud to Patnitop",
       "path": "kudh-to-patnitop-taxi.html",
-      "summary": "Patnitop Travels Hub arranges taxi service between Kudh (also written Kud) and Patnitop. Kud is a town on the Jammu\u2013Srinagar highway (NH 44), roughly 10 km before Patnitop when travelling from Udhampur.",
-      "defaultPickup": "Kudh / Kud (your pickup point)",
+      "summary": "Patnitop Travels Hub arranges taxi service between Kud and Patnitop. Kud is a town on the Jammu\u2013Srinagar highway (NH 44), roughly 10 km before Patnitop when travelling from Udhampur.",
+      "defaultPickup": "Kud (your pickup point)",
       "defaultDrop": "Patnitop (your hotel)",
       "askSightseeing": true,
       "askHotel": true,
@@ -149,12 +149,12 @@ var AGENT_DATA = {
       ],
       "faqs": [
         {
-          "q": "Do you provide taxi service from Kudh to Patnitop?",
-          "a": "Yes, Patnitop Travels Hub arranges taxi service between Kudh (Kud) and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare."
+          "q": "Do you provide taxi service from Kud to Patnitop?",
+          "a": "Yes, Patnitop Travels Hub arranges taxi service between Kud and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare."
         },
         {
-          "q": "Is Kudh the same as Kud?",
-          "a": "Yes, the town is written both ways. Either spelling works when you enquire with us."
+          "q": "Is Kud written in other ways?",
+          "a": "Yes, the town name is sometimes spelled differently on signs and maps. Whichever spelling you use, call or WhatsApp 9103331334 and we will understand your pickup point."
         }
       ]
     },
@@ -340,8 +340,8 @@ var AGENT_DATA = {
       "desc": "Taxi between Chenani and Patnitop, in both directions."
     },
     {
-      "name": "Kudh (Kud) to Patnitop Taxi",
-      "desc": "Short-hop taxi between Kudh (Kud) and Patnitop."
+      "name": "Kud to Patnitop Taxi",
+      "desc": "Short-hop taxi between Kud and Patnitop."
     },
     {
       "name": "Airport & Railway Station Transfers",
@@ -452,7 +452,7 @@ var AGENT_DATA = {
     "Jammu",
     "Udhampur",
     "Chenani",
-    "Kudh (Kud)",
+    "Kud",
     "Bhaderwah",
     "Srinagar",
     "Gulmarg",
