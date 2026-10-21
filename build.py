@@ -145,7 +145,7 @@ def local_business_schema():
     "latitude": 33.0903,
     "longitude": 75.3264
   }},
-  "areaServed": ["Patnitop", "Kud (Kudh)", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
+  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
   "founder": {{ "@type": "Person", "name": "Dileep Singh" }},
   "sameAs": {json.dumps([GBP_MAPS_URL] if GBP_MAPS_URL else [])}{(',' + chr(10) + '  "hasMap": ' + json.dumps(GBP_MAPS_URL)) if GBP_MAPS_URL else ''}
 }}
@@ -281,6 +281,7 @@ def footer():
         <ul>
           <li><a href="taxi-services.html">Taxi Services</a></li>
           <li><a href="patnitop-sightseeing.html">Patnitop Sightseeing</a></li>
+          <li><a href="things-to-do-in-patnitop.html">Things to Do in Patnitop</a></li>
           <li><a href="hotel-booking.html">Hotel Booking</a></li>
           <li><a href="tour-packages.html">J&amp;K Tour Packages</a></li>
           <li><a href="vehicles.html">Vehicles</a></li>
@@ -293,7 +294,7 @@ def footer():
           <li><a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop Taxi</a></li>
           <li><a href="udhampur-to-patnitop-taxi.html">Udhampur to Patnitop Taxi</a></li>
           <li><a href="chenani-to-patnitop-taxi.html">Chenani to Patnitop Taxi</a></li>
-          <li><a href="kudh-to-patnitop-taxi.html">Kudh (Kud) to Patnitop Taxi</a></li>
+          <li><a href="kudh-to-patnitop-taxi.html">Kud to Patnitop Taxi</a></li>
           <li><a href="nathatop-sanasar-taxi.html">Nathatop &amp; Sanasar Taxi</a></li>
           <li><a href="srinagar-taxi.html">Srinagar Taxi</a></li>
           <li><a href="bhaderwah-taxi.html">Bhaderwah Taxi</a></li>
@@ -410,7 +411,7 @@ def build_home():
 <section class="hero">
   <div class="container">
     <span class="eyebrow-plain">Patnitop · Katra · Jammu · Kashmir</span>
-    <h1>Your Trusted Taxi &amp; Travel Partner in Jammu &amp; Kashmir</h1>
+    <h1>Patnitop Taxi Service &amp; Travel Partner in Jammu &amp; Kashmir</h1>
     <p class="lede">Patnitop Travels Hub arranges taxi service, local sightseeing, hotel booking and complete travel assistance for tourists visiting Patnitop, Katra, Jammu and across Jammu &amp; Kashmir.</p>
     <div class="hero-phone">Call <span class="num">{PHONE}</span> — Dileep Singh</div>
     <div class="btn-row">
@@ -455,7 +456,7 @@ def build_home():
       <div class="card service-card"><h3>Outstation Taxi</h3><p>One-way and round-trip outstation taxi anywhere in Jammu &amp; Kashmir.</p><a class="card-link" href="tour-packages.html">See destinations →</a></div>
       <div class="card service-card"><h3>Tempo Traveller</h3><p>For families and groups travelling together, with more luggage space.</p><a class="card-link" href="vehicles.html">View vehicles →</a></div>
     </div>
-    <p class="small">Popular pickup points for Patnitop: <a href="katra-to-patnitop-taxi.html">Katra</a> · <a href="jammu-to-patnitop-taxi.html">Jammu</a> · <a href="udhampur-to-patnitop-taxi.html">Udhampur</a> · <a href="chenani-to-patnitop-taxi.html">Chenani</a> · <a href="kudh-to-patnitop-taxi.html">Kudh (Kud)</a></p>
+    <p class="small">Popular pickup points for Patnitop: <a href="katra-to-patnitop-taxi.html">Katra</a> · <a href="jammu-to-patnitop-taxi.html">Jammu</a> · <a href="udhampur-to-patnitop-taxi.html">Udhampur</a> · <a href="chenani-to-patnitop-taxi.html">Chenani</a> · <a href="kudh-to-patnitop-taxi.html">Kud</a></p>
     <div class="btn-row"><a href="taxi-services.html" class="btn btn-pine">View All Taxi Services</a></div>
   </div>
 </section>
@@ -472,7 +473,7 @@ def build_home():
       <div class="card place-card"><h3>Patnitop Meadows</h3><p>Open grassland at the heart of Patnitop town.</p></div>
       <div class="card place-card"><h3>Naag Temple</h3><p>Local temple site, easily combined with a sightseeing trip.</p></div>
     </div>
-    <div class="btn-row"><a href="patnitop-sightseeing.html" class="btn btn-pine">See Full Sightseeing Guide</a></div>
+    <div class="btn-row"><a href="patnitop-sightseeing.html" class="btn btn-pine">See Full Sightseeing Guide</a> <a href="things-to-do-in-patnitop.html" class="btn btn-outline">Things to Do in Patnitop</a></div>
   </div>
 </section>
 
@@ -584,7 +585,7 @@ TAXI_SERVICES = [
     ("Jammu to Patnitop Taxi", "Jammu Airport or Jammu Railway Station to Patnitop, one-way or round trip.", "jammu-to-patnitop-taxi.html"),
     ("Udhampur to Patnitop Taxi", "Taxi between Udhampur and Patnitop, one-way or round trip.", "udhampur-to-patnitop-taxi.html"),
     ("Chenani to Patnitop Taxi", "Taxi between Chenani and Patnitop, in both directions.", "chenani-to-patnitop-taxi.html"),
-    ("Kudh (Kud) to Patnitop Taxi", "Short-hop taxi between Kudh (Kud) and Patnitop.", "kudh-to-patnitop-taxi.html"),
+    ("Kud to Patnitop Taxi", "Short-hop taxi between Kud and Patnitop.", "kudh-to-patnitop-taxi.html"),
     ("Airport &amp; Railway Station Transfers", "Jammu Airport, Jammu Railway Station, Katra Railway Station pickup &amp; drop.", "airport-railway-transfer.html"),
     ("Patnitop Sightseeing Taxi", "Local taxi for Nathatop, Sanasar and nearby attractions.", "patnitop-sightseeing.html"),
     ("Nathatop &amp; Sanasar Taxi", "Dedicated taxi service for the Nathatop and Sanasar viewpoints.", "nathatop-sanasar-taxi.html"),
@@ -799,7 +800,7 @@ ROUTES = [
             ("Do you provide taxi service from Chenani to Patnitop?", "Yes, Patnitop Travels Hub arranges taxi service between Chenani and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare for your date."),
             ("Can I add sightseeing to a Chenani to Patnitop trip?", "Yes, local sightseeing around Patnitop, Nathatop and Sanasar can be added. Let us know when you enquire."),
         ],
-        related=[("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Kudh to Patnitop Taxi", "kudh-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html")],
+        related=[("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Kud to Patnitop Taxi", "kudh-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html")],
         area_served=["Chenani", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
         agent_label="Chenani to Patnitop",
@@ -810,28 +811,28 @@ ROUTES = [
     dict(
         id="kudh",
         path="kudh-to-patnitop-taxi.html",
-        title="Kudh (Kud) to Patnitop Taxi | Patnitop Travels Hub",
-        meta_desc="Taxi from Kudh (Kud) to Patnitop and back, one-way or round trip, with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
-        h1="Kudh (Kud) to Patnitop Taxi",
+        title="Kud to Patnitop Taxi | Patnitop Travels Hub",
+        meta_desc="Taxi from Kud to Patnitop and back, one-way or round trip, with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Kud to Patnitop Taxi",
         intro=[
-            "Patnitop Travels Hub arranges taxi service between Kudh (also written Kud) and Patnitop. Kud is a town on the Jammu&ndash;Srinagar highway (NH 44), roughly 10 km before Patnitop when travelling from Udhampur.",
-            "Tell us your pickup point in Kudh and your travel date, and we will confirm availability and the current fare."
+            "Patnitop Travels Hub arranges taxi service between Kud and Patnitop. Kud is a town on the Jammu&ndash;Srinagar highway (NH 44), roughly 10 km before Patnitop when travelling from Udhampur.",
+            "Tell us your pickup point in Kud and your travel date, and we will confirm availability and the current fare."
         ],
         points=[
-            "Kudh to Patnitop taxi and Patnitop to Kudh taxi, both directions",
+            "Kud to Patnitop taxi and Patnitop to Kud taxi, both directions",
             "One-way drop or round-trip taxi service, subject to availability",
             "Can be combined with Nathatop and Sanasar sightseeing",
             "Onward travel to Katra, Jammu, Bhaderwah or Srinagar can be arranged",
         ],
         faqs=[
-            ("Do you provide taxi service from Kudh to Patnitop?", "Yes, Patnitop Travels Hub arranges taxi service between Kudh (Kud) and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare."),
-            ("Is Kudh the same as Kud?", "Yes, the town is written both ways. Either spelling works when you enquire with us."),
+            ("Do you provide taxi service from Kud to Patnitop?", "Yes, Patnitop Travels Hub arranges taxi service between Kud and Patnitop. Call or WhatsApp 9103331334 to confirm availability and fare."),
+            ("Is Kud written in other ways?", "Yes, the town name is sometimes spelled differently on signs and maps. Whichever spelling you use, call or WhatsApp 9103331334 and we will understand your pickup point."),
         ],
         related=[("Chenani to Patnitop Taxi", "chenani-to-patnitop-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Nathatop &amp; Sanasar Taxi", "nathatop-sanasar-taxi.html")],
-        area_served=["Kud (Kudh)", "Patnitop"],
+        area_served=["Kud", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
-        agent_label="Kudh (Kud) to Patnitop",
-        agent_default_pickup="Kudh / Kud (your pickup point)",
+        agent_label="Kud to Patnitop",
+        agent_default_pickup="Kud (your pickup point)",
         agent_default_drop="Patnitop (your hotel)",
         agent_ask_sightseeing=True, agent_ask_hotel=True,
     ),
@@ -1087,7 +1088,7 @@ def build_sightseeing():
   <div class="container">
     <p>Patnitop Travels Hub arranges a local sightseeing taxi so you can visit the main attractions around Patnitop without arranging separate transport for each stop. Exact stops, timing and route can be adjusted to your interests and the time you have available.</p>
     <div class="grid grid-4">{cards}</div>
-    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit.</p>
+    <p class="small">Note: opening hours, entry fees and exact attraction availability can change — please confirm current details with us or on-site when you visit. Looking for activities such as paragliding, trekking or snow? See our guide to <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>.</p>
     {cta_buttons()}
   </div>
 </section>
@@ -1122,6 +1123,68 @@ def build_sightseeing():
     )
 
 write("patnitop-sightseeing.html", build_sightseeing())
+
+# ---------------------------------------------------------------
+# THINGS TO DO IN PATNITOP (activities and experiences guide)
+# Honest guide: we are a taxi / travel-assistance business. We do not
+# run or sell these activities, quote no prices, and say availability
+# must be confirmed on site.
+# ---------------------------------------------------------------
+
+ACTIVITY_IDEAS = [
+    ("Viewpoints and meadow walks", "Nathatop, Sanasar and the open meadows of Patnitop are the usual starting points for easy walks and mountain views.", "nathatop-sanasar-taxi.html", "Nathatop &amp; Sanasar taxi"),
+    ("Paragliding", "Paragliding is one of the activities visitors commonly ask about in the Patnitop and Sanasar area. It is run by separate local operators; season, weather and availability vary, so please confirm on arrival.", None, None),
+    ("Trekking and nature walks", "The forested hills around Patnitop are popular for short walks and day treks. Ask us to drop you at a starting point and arrange the pickup time.", None, None),
+    ("Snow in winter", "In winter, snowfall in and around Patnitop draws many visitors. Road and weather conditions change quickly, so please check with us before you travel.", None, None),
+    ("Temples and pilgrimage stops", "Naag Temple near Patnitop, and Sudh Mahadev, Mantalai and Gauri Kund in the hills nearby, are often combined into one day trip.", "sudh-mahadev-taxi.html", "Sudh Mahadev taxi"),
+    ("Family time at the parks", "Children Park, Padora Park and the meadows suit families who want a relaxed day rather than a long trek.", "patnitop-sightseeing.html", "Patnitop sightseeing taxi"),
+]
+
+THINGS_TO_DO_FAQS = [
+    ("What are the best things to do in Patnitop?", "Popular choices include the Nathatop viewpoint, Sanasar meadow, walks around Patnitop Meadows, nearby temples such as Naag Temple and Sudh Mahadev, and, depending on season and availability, activities such as paragliding, trekking and snow visits. Call or WhatsApp 9103331334 and we will help you plan a taxi route around your interests."),
+    ("Do you organise paragliding or other adventure activities?", "No. Patnitop Travels Hub provides taxi service and travel assistance. Adventure activities are run by separate local operators, so please confirm availability, timings and charges with them directly. We can drop you at the place and arrange your return pickup."),
+    ("How many days are enough for Patnitop?", "Many visitors spend one to two days, covering Nathatop, Sanasar and the meadows. If you want to add Sudh Mahadev, Mantalai and Gauri Kund, a second day helps. Tell us your plan and we can suggest a sensible route."),
+    ("Can you arrange a taxi for a full-day local trip?", "Yes. We arrange half-day and full-day local taxi hire around Patnitop. Call or WhatsApp 9103331334 to check the vehicle and current fare."),
+]
+
+def build_things_to_do():
+    cards = ""
+    for title, desc, link, link_text in ACTIVITY_IDEAS:
+        extra = f'<a class="card-link" href="{link}">{link_text} →</a>' if link else ""
+        cards += f'<div class="card service-card"><h3>{title}</h3><p>{desc}</p>{extra}</div>'
+    body = f'''
+<section class="page-hero">
+  <div class="container">
+    <h1>Things to Do in Patnitop</h1>
+    <p>Places, activities and day-trip ideas around Patnitop, with taxi help from Patnitop Travels Hub.</p>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <p>Patnitop is a hill station in Jammu &amp; Kashmir, popular for cool weather, meadows and mountain views. Here are common ideas for a visit. Patnitop Travels Hub is a local taxi and travel-assistance service: we do not run these activities ourselves, but we can take you there, wait or arrange your pickup, and plan a route that fits your time.</p>
+    <div class="grid grid-3">{cards}</div>
+    <p class="small">Note: activity availability, timings, entry fees and road or weather conditions change through the year. Please confirm current details before you travel.</p>
+    {cta_buttons()}
+  </div>
+</section>
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head"><h2>Plan your trip with a local taxi</h2></div>
+    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kud</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>.</p>
+  </div>
+</section>
+{faq_block(THINGS_TO_DO_FAQS, "Things to Do in Patnitop: FAQs")}
+'''
+    crumbs = [("Home", "index.html"), ("Things to Do in Patnitop", "things-to-do-in-patnitop.html")]
+    schemas = [local_business_schema(), breadcrumb_schema(crumbs), faq_schema(THINGS_TO_DO_FAQS)]
+    return page(
+        "Things to Do in Patnitop | Activities &amp; Day Trips",
+        "Things to do in Patnitop: Nathatop, Sanasar, temples, walks, paragliding and snow, with local taxi help. Call 9103331334 to plan your trip.",
+        "things-to-do-in-patnitop.html", "patnitop-sightseeing.html", body,
+        breadcrumb_items=crumbs, schema_list=schemas
+    )
+
+write("things-to-do-in-patnitop.html", build_things_to_do())
 
 # ---------------------------------------------------------------
 # HOTEL BOOKING
@@ -1191,7 +1254,7 @@ PACKAGE_DESTINATIONS = [
     ("Jammu", "jammu-to-patnitop-taxi.html"),
     ("Udhampur", "udhampur-to-patnitop-taxi.html"),
     ("Chenani", "chenani-to-patnitop-taxi.html"),
-    ("Kudh (Kud)", "kudh-to-patnitop-taxi.html"),
+    ("Kud", "kudh-to-patnitop-taxi.html"),
     ("Bhaderwah", "bhaderwah-taxi.html"),
     ("Srinagar", "srinagar-taxi.html"),
     ("Gulmarg", None),
@@ -1546,7 +1609,7 @@ write("404.html", build_404())
 
 def build_sitemap_and_robots():
     paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [
-        "patnitop-sightseeing.html", "hotel-booking.html", "tour-packages.html",
+        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", "hotel-booking.html", "tour-packages.html",
         "vehicles.html", "faq.html", "contact.html", "privacy.html",
     ]
     if CONFIG["indexable_products_page"]:
