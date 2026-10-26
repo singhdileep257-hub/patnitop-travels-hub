@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Photography / reels enquiry form (separate from taxi bookings).
+  // Couple shoot / reels enquiry form (separate from taxi bookings).
   // Stored with type 'other' so the existing lead sheet accepts it without
   // any change to the Apps Script; the shoot details are kept in Notes.
   var phform = document.getElementById('photo-enquiry-form');
@@ -215,10 +215,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       var consent = get('consent_followup') === 'Yes' ? 'Yes' : 'No';
       var leadId = window.ptvLead ? window.ptvLead.newId() : '';
-      var details = 'Shoot type: ' + get('shoot_type') + ' | Wants: ' + get('deliverable') +
-        ' | Taxi needed: ' + get('taxi') + (get('message') ? ' | Message: ' + get('message') : '');
+      var details = 'Shoot type: ' + get('shoot_type') + ' | Duration: ' + get('duration') +
+        ' | Wants: ' + get('deliverable') + ' | Taxi needed: ' + get('taxi') +
+        (get('message') ? ' | Message: ' + get('message') : '');
       var payload = {
-        lead_id: leadId, type: 'other', source: 'photography-form', service: 'Photography / reels enquiry',
+        lead_id: leadId, type: 'other', source: 'photography-form', service: 'Couple shoot / reels enquiry',
         name: get('name'), mobile: mobile, pickup: get('location'),
         travel_date: get('preferred_date'), passengers: get('people'),
         notes: details, consent_followup: consent
@@ -231,13 +232,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       var lines = [
-        'PHOTOGRAPHY ENQUIRY (not a taxi booking) — Patnitop Travels Hub',
+        'COUPLE SHOOT / REELS ENQUIRY (not a taxi booking) — Patnitop Travels Hub',
         'Name: ' + payload.name,
         'Mobile: ' + mobile,
         'Shoot type: ' + get('shoot_type'),
-        'Preferred date: ' + (payload.travel_date || 'Flexible / not decided'),
-        'Number of people: ' + payload.passengers,
-        'Preferred location: ' + get('location'),
+        'Location: ' + get('location'),
+        'Shoot date: ' + (payload.travel_date || 'Flexible / not decided'),
+        'Duration preference: ' + get('duration'),
+        'Number of people: ' + (payload.passengers || 'N/A'),
         'Photos, reels or both: ' + get('deliverable'),
         'Taxi needed: ' + get('taxi'),
         'Message: ' + (get('message') || 'N/A'),
@@ -246,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ];
       var waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
       showHandoff(document.getElementById('photo-form-success'), payload.name, waLink,
-        'Your photography enquiry is ready to send. Tap the button below to send it to us on WhatsApp.');
+        'Your couple shoot enquiry is ready to send. Tap the button below to send it to us on WhatsApp.');
       phform.reset();
     });
   }

@@ -9,3 +9,5 @@ Settings:   site.config.json   (site address, Google Analytics ID, lead sheet li
 Fares:      data/rates.json    (ships empty: the assistant quotes no price until you add verified ones)
 Lead sheet: apps-script/lead-receiver.gs
 Full guide: docs/SETUP.md      (deploy, domain, Search Console, lead sheet, analytics)
+Photos:     images/photography/<slug>.jpg shows on the couple-shoot page cards (slugs in build.py).
+            Add only photos you own or have written permission to use, then run build.py.
