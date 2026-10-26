@@ -184,7 +184,7 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--saffron); }
 }
 .header-call:hover { background: var(--saffron); color: var(--white); }
 
-@media (max-width: 1140px) { /* 8 nav links + brand + call button need ~1140px; collapse to the menu below that */
+@media (max-width: 1320px) { /* 9 nav links + brand + call button need ~1300px; collapse to the menu below that */
   nav.main-nav {
     display: none;
     position: absolute;
@@ -199,6 +199,13 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--saffron); }
   nav.main-nav.open { display: flex; }
   .nav-toggle { display: block; }
   .header-call span.call-label { display: none; }
+}
+
+/* Full desktop nav only where all 9 links fit on one row: header gets a little more
+   width than the 1180px page grid, and the link gap tightens slightly. */
+@media (min-width: 1321px) {
+  .site-header .container { max-width: 1300px; }
+  nav.main-nav { gap: 14px; }
 }
 
 /* ---------- Hero ---------- */
@@ -467,4 +474,46 @@ footer.site-footer a:hover { color: var(--saffron); }
   #ptv-agent-root { right: 12px; bottom: 92px; }
   #ptv-agent-panel { position: fixed; left: 8px; right: 8px; bottom: 88px; width: auto; height: min(68vh, 560px); }
   #ptv-agent-launcher { width: 52px; height: 52px; font-size: 1.4rem; }
+}
+
+/* =========================================================
+   Photography & reels service (homepage band + photographer page)
+   Same pine / saffron / snow palette; a soft dusk glow and an
+   original mountain silhouette give it a romantic feel. No photos.
+   ========================================================= */
+.photo-hero, .photo-band {
+  position: relative; overflow: hidden; color: var(--white);
+  background:
+    radial-gradient(110% 80% at 82% 0%, rgba(200,128,26,0.34), rgba(200,128,26,0) 58%),
+    linear-gradient(180deg, #1d3a30 0%, #142720 62%, #1b2a38 100%);
+}
+.photo-hero { padding: 64px 0 120px; }
+.photo-band { padding: 72px 0 132px; }
+.photo-hero .container, .photo-band .container { position: relative; z-index: 2; }
+.photo-hero .container { max-width: 800px; }
+.photo-hero h1, .photo-band h2 { color: var(--white); }
+.photo-hero .eyebrow-plain, .photo-band .eyebrow-plain { color: #E7B96A; }
+.photo-hero .lede { color: #D6E3D8; font-size: 1.15rem; max-width: 58ch; }
+.photo-band p { color: #D6E3D8; max-width: 62ch; }
+.photo-art { position: absolute; left: 0; right: 0; bottom: -2px; width: 100%; height: 96px; z-index: 1; }
+.photo-tags span { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.28); color: #EAF0EB; }
+.photo-hero a:focus-visible, .photo-band a:focus-visible, .photo-cross a:focus-visible { outline: 3px solid #E7B96A; outline-offset: 3px; }
+.photo-cross .eyebrow-plain { color: #E7B96A; }
+.photo-cross p a { color: #E7B96A; text-decoration: underline; text-underline-offset: 3px; }
+
+.photo-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: none; }
+.photo-step { display: flex; flex-direction: column; gap: 10px; background: var(--white); border: 1px solid var(--line); padding: 24px; }
+.photo-step h3 { font-size: 1.1rem; margin-bottom: 6px; }
+.photo-step p { font-size: 0.93rem; color: var(--slate); margin: 0; }
+.photo-step-num {
+  width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--saffron);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', Georgia, serif; font-weight: 600; color: var(--saffron-dark);
+}
+@media (max-width: 900px) { .photo-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) {
+  .photo-steps { grid-template-columns: 1fr; }
+  .photo-hero { padding: 44px 0 100px; }
+  .photo-band { padding: 52px 0 112px; }
+  .photo-hero .btn-row .btn, .photo-band .btn-row .btn { width: 100%; justify-content: center; }
 }

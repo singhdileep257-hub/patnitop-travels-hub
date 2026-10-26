@@ -68,10 +68,13 @@ def wa_href(message=None):
     msg = message or WA_DEFAULT_MSG
     return f"https://wa.me/{WA_NUMBER}?text={urllib.parse.quote(msg)}"
 
+PHOTO_PATH = "couple-photoshoot-srinagar-patnitop.html"
+
 NAV_ITEMS = [
     ("index.html", "Home"),
     ("taxi-services.html", "Taxi Services"),
     ("patnitop-sightseeing.html", "Sightseeing"),
+    (PHOTO_PATH, "Photography"),
     ("hotel-booking.html", "Hotels"),
     ("tour-packages.html", "J&K Packages"),
     ("vehicles.html", "Vehicles"),
@@ -79,10 +82,50 @@ NAV_ITEMS = [
     ("contact.html", "Contact"),
 ]
 
+# Couple photoshoots, reels & pre-wedding service (Srinagar and Patnitop). The WhatsApp text is a
+# fill-in-the-blanks template, so the button works with no JavaScript and the customer can
+# state every detail we need for a customised quotation. No prices, availability or package
+# inclusions are written anywhere on the site.
+PHOTO_WA_MSG = (
+    "Hello Patnitop Travels Hub, I would like a quotation for a couple shoot / reels in Srinagar or Patnitop.\n"
+    "Name:\n"
+    "Shoot type (couple / pre-wedding / reels / other):\n"
+    "Shoot date:\n"
+    "Location (Srinagar / Patnitop / both):\n"
+    "Duration preference (short / half day / full day):\n"
+    "Photos, reels or both:\n"
+    "Need a taxi as well (yes / no):"
+)
+
 def road_divider():
     return '''<svg class="road-divider" viewBox="0 0 1180 34" preserveAspectRatio="none" aria-hidden="true">
 <path d="M0 20 Q 150 4, 300 20 T 600 20 T 900 20 T 1180 20"/>
 </svg>'''
+
+def mountain_art():
+    # Original, decorative mountain silhouette (no photo, nothing copied).
+    return '''<svg class="photo-art" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+<path d="M0 120 L0 78 L130 38 L240 70 L380 20 L520 74 L660 34 L800 80 L940 28 L1070 66 L1200 40 L1200 120 Z" fill="rgba(247,245,239,0.10)"/>
+<path d="M0 120 L0 96 L160 62 L300 92 L450 52 L600 94 L760 58 L900 96 L1050 64 L1200 90 L1200 120 Z" fill="#F7F5EF"/>
+</svg>'''
+
+def photo_band():
+    # Homepage promo for the couple-shoot service. Real working WhatsApp link
+    # built at build time; the other two buttons go to the dedicated page.
+    return f'''<section class="photo-band" aria-labelledby="photo-band-title">
+  <div class="container">
+    <span class="eyebrow-plain">Srinagar · Patnitop · Kashmir</span>
+    <h2 id="photo-band-title">Capture Your Love in Kashmir</h2>
+    <p>Explore the beauty of Kashmir with professional couple photoshoots, cinematic Instagram Reels and pre-wedding photography in Srinagar and Patnitop. Choose beautiful locations, create memorable videos and combine your shoot with a convenient taxi or sightseeing package.</p>
+    <div class="tag-list photo-tags"><span>Couple shoots in Srinagar</span><span>Pre-wedding in Srinagar &amp; Patnitop</span><span>Cinematic Reels</span><span>Taxi + sightseeing add-on</span></div>
+    <div class="btn-row">
+      <a href="{PHOTO_PATH}#enquiry" class="btn btn-primary">📸 Book a Couple Shoot</a>
+      <a href="{wa_href(PHOTO_WA_MSG)}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+      <a href="{PHOTO_PATH}#locations" class="btn btn-outline">Explore Shoot Locations</a>
+    </div>
+  </div>
+  {mountain_art()}
+</section>'''
 
 def head(title, description, canonical_path, extra_schema="", extra_meta="", robots="index, follow"):
     canonical = f"{SITE_URL}/{canonical_path}" if canonical_path != "index.html" else f"{SITE_URL}/"
@@ -281,6 +324,7 @@ def footer():
         <ul>
           <li><a href="taxi-services.html">Taxi Services</a></li>
           <li><a href="patnitop-sightseeing.html">Patnitop Sightseeing</a></li>
+          <li><a href="{PHOTO_PATH}">Couple Photoshoots &amp; Reels</a></li>
           <li><a href="things-to-do-in-patnitop.html">Things to Do in Patnitop</a></li>
           <li><a href="hotel-booking.html">Hotel Booking</a></li>
           <li><a href="tour-packages.html">J&amp;K Tour Packages</a></li>
@@ -477,6 +521,8 @@ def build_home():
   </div>
 </section>
 
+{photo_band()}
+
 {road_divider()}
 
 <section class="section-pine">
@@ -625,6 +671,7 @@ def build_taxi_services():
   <div class="container">
     <div class="section-head"><h2>One-way &amp; round-trip taxi service</h2></div>
     <p>We offer both one-way taxi drop and full round-trip taxi service for Patnitop, Katra, Jammu and onward destinations across Jammu &amp; Kashmir. Family and group transportation, including Tempo Traveller, can be arranged for larger parties.</p>
+    <p>Planning a couple trip or pre-wedding shoot? Your taxi can be combined with a <a href="{PHOTO_PATH}">couple photoshoot in Srinagar or Patnitop</a> arranged through us, where available.</p>
     {cta_buttons()}
   </div>
 </section>
@@ -916,7 +963,7 @@ ROUTES = [
             ("Can this be combined with Gulmarg or Pahalgam?", "Yes, this can be arranged as part of a wider Jammu &amp; Kashmir tour — see our tour packages page for more."),
         ],
         crumb_name="Srinagar Taxi",
-        related=[("J&K Tour Packages", "tour-packages.html"), ("Bhaderwah Taxi", "bhaderwah-taxi.html"), ("Vehicles", "vehicles.html")],
+        related=[("J&K Tour Packages", "tour-packages.html"), ("Couple Photoshoots in Srinagar", PHOTO_PATH), ("Bhaderwah Taxi", "bhaderwah-taxi.html"), ("Vehicles", "vehicles.html")],
         area_served=["Srinagar", "Patnitop", "Jammu"],
         active="taxi-services.html",
         agent_label="Srinagar Taxi",
@@ -1095,7 +1142,7 @@ def build_sightseeing():
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Combine sightseeing with your taxi route</h2></div>
-    <p>Sightseeing can be added on to a <a href="katra-to-patnitop-taxi.html">Katra to Patnitop taxi</a>, <a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop taxi</a>, or arranged as a standalone half-day or full-day local taxi hire. <a href="nathatop-sanasar-taxi.html">See Nathatop &amp; Sanasar taxi details</a>.</p>
+    <p>Sightseeing can be added on to a <a href="katra-to-patnitop-taxi.html">Katra to Patnitop taxi</a>, <a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop taxi</a>, or arranged as a standalone half-day or full-day local taxi hire. <a href="nathatop-sanasar-taxi.html">See Nathatop &amp; Sanasar taxi details</a>. Want photos or a reel of your trip? Ask about a <a href="{PHOTO_PATH}">couple photographer in Patnitop or Srinagar</a> alongside your sightseeing.</p>
   </div>
 </section>
 <section>
@@ -1173,7 +1220,7 @@ def build_things_to_do():
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Plan your trip with a local taxi</h2></div>
-    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kud</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>.</p>
+    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kud</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>. Travelling as a couple? You can also ask about a <a href="{PHOTO_PATH}">couple photoshoot in Patnitop or Srinagar, with cinematic reels</a>.</p>
   </div>
 </section>
 {faq_block(THINGS_TO_DO_FAQS, "Things to Do in Patnitop: FAQs")}
@@ -1188,6 +1235,280 @@ def build_things_to_do():
     )
 
 write("things-to-do-in-patnitop.html", build_things_to_do())
+
+# ---------------------------------------------------------------
+# COUPLE PHOTOSHOOTS, REELS & PRE-WEDDING (Srinagar and Patnitop)
+# Honest by design: no prices, no fixed package inclusions, no delivery
+# times, no availability promises, no reviews, past clients or awards,
+# and no photos we do not have the right to use. Everything is "tell us
+# your plan, we send a customised quotation". The enquiry ends in a
+# WhatsApp hand-off like every other form on the site.
+#
+# Photos: a location card shows a photo only if the file exists at
+# images/photography/<slug>.jpg (slugs are the first item of each
+# location below). Add only photos you own or have written permission
+# to use. With no file, the card simply shows text.
+# ---------------------------------------------------------------
+
+PHOTO_SERVICES = [
+    ("Romantic couple photoshoots in Srinagar", "Natural, relaxed couple portraits around Srinagar's lakes, gardens and viewpoints, planned around the light and the season."),
+    ("Cinematic Instagram Reels &amp; couple travel videos", "Short vertical reels and cinematic travel clips of your trip, framed for Instagram. Videos can be edited to music, subject to music licensing and availability."),
+    ("Pre-wedding photoshoots in Srinagar and Patnitop", "Pre-wedding and engagement shoots in Kashmir's lakes and gardens or in Patnitop's meadows and pine forests."),
+    ("Scenic photography around Srinagar", "Dal Lake, houseboats and permitted lakeside locations, Mughal Gardens, other gardens and mountain viewpoints."),
+    ("Patnitop forests, meadows and viewpoints", "Couple photoshoots among Patnitop's pine forests, open meadows and scenic viewpoints."),
+    ("Photography + taxi + sightseeing", "Custom packages that add a taxi and a sightseeing route to your shoot, where available, so pickup, locations and timings are planned together."),
+]
+
+SRINAGAR_LOCATIONS = [
+    ("srinagar-dal-lake", "Dal Lake and houseboats", "Shikaras, houseboats and mountain reflections make Dal Lake one of Kashmir's best-known backdrops. We confirm which lakeside spots and houseboats can be used for a shoot."),
+    ("srinagar-mughal-gardens", "Mughal Gardens", "Historic terraced gardens beside Dal Lake, such as Nishat Bagh and Shalimar Bagh, known for chinar trees, flowers and fountains in season. Entry rules and photography permissions vary, so we check first."),
+    ("srinagar-gardens-viewpoints", "Gardens and mountain viewpoints", "Other gardens and hillside viewpoints around the city, including the tulip garden when it is open in spring. What is possible depends on the time of year."),
+    ("srinagar-other", "Other Srinagar locations", "Have a place in mind? Tell us and we will say whether it can work for a couple shoot or reel."),
+]
+
+PATNITOP_LOCATIONS = [
+    ("patnitop-pine-forests", "Pine forests", "Tall pine-lined paths and quiet forest light, away from the main road."),
+    ("patnitop-meadows", "Meadows", "Open grassland at the heart of Patnitop, with wide mountain views."),
+    ("patnitop-viewpoints", "Nathatop and Sanasar viewpoints", "Nathatop is a panoramic viewpoint above Patnitop, and Sanasar is a bowl-shaped meadow valley a short drive away."),
+]
+
+PHOTO_PACKAGE_IDEAS = [
+    ("Photoshoot + taxi", "One plan for your pickup, your shoot locations and your drop, where available. Taxi from Srinagar, Katra, Jammu, Udhampur, Chenani or Kud can be included in the same quotation.", "taxi-services.html", "See taxi services"),
+    ("Srinagar shoot + sightseeing", "Combine your Srinagar couple shoot with a sightseeing route and a taxi, with one driver and one schedule.", "srinagar-taxi.html", "See Srinagar taxi"),
+    ("Patnitop shoot + sightseeing", "Shoot at Nathatop, Sanasar and the Patnitop meadows while you see the sights.", "patnitop-sightseeing.html", "See Patnitop sightseeing"),
+    ("A shoot in both Srinagar and Patnitop", "Ask about planning a trip that covers both places, with transport and stay discussed in the same conversation.", "tour-packages.html", "See J&amp;K tour packages"),
+]
+
+PHOTO_STEPS = [
+    ("Tell us your plan", "Send the form below, or the ready-made WhatsApp message, with your shoot type, date, location and how long you would like to shoot."),
+    ("We confirm the details", "We check photographer availability and confirm what is included, the price and when you will receive your photos or reel, before anything is booked."),
+    ("Plan the day", "We settle locations, timing and, if you want one, your taxi and sightseeing route."),
+    ("Enjoy the shoot", "Arrive, relax and enjoy Kashmir. Your finished photos or reel follow as agreed with you."),
+]
+
+PHOTO_FAQS = [
+    ("Do you offer a couple photographer in Srinagar?", "Patnitop Travels Hub can arrange a professional photographer for couple photoshoots in Srinagar, around places such as Dal Lake, houseboats, Mughal Gardens and mountain viewpoints. Send your date and shoot type on WhatsApp at 9103331334 and we will confirm availability."),
+    ("Do you arrange a couple photoshoot in Patnitop?", "Yes, we can arrange couple photoshoots in Patnitop's pine forests, meadows and viewpoints such as Nathatop and Sanasar. Share your date and preferred spot and we will confirm what can be arranged."),
+    ("Can you arrange a pre-wedding photographer in Kashmir?", "Yes. Pre-wedding and engagement shoots can be arranged in Srinagar and in Patnitop. Tell us your date, location and the look you want, and we will confirm what is possible."),
+    ("Do you make cinematic reels in Srinagar?", "You can ask for cinematic Instagram reels and couple travel videos in Srinagar and Patnitop, as photos, reels or both. Tell us what you want and we will include it in your quotation."),
+    ("How much does a couple photoshoot cost?", "There is no fixed price list. The cost depends on the shoot type, location, date, duration and whether you want photos, reels or both, so we send a customised quotation once you share your plan. Call or WhatsApp 9103331334."),
+    ("Can my reel be edited to music?", "We can edit short videos to music, subject to music licensing and availability. If you plan to post the video publicly, ask us which music can be used, because some popular songs are not licensed for every use."),
+    ("Which locations can we shoot at?", "In Srinagar, common choices are Dal Lake, houseboats and lakeside spots, Mughal Gardens, other gardens and mountain viewpoints. In Patnitop, they are the pine forests, meadows, Nathatop and Sanasar. Permissions, entry rules, timing and weather vary by place and season, so we confirm what is possible before the shoot."),
+    ("Can I add a taxi and sightseeing to my photoshoot?", "Yes, where available. Photography can be combined with a taxi and a sightseeing route in Srinagar or Patnitop, including pickup from Katra, Jammu, Udhampur, Chenani or Kud. Tell us you need a taxi and we will include it in the same quotation."),
+    ("Is an enquiry a confirmed booking?", "No. An enquiry is only a request. A shoot is confirmed only after we agree the date, inclusions and price with you directly."),
+]
+
+PHOTO_SHOOT_TYPES = [
+    "Couple photoshoot", "Pre-wedding shoot", "Engagement shoot",
+    "Cinematic reels / couple travel video", "Travel memories / honeymoon", "Something else / not sure yet",
+]
+PHOTO_LOCATION_CHOICES = [
+    "Srinagar: Dal Lake / houseboats", "Srinagar: gardens / viewpoints", "Patnitop (forests, meadows, viewpoints)",
+    "Both Srinagar and Patnitop", "Not sure, please suggest",
+]
+PHOTO_DURATIONS = ["A short session", "Half day", "Full day", "Not sure, please advise"]
+
+def _loc_cards(items, city):
+    out = ""
+    for slug, name, desc in items:
+        img = ""
+        if os.path.exists(os.path.join(ROOT, "images", "photography", f"{slug}.jpg")):
+            img = f'<img src="images/photography/{slug}.jpg" alt="Couple photoshoot location: {name}, {city}" loading="lazy" decoding="async">'
+        out += f'<div class="card place-card">{img}<h3>{name}</h3><p>{desc}</p></div>'
+    return out
+
+def build_photography():
+    service_cards = "".join(f'<div class="card service-card"><h3>{n}</h3><p>{d}</p></div>' for n, d in PHOTO_SERVICES)
+    srinagar_cards = _loc_cards(SRINAGAR_LOCATIONS, "Srinagar")
+    patnitop_cards = _loc_cards(PATNITOP_LOCATIONS, "Patnitop")
+    package_cards = "".join(
+        f'<div class="card service-card"><h3>{n}</h3><p>{d}</p><a class="card-link" href="{link}">{text} →</a></div>'
+        for n, d, link, text in PHOTO_PACKAGE_IDEAS
+    )
+    step_items = "".join(
+        f'<li class="photo-step"><span class="photo-step-num" aria-hidden="true">{i}</span><div><h3>{t}</h3><p>{d}</p></div></li>'
+        for i, (t, d) in enumerate(PHOTO_STEPS, start=1)
+    )
+    shoot_options = "".join(f"<option>{s}</option>" for s in PHOTO_SHOOT_TYPES)
+    location_options = "".join(f"<option>{s}</option>" for s in PHOTO_LOCATION_CHOICES)
+    duration_options = "".join(f"<option>{s}</option>" for s in PHOTO_DURATIONS)
+    wa_quote = wa_href(PHOTO_WA_MSG)
+
+    body = f'''
+<section class="photo-hero">
+  <div class="container">
+    <span class="eyebrow-plain">Srinagar · Patnitop · Kashmir</span>
+    <h1>Couple Photographer in Srinagar &amp; Patnitop</h1>
+    <p class="lede">Explore the beauty of Kashmir with professional couple photoshoots, cinematic Instagram Reels and pre-wedding photography in Srinagar and Patnitop, with an optional taxi and sightseeing plan from Patnitop Travels Hub.</p>
+    <div class="btn-row">
+      <a href="#enquiry" class="btn btn-primary">📸 Book a Couple Shoot</a>
+      <a href="{wa_quote}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+      <a href="#locations" class="btn btn-outline">Explore Shoot Locations</a>
+    </div>
+  </div>
+  {mountain_art()}
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">What we can arrange</span>
+      <h2>Couple photoshoots, reels and pre-wedding shoots in Kashmir</h2>
+      <p>Patnitop Travels Hub can arrange a professional photographer and videographer for your trip, so your time in Srinagar and Patnitop comes home as photos and videos you will want to keep.</p>
+    </div>
+    <div class="grid grid-3">{service_cards}</div>
+  </div>
+</section>
+
+<section class="section-alt" id="locations">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Srinagar</span>
+      <h2>Couple Photoshoot in Srinagar</h2>
+      <p>Looking for a couple photographer in Srinagar? We can arrange romantic couple shoots and cinematic reels in Srinagar around Dal Lake, houseboats, the Mughal Gardens and mountain viewpoints. Permissions, entry rules and conditions vary by place and season, so we confirm what is possible before your shoot.</p>
+    </div>
+    <div class="grid grid-4">{srinagar_cards}</div>
+    <p class="small" style="margin-top:18px;">Travelling to Srinagar? See our <a href="srinagar-taxi.html">Srinagar taxi service</a> and <a href="tour-packages.html">J&amp;K tour packages</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Cinematic reels</span>
+      <h2>Cinematic Reels in Srinagar and Patnitop</h2>
+      <p>Ask for short vertical reels and couple travel videos of your trip, as reels on their own or together with photographs. Videos can be edited to music, subject to music licensing and availability, so tell us if you plan to post publicly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Pre-wedding</span>
+      <h2>Pre-Wedding Photographer in Kashmir</h2>
+      <p>Pre-wedding and engagement shoots can be arranged in Srinagar, among the lakes and gardens, and in Patnitop, among meadows and pine forests. Share your date and the look you have in mind and we will confirm what can be arranged.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Patnitop</span>
+      <h2>Couple Photoshoot and Pre-Wedding Shoot in Patnitop</h2>
+      <p>A hill station in Jammu &amp; Kashmir, Patnitop offers pine forests, open meadows and wide mountain viewpoints for a couple photoshoot or a pre-wedding shoot in Patnitop. Our team is based locally in Patnitop.</p>
+    </div>
+    <div class="grid grid-3">{patnitop_cards}</div>
+    <p class="small" style="margin-top:18px;">Planning the rest of your Patnitop trip? See <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>, the <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a> and the <a href="nathatop-sanasar-taxi.html">Nathatop and Sanasar taxi</a>.</p>
+  </div>
+</section>
+
+<section class="section-alt" id="packages">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Custom photography packages</span>
+      <h2>Build your own shoot package</h2>
+      <p>Every shoot is planned around you, so we do not list fixed prices or package inclusions here. Tell us what you want and we will send a customised quotation. Taxi and sightseeing can be added where available.</p>
+    </div>
+    <div class="grid grid-2">{package_cards}</div>
+    <div class="btn-row">
+      <a href="#enquiry" class="btn btn-primary">📸 Request a Customised Quote</a>
+      <a href="{wa_quote}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">How it works</span>
+      <h2>From enquiry to shoot day</h2>
+    </div>
+    <ol class="photo-steps">{step_items}</ol>
+  </div>
+</section>
+
+<section class="section-alt" id="enquiry">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Couple shoot enquiry</span>
+      <h2>Book a couple shoot or ask for a quote</h2>
+      <p>Tell us a little about your shoot. You can also call <a href="tel:+91{PHONE}">{PHONE}</a>, email <a href="mailto:patnitoptravelshub@gmail.com">patnitoptravelshub@gmail.com</a> or <a href="{wa_quote}" target="_blank" rel="noopener">send the details on WhatsApp</a>.</p>
+    </div>
+    <div class="booking-panel">
+      <form id="photo-enquiry-form">
+        <div class="form-grid">
+          <div><label for="ph-name">Name</label><input id="ph-name" name="name" autocomplete="name" required></div>
+          <div><label for="ph-mobile">Mobile Number</label><input id="ph-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
+          <div><label for="ph-type">Shoot type</label><select id="ph-type" name="shoot_type">{shoot_options}</select></div>
+          <div><label for="ph-location">Location</label><select id="ph-location" name="location">{location_options}</select></div>
+          <div><label for="ph-date">Shoot date (optional)</label><input id="ph-date" name="preferred_date" type="date"></div>
+          <div><label for="ph-duration">Duration preference</label><select id="ph-duration" name="duration">{duration_options}</select></div>
+          <div><label for="ph-people">Number of people (optional)</label><input id="ph-people" name="people" type="number" min="1"></div>
+          <div>
+            <label>What would you like?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="deliverable" value="Photos"> Photos</label>
+              <label><input type="radio" name="deliverable" value="Reels"> Reels</label>
+              <label><input type="radio" name="deliverable" value="Photos and reels" checked> Both</label>
+            </div>
+          </div>
+          <div class="full">
+            <label>Do you also need a taxi?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="taxi" value="Yes"> Yes</label>
+              <label><input type="radio" name="taxi" value="No"> No</label>
+              <label><input type="radio" name="taxi" value="Not sure yet" checked> Not sure yet</label>
+            </div>
+          </div>
+          <div class="full"><label for="ph-message">Message (ideas, occasion, flexible dates)</label><textarea id="ph-message" name="message" rows="3"></textarea></div>
+          <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+          <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Send Couple Shoot Enquiry</button>
+        <p class="form-note">Submitting prepares a WhatsApp message with your details, which you send with one tap. This is an enquiry, not a confirmed booking: availability, price and what is included are confirmed with you directly. We use your details only to respond. See our <a href="privacy.html">Privacy page</a>.</p>
+      </form>
+      <div class="form-success" id="photo-form-success"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pine photo-cross">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Make it a complete trip</span>
+      <h2>Photography, taxi and stay from one place</h2>
+    </div>
+    <p>Arrange your <a href="srinagar-taxi.html">Srinagar taxi</a> or your pickup from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> or <a href="kudh-to-patnitop-taxi.html">Kud</a>, add a <a href="patnitop-sightseeing.html">sightseeing route</a>, and ask about <a href="hotel-booking.html">hotel booking help</a> in the same conversation.</p>
+    <div class="btn-row">
+      <a href="taxi-services.html" class="btn btn-outline">View Taxi Services</a>
+      <a href="tel:+91{PHONE}" class="btn btn-primary">📞 Call {PHONE}</a>
+    </div>
+  </div>
+</section>
+
+{faq_block(PHOTO_FAQS, "Couple Photoshoot FAQs")}
+'''
+    crumbs = [("Home", "index.html"), ("Couple Photoshoots", PHOTO_PATH)]
+    schemas = [
+        local_business_schema(),
+        breadcrumb_schema(crumbs),
+        service_schema(
+            "Couple photoshoot, reels and pre-wedding photography",
+            "Arranged couple photography, cinematic reels and pre-wedding shoots in Srinagar and Patnitop, quoted individually and optionally combined with taxi and sightseeing.",
+            ["Srinagar", "Patnitop", "Nathatop", "Sanasar"],
+        ),
+        faq_schema(PHOTO_FAQS),
+    ]
+    return page(
+        "Couple Photographer in Srinagar &amp; Patnitop | Pre-Wedding &amp; Reels",
+        "Couple photoshoots, pre-wedding shoots and cinematic reels in Srinagar and Patnitop, with optional taxi and sightseeing. Enquire on WhatsApp 9103331334.",
+        PHOTO_PATH, PHOTO_PATH, body,
+        breadcrumb_items=crumbs, schema_list=schemas
+    )
+
+write(PHOTO_PATH, build_photography())
 
 # ---------------------------------------------------------------
 # HOTEL BOOKING
@@ -1493,7 +1814,7 @@ def build_privacy():
     <h2>Who we are</h2>
     <p>Patnitop Travels Hub, run by Dileep Singh, Patnitop, Jammu &amp; Kashmir, India. Contact: <a href="tel:+91{PHONE}">{PHONE}</a> or <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
     <h2>What we collect</h2>
-    <p>Only what you choose to give us when you make an enquiry: your name, mobile number, trip details (pickup, drop, dates, passengers, vehicle), any message you write, and whether you tick the optional box allowing us to follow up.</p>
+    <p>Only what you choose to give us when you make an enquiry: your name, mobile number, trip details (pickup, drop, dates, passengers, vehicle) or photoshoot details (shoot type, location, date, duration preference, number of people), any message you write, and whether you tick the optional box allowing us to follow up.</p>
     <h2>How we use it</h2>
     <p>To reply to your enquiry, prepare a fare or itinerary, and, only if you ticked the follow-up box, to contact you again about that enquiry by call or WhatsApp. An enquiry is not a confirmed booking until we confirm it with you directly.</p>
     <h2>Where it goes</h2>
@@ -1507,7 +1828,7 @@ def build_privacy():
 '''
     return page(
         "Privacy Notice | Patnitop Travels Hub",
-        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel or product enquiry.",
+        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel, couple shoot or product enquiry.",
         "privacy.html", "", body,
         breadcrumb_items=[("Home", "index.html"), ("Privacy", "privacy.html")],
         schema_list=[breadcrumb_schema([("Home", "index.html"), ("Privacy", "privacy.html")])]
@@ -1612,7 +1933,7 @@ write("404.html", build_404())
 
 def build_sitemap_and_robots():
     paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [
-        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", "hotel-booking.html", "tour-packages.html",
+        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", PHOTO_PATH, "hotel-booking.html", "tour-packages.html",
         "vehicles.html", "faq.html", "contact.html", "privacy.html",
     ]
     if CONFIG["indexable_products_page"]:
