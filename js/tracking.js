@@ -11,6 +11,7 @@
 //   generate_lead    an enquiry was submitted      {lead_type, source}
 //   quote_request    a fare/itinerary was asked for {lead_type, source}
 //   product_enquiry  a product enquiry was made    {source}
+//   photography_enquiry  a photography enquiry was made {source}
 // "Confirmed booking" cannot be seen from the website — confirmation happens
 // on a call or WhatsApp. Record it by setting the lead's Status to Confirmed
 // in the lead sheet (see docs/SETUP.md).

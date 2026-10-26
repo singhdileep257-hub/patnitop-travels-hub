@@ -72,6 +72,7 @@ NAV_ITEMS = [
     ("index.html", "Home"),
     ("taxi-services.html", "Taxi Services"),
     ("patnitop-sightseeing.html", "Sightseeing"),
+    ("photographer-in-patnitop.html", "Photography"),
     ("hotel-booking.html", "Hotels"),
     ("tour-packages.html", "J&K Packages"),
     ("vehicles.html", "Vehicles"),
@@ -79,10 +80,51 @@ NAV_ITEMS = [
     ("contact.html", "Contact"),
 ]
 
+# Photography & reels service. The WhatsApp text is a fill-in-the-blanks
+# template, so the button works with no JavaScript and the customer can
+# state every detail we need for a customised quotation. No prices,
+# availability or package inclusions are written anywhere on the site.
+PHOTO_PATH = "photographer-in-patnitop.html"
+PHOTO_WA_MSG = (
+    "Hello Patnitop Travels Hub, I would like a quotation for a photography / reels shoot in Patnitop.\n"
+    "Name:\n"
+    "Shoot type (couple / pre-wedding / engagement / other):\n"
+    "Preferred date:\n"
+    "Number of people:\n"
+    "Preferred location (Patnitop / Nathatop / Sanasar / other):\n"
+    "Photos, reels or both:\n"
+    "Need a taxi as well (yes / no):"
+)
+
 def road_divider():
     return '''<svg class="road-divider" viewBox="0 0 1180 34" preserveAspectRatio="none" aria-hidden="true">
 <path d="M0 20 Q 150 4, 300 20 T 600 20 T 900 20 T 1180 20"/>
 </svg>'''
+
+def mountain_art():
+    # Original, decorative mountain silhouette (no photo, nothing copied).
+    return '''<svg class="photo-art" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+<path d="M0 120 L0 78 L130 38 L240 70 L380 20 L520 74 L660 34 L800 80 L940 28 L1070 66 L1200 40 L1200 120 Z" fill="rgba(247,245,239,0.10)"/>
+<path d="M0 120 L0 96 L160 62 L300 92 L450 52 L600 94 L760 58 L900 96 L1050 64 L1200 90 L1200 120 Z" fill="#F7F5EF"/>
+</svg>'''
+
+def photo_band():
+    # Homepage promo for the photography service. Real working WhatsApp link
+    # built at build time; the other two buttons go to the dedicated page.
+    return f'''<section class="photo-band" aria-labelledby="photo-band-title">
+  <div class="container">
+    <span class="eyebrow-plain">Photography &amp; reels</span>
+    <h2 id="photo-band-title">Capture Your Love in the Mountains</h2>
+    <p>Turn your Patnitop trip into beautiful memories. Book a professional photographer for couple photoshoots, cinematic travel reels and pre-wedding photography, with optional taxi and sightseeing packages.</p>
+    <div class="tag-list photo-tags"><span>Couple photoshoots</span><span>Cinematic reels</span><span>Pre-wedding &amp; engagement</span><span>Add a taxi or sightseeing tour</span></div>
+    <div class="btn-row">
+      <a href="{PHOTO_PATH}#enquiry" class="btn btn-primary">📸 Book a Photoshoot</a>
+      <a href="{wa_href(PHOTO_WA_MSG)}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+      <a href="{PHOTO_PATH}#packages" class="btn btn-outline">Explore Photography Packages</a>
+    </div>
+  </div>
+  {mountain_art()}
+</section>'''
 
 def head(title, description, canonical_path, extra_schema="", extra_meta="", robots="index, follow"):
     canonical = f"{SITE_URL}/{canonical_path}" if canonical_path != "index.html" else f"{SITE_URL}/"
@@ -281,6 +323,7 @@ def footer():
         <ul>
           <li><a href="taxi-services.html">Taxi Services</a></li>
           <li><a href="patnitop-sightseeing.html">Patnitop Sightseeing</a></li>
+          <li><a href="{PHOTO_PATH}">Photography &amp; Reels</a></li>
           <li><a href="things-to-do-in-patnitop.html">Things to Do in Patnitop</a></li>
           <li><a href="hotel-booking.html">Hotel Booking</a></li>
           <li><a href="tour-packages.html">J&amp;K Tour Packages</a></li>
@@ -477,6 +520,8 @@ def build_home():
   </div>
 </section>
 
+{photo_band()}
+
 {road_divider()}
 
 <section class="section-pine">
@@ -625,6 +670,7 @@ def build_taxi_services():
   <div class="container">
     <div class="section-head"><h2>One-way &amp; round-trip taxi service</h2></div>
     <p>We offer both one-way taxi drop and full round-trip taxi service for Patnitop, Katra, Jammu and onward destinations across Jammu &amp; Kashmir. Family and group transportation, including Tempo Traveller, can be arranged for larger parties.</p>
+    <p>Planning a couple trip or pre-wedding shoot? Your taxi can be combined with a <a href="{PHOTO_PATH}">Patnitop photoshoot and reels</a> arranged through us.</p>
     {cta_buttons()}
   </div>
 </section>
@@ -1095,7 +1141,7 @@ def build_sightseeing():
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Combine sightseeing with your taxi route</h2></div>
-    <p>Sightseeing can be added on to a <a href="katra-to-patnitop-taxi.html">Katra to Patnitop taxi</a>, <a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop taxi</a>, or arranged as a standalone half-day or full-day local taxi hire. <a href="nathatop-sanasar-taxi.html">See Nathatop &amp; Sanasar taxi details</a>.</p>
+    <p>Sightseeing can be added on to a <a href="katra-to-patnitop-taxi.html">Katra to Patnitop taxi</a>, <a href="jammu-to-patnitop-taxi.html">Jammu to Patnitop taxi</a>, or arranged as a standalone half-day or full-day local taxi hire. <a href="nathatop-sanasar-taxi.html">See Nathatop &amp; Sanasar taxi details</a>. Want photos or a reel of your trip? Ask about a <a href="{PHOTO_PATH}">photographer in Patnitop</a> alongside your sightseeing.</p>
   </div>
 </section>
 <section>
@@ -1173,7 +1219,7 @@ def build_things_to_do():
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Plan your trip with a local taxi</h2></div>
-    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kud</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>.</p>
+    <p>Reaching Patnitop: we run taxi service from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> and <a href="kudh-to-patnitop-taxi.html">Kud</a>. Once you are here, see our <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a>, or ask about <a href="hotel-booking.html">hotel booking help</a> and <a href="vehicles.html">vehicles</a>. Travelling as a couple? You can also ask about a <a href="{PHOTO_PATH}">photographer in Patnitop for couple photoshoots and reels</a>.</p>
   </div>
 </section>
 {faq_block(THINGS_TO_DO_FAQS, "Things to Do in Patnitop: FAQs")}
@@ -1188,6 +1234,220 @@ def build_things_to_do():
     )
 
 write("things-to-do-in-patnitop.html", build_things_to_do())
+
+# ---------------------------------------------------------------
+# PHOTOGRAPHY & REELS (couple photoshoots, pre-wedding, cinematic reels)
+# Honest by design: no prices, no fixed package inclusions, no delivery
+# times, no availability promises, no portfolio claims and no photos
+# that we do not own. Everything is "tell us your plan, we send a
+# customised quotation". The enquiry ends in a WhatsApp hand-off like
+# every other form on the site.
+# ---------------------------------------------------------------
+
+PHOTO_SERVICES = [
+    ("Couple photoshoots", "Relaxed, natural couple portraits in Patnitop and nearby scenic locations, shot around the light and the landscape."),
+    ("Instagram Reels &amp; cinematic couple videos", "Short vertical reels and cinematic travel clips of your trip, framed for Instagram and easy sharing."),
+    ("Pre-wedding &amp; engagement photography", "Pre-wedding and engagement shoots against mountain meadows, pine forest and open skies."),
+    ("Romantic mountain photoshoots", "Anniversary, honeymoon and proposal moments, and plain travel memories, for couples and small groups."),
+    ("Short videos edited to music", "Your clips can be cut to music, subject to music licensing and availability. Ask which tracks can be used if you plan to post publicly."),
+    ("Photography + taxi + sightseeing", "Add a taxi and a sightseeing route to your shoot so pickup, locations and timings are planned together."),
+]
+
+PHOTO_LOCATIONS = [
+    ("Patnitop", "Open meadows, pine-lined paths and wide mountain views at the heart of the hill station."),
+    ("Nathatop", "A panoramic viewpoint above Patnitop, popular for sweeping mountain views."),
+    ("Sanasar", "A bowl-shaped meadow valley a short drive from Patnitop."),
+    ("Other scenic spots nearby", "Tell us what you have in mind and we will say what is possible around Patnitop."),
+]
+
+PHOTO_PACKAGE_IDEAS = [
+    ("Photoshoot + taxi", "One plan for your pickup, your shoot locations and your drop. Taxi from Katra, Jammu, Udhampur, Chenani or Kud can be included in the same quotation.", "taxi-services.html", "See taxi services"),
+    ("Photoshoot + sightseeing tour", "Shoot at Nathatop, Sanasar and the Patnitop meadows while you see the sights, with one driver and one schedule.", "patnitop-sightseeing.html", "See sightseeing options"),
+    ("Photos + reels together", "Ask for photographs, reels or both from the same visit, so you get stills and short videos of the same moments.", "things-to-do-in-patnitop.html", "Things to do in Patnitop"),
+    ("Pre-wedding or engagement day", "A longer, planned shoot for a couple, with locations, timing and any hotel or taxi needs discussed beforehand.", "hotel-booking.html", "Hotel booking help"),
+]
+
+PHOTO_STEPS = [
+    ("Tell us your plan", "Send the form below, or the ready-made WhatsApp message, with your shoot type, date, group size and location."),
+    ("We confirm the details", "We check photographer availability and confirm what is included, the price and when you will receive your photos or reel, before anything is booked."),
+    ("Plan the day", "We settle locations, timing and, if you want one, your taxi and sightseeing route."),
+    ("Enjoy the shoot", "Arrive, relax and enjoy the mountains. Your finished photos or reel follow as agreed with you."),
+]
+
+PHOTO_FAQS = [
+    ("Do you offer a professional photographer in Patnitop?", "Patnitop Travels Hub can arrange a professional photographer for couple photoshoots, pre-wedding and engagement shoots, travel memories and short reels in Patnitop and nearby scenic locations. Send your shoot type, date and location on WhatsApp at 9103331334 and we will confirm availability."),
+    ("How much does a couple photoshoot in Patnitop cost?", "There is no fixed price list. The cost depends on the shoot type, date, location, group size and whether you want photos, reels or both, so we send a customised quotation once you share your plan. Call or WhatsApp 9103331334."),
+    ("Can I get Instagram reels as well as photos?", "Yes, you can ask for photos, reels or both. Tell us which you want and we will include it in your quotation."),
+    ("Can my reel be edited to music?", "We can edit short videos to music, subject to music licensing and availability. If you plan to post the video publicly, ask us which music can be used, because some popular songs are not licensed for every use."),
+    ("Which locations can we shoot at?", "Common choices are Patnitop, Nathatop and Sanasar, plus other scenic spots nearby. Permissions, timing and conditions can differ by place and season, so we confirm what is possible before the shoot."),
+    ("Can I add a taxi and sightseeing to my photoshoot?", "Yes. Photography can be combined with a taxi from Katra, Jammu, Udhampur, Chenani or Kud and with a local sightseeing route around Patnitop. Tell us you need a taxi and we will include it in the same quotation."),
+    ("Do you do pre-wedding and engagement shoots?", "Yes, pre-wedding and engagement photography is part of this service. Share your date and preferred location and we will confirm what can be arranged."),
+    ("Is an enquiry a confirmed booking?", "No. An enquiry is only a request. A shoot is confirmed only after we agree the date, inclusions and price with you directly."),
+]
+
+PHOTO_SHOOT_TYPES = [
+    "Couple photoshoot", "Pre-wedding shoot", "Engagement shoot",
+    "Romantic mountain shoot / travel memories", "Reels / cinematic video only", "Something else / not sure yet",
+]
+PHOTO_LOCATION_CHOICES = ["Patnitop", "Nathatop", "Sanasar", "Another scenic spot nearby", "Not sure, please suggest"]
+
+def build_photography():
+    service_cards = "".join(f'<div class="card service-card"><h3>{n}</h3><p>{d}</p></div>' for n, d in PHOTO_SERVICES)
+    location_cards = "".join(f'<div class="card place-card"><h3>{n}</h3><p>{d}</p></div>' for n, d in PHOTO_LOCATIONS)
+    package_cards = "".join(
+        f'<div class="card service-card"><h3>{n}</h3><p>{d}</p><a class="card-link" href="{link}">{text} →</a></div>'
+        for n, d, link, text in PHOTO_PACKAGE_IDEAS
+    )
+    step_items = "".join(
+        f'<li class="photo-step"><span class="photo-step-num" aria-hidden="true">{i}</span><div><h3>{t}</h3><p>{d}</p></div></li>'
+        for i, (t, d) in enumerate(PHOTO_STEPS, start=1)
+    )
+    shoot_options = "".join(f"<option>{s}</option>" for s in PHOTO_SHOOT_TYPES)
+    location_options = "".join(f"<option>{s}</option>" for s in PHOTO_LOCATION_CHOICES)
+    wa_quote = wa_href(PHOTO_WA_MSG)
+
+    body = f'''
+<section class="photo-hero">
+  <div class="container">
+    <span class="eyebrow-plain">Couple photoshoots · Reels · Pre-wedding</span>
+    <h1>Professional Photographer in Patnitop</h1>
+    <p class="lede">Turn your Patnitop trip into beautiful memories. Couple photoshoots, cinematic travel reels and pre-wedding photography in the mountains, with an optional taxi and sightseeing plan from Patnitop Travels Hub.</p>
+    <div class="btn-row">
+      <a href="#enquiry" class="btn btn-primary">📸 Book a Photoshoot</a>
+      <a href="{wa_quote}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+      <a href="#packages" class="btn btn-outline">Explore Photography Packages</a>
+    </div>
+  </div>
+  {mountain_art()}
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">What we can arrange</span>
+      <h2>Couple photoshoots and reels in the mountains</h2>
+      <p>Patnitop Travels Hub can arrange a professional photographer and videographer for your trip, so your visit to Patnitop comes home as photos and videos you will want to keep.</p>
+    </div>
+    <div class="grid grid-3">{service_cards}</div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Shoot locations</span>
+      <h2>Photoshoot locations in and around Patnitop</h2>
+      <p>Patnitop, Nathatop and Sanasar are the usual choices for couple photoshoots and pre-wedding shoots. Permissions, timing and conditions can differ by place and season, so we confirm what is possible before your shoot.</p>
+    </div>
+    <div class="grid grid-4">{location_cards}</div>
+    <p class="small" style="margin-top:18px;">Not sure where to go? See our guide to <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>, the <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a> or the <a href="nathatop-sanasar-taxi.html">Nathatop and Sanasar taxi</a>.</p>
+  </div>
+</section>
+
+<section id="packages">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Custom photography packages</span>
+      <h2>Build your own photoshoot package</h2>
+      <p>Every shoot is planned around you, so we do not list fixed prices or package inclusions here. Tell us what you want and we will send a customised quotation. You can combine photography with a taxi and a sightseeing tour.</p>
+    </div>
+    <div class="grid grid-2">{package_cards}</div>
+    <div class="btn-row">
+      <a href="#enquiry" class="btn btn-primary">📸 Request a Customised Quote</a>
+      <a href="{wa_quote}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Get a Quote on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">How it works</span>
+      <h2>From enquiry to shoot day</h2>
+    </div>
+    <ol class="photo-steps">{step_items}</ol>
+  </div>
+</section>
+
+<section id="enquiry">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Photography enquiry</span>
+      <h2>Book a photoshoot or ask for a quote</h2>
+      <p>Tell us a little about your shoot. You can also call <a href="tel:+91{PHONE}">{PHONE}</a> or <a href="{wa_quote}" target="_blank" rel="noopener">send the details on WhatsApp</a>.</p>
+    </div>
+    <div class="booking-panel">
+      <form id="photo-enquiry-form">
+        <div class="form-grid">
+          <div><label for="ph-name">Name</label><input id="ph-name" name="name" autocomplete="name" required></div>
+          <div><label for="ph-mobile">Mobile Number</label><input id="ph-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
+          <div><label for="ph-type">Shoot type</label><select id="ph-type" name="shoot_type">{shoot_options}</select></div>
+          <div><label for="ph-date">Preferred date (optional)</label><input id="ph-date" name="preferred_date" type="date"></div>
+          <div><label for="ph-people">Number of people</label><input id="ph-people" name="people" type="number" min="1" required></div>
+          <div><label for="ph-location">Preferred location</label><select id="ph-location" name="location">{location_options}</select></div>
+          <div class="full">
+            <label>What would you like?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="deliverable" value="Photos"> Photos</label>
+              <label><input type="radio" name="deliverable" value="Reels"> Reels</label>
+              <label><input type="radio" name="deliverable" value="Photos and reels" checked> Both</label>
+            </div>
+          </div>
+          <div class="full">
+            <label>Do you also need a taxi?</label>
+            <div class="radio-row">
+              <label><input type="radio" name="taxi" value="Yes"> Yes</label>
+              <label><input type="radio" name="taxi" value="No"> No</label>
+              <label><input type="radio" name="taxi" value="Not sure yet" checked> Not sure yet</label>
+            </div>
+          </div>
+          <div class="full"><label for="ph-message">Message (ideas, occasion, flexible dates)</label><textarea id="ph-message" name="message" rows="3"></textarea></div>
+          <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+          <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">Send Photography Enquiry</button>
+        <p class="form-note">Submitting prepares a WhatsApp message with your details, which you send with one tap. This is an enquiry, not a confirmed booking: availability, price and what is included are confirmed with you directly. We use your details only to respond. See our <a href="privacy.html">Privacy page</a>.</p>
+      </form>
+      <div class="form-success" id="photo-form-success"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pine photo-cross">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Make it a complete trip</span>
+      <h2>Photography, taxi and stay from one place</h2>
+    </div>
+    <p>Arrange your pickup from <a href="katra-to-patnitop-taxi.html">Katra</a>, <a href="jammu-to-patnitop-taxi.html">Jammu</a>, <a href="udhampur-to-patnitop-taxi.html">Udhampur</a>, <a href="chenani-to-patnitop-taxi.html">Chenani</a> or <a href="kudh-to-patnitop-taxi.html">Kud</a>, add a <a href="patnitop-sightseeing.html">sightseeing route</a>, and ask about <a href="hotel-booking.html">hotel booking help</a> in the same conversation.</p>
+    <div class="btn-row">
+      <a href="taxi-services.html" class="btn btn-outline">View Taxi Services</a>
+      <a href="tel:+91{PHONE}" class="btn btn-primary">📞 Call {PHONE}</a>
+    </div>
+  </div>
+</section>
+
+{faq_block(PHOTO_FAQS, "Photography and Reels FAQs")}
+'''
+    crumbs = [("Home", "index.html"), ("Photography", PHOTO_PATH)]
+    schemas = [
+        local_business_schema(),
+        breadcrumb_schema(crumbs),
+        service_schema(
+            "Couple photoshoot, reels and pre-wedding photography",
+            "Arranged photography and short video for couples and small groups in Patnitop, Nathatop, Sanasar and nearby scenic locations, quoted individually and optionally combined with taxi and sightseeing.",
+            ["Patnitop", "Nathatop", "Sanasar"],
+        ),
+        faq_schema(PHOTO_FAQS),
+    ]
+    return page(
+        "Professional Photographer in Patnitop | Couple Shoots, Reels &amp; Pre-Wedding",
+        "Book a professional photographer in Patnitop for couple photoshoots, cinematic reels and pre-wedding shoots, with optional taxi and sightseeing. Call 9103331334.",
+        PHOTO_PATH, PHOTO_PATH, body,
+        breadcrumb_items=crumbs, schema_list=schemas
+    )
+
+write(PHOTO_PATH, build_photography())
 
 # ---------------------------------------------------------------
 # HOTEL BOOKING
@@ -1493,7 +1753,7 @@ def build_privacy():
     <h2>Who we are</h2>
     <p>Patnitop Travels Hub, run by Dileep Singh, Patnitop, Jammu &amp; Kashmir, India. Contact: <a href="tel:+91{PHONE}">{PHONE}</a> or <a href="mailto:{EMAIL}">{EMAIL}</a>.</p>
     <h2>What we collect</h2>
-    <p>Only what you choose to give us when you make an enquiry: your name, mobile number, trip details (pickup, drop, dates, passengers, vehicle), any message you write, and whether you tick the optional box allowing us to follow up.</p>
+    <p>Only what you choose to give us when you make an enquiry: your name, mobile number, trip details (pickup, drop, dates, passengers, vehicle) or photoshoot details (shoot type, preferred date, number of people, location), any message you write, and whether you tick the optional box allowing us to follow up.</p>
     <h2>How we use it</h2>
     <p>To reply to your enquiry, prepare a fare or itinerary, and, only if you ticked the follow-up box, to contact you again about that enquiry by call or WhatsApp. An enquiry is not a confirmed booking until we confirm it with you directly.</p>
     <h2>Where it goes</h2>
@@ -1507,7 +1767,7 @@ def build_privacy():
 '''
     return page(
         "Privacy Notice | Patnitop Travels Hub",
-        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel or product enquiry.",
+        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel, photography or product enquiry.",
         "privacy.html", "", body,
         breadcrumb_items=[("Home", "index.html"), ("Privacy", "privacy.html")],
         schema_list=[breadcrumb_schema([("Home", "index.html"), ("Privacy", "privacy.html")])]
@@ -1612,7 +1872,7 @@ write("404.html", build_404())
 
 def build_sitemap_and_robots():
     paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [
-        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", "hotel-booking.html", "tour-packages.html",
+        "patnitop-sightseeing.html", "things-to-do-in-patnitop.html", PHOTO_PATH, "hotel-booking.html", "tour-packages.html",
         "vehicles.html", "faq.html", "contact.html", "privacy.html",
     ]
     if CONFIG["indexable_products_page"]:

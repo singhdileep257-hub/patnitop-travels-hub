@@ -196,6 +196,61 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Photography / reels enquiry form (separate from taxi bookings).
+  // Stored with type 'other' so the existing lead sheet accepts it without
+  // any change to the Apps Script; the shoot details are kept in Notes.
+  var phform = document.getElementById('photo-enquiry-form');
+  if (phform) {
+    phform.addEventListener('input', function (e) {
+      if (e.target && e.target.setCustomValidity) e.target.setCustomValidity('');
+    });
+    phform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(phform);
+      var get = function (k) { return (data.get(k) || '').toString().trim(); };
+      if (get('website')) { phform.reset(); return; }
+
+      var mobile = validMobile(phform);
+      if (!mobile) return;
+
+      var consent = get('consent_followup') === 'Yes' ? 'Yes' : 'No';
+      var leadId = window.ptvLead ? window.ptvLead.newId() : '';
+      var details = 'Shoot type: ' + get('shoot_type') + ' | Wants: ' + get('deliverable') +
+        ' | Taxi needed: ' + get('taxi') + (get('message') ? ' | Message: ' + get('message') : '');
+      var payload = {
+        lead_id: leadId, type: 'other', source: 'photography-form', service: 'Photography / reels enquiry',
+        name: get('name'), mobile: mobile, pickup: get('location'),
+        travel_date: get('preferred_date'), passengers: get('people'),
+        notes: details, consent_followup: consent
+      };
+      if (window.ptvLead) window.ptvLead.submit(payload);
+      if (window.ptvTrack) {
+        window.ptvTrack('photography_enquiry', { source: 'photography_form' });
+        window.ptvTrack('generate_lead', { lead_type: 'photography', source: 'photography_form' });
+        window.ptvTrack('quote_request', { lead_type: 'photography', source: 'photography_form' });
+      }
+
+      var lines = [
+        'PHOTOGRAPHY ENQUIRY (not a taxi booking) — Patnitop Travels Hub',
+        'Name: ' + payload.name,
+        'Mobile: ' + mobile,
+        'Shoot type: ' + get('shoot_type'),
+        'Preferred date: ' + (payload.travel_date || 'Flexible / not decided'),
+        'Number of people: ' + payload.passengers,
+        'Preferred location: ' + get('location'),
+        'Photos, reels or both: ' + get('deliverable'),
+        'Taxi needed: ' + get('taxi'),
+        'Message: ' + (get('message') || 'N/A'),
+        'OK to follow up: ' + consent,
+        'Ref: ' + leadId
+      ];
+      var waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+      showHandoff(document.getElementById('photo-form-success'), payload.name, waLink,
+        'Your photography enquiry is ready to send. Tap the button below to send it to us on WhatsApp.');
+      phform.reset();
+    });
+  }
+
   // Simple year stamp in footer
   var yearEl = document.getElementById('year');
   if (yearEl) { yearEl.textContent = new Date().getFullYear(); }
