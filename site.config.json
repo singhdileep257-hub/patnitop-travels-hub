@@ -1,9 +1,10 @@
 {
-  "_readme": "Edit these values, then run: python3 build.py  (and commit the regenerated files). Leave a value empty to keep that feature switched off. gbp_maps_url / gbp_review_url: paste the real links from your Google Business Profile once it is verified (see docs/GOOGLE_BUSINESS_PROFILE.md).",
+  "_readme": "Edit these values, then run: python3 build.py  (and commit the regenerated files). Leave a value empty to keep that feature switched off. gbp_maps_url / gbp_review_url: paste the real links from your Google Business Profile once it is verified (see docs/GOOGLE_BUSINESS_PROFILE.md). photographer_instagram_url: the photographer's own Instagram profile link (https://www.instagram.com/<username>/), shown in the couple-shoot page portfolio section only when filled in.",
   "site_url": "https://patnitoptravelshub.netlify.app",
   "ga4_measurement_id": "",
   "lead_endpoint": "",
   "indexable_products_page": false,
   "gbp_maps_url": "",
-  "gbp_review_url": ""
+  "gbp_review_url": "",
+  "photographer_instagram_url": ""
 }
