@@ -9,7 +9,7 @@ import json, os, re, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAGE = "couple-photoshoot-srinagar-patnitop.html"
-IG = "https://www.instagram.com/example.photographer/"
+IG = "https://www.instagram.com/patnitoptravelshub/"
 passed, failed = 0, []
 
 def check(name, cond, detail=""):
@@ -43,9 +43,9 @@ def build(site, images=(), ig="", files=()):
         json.dump({"images": list(images)}, fh)
     cfg_path = os.path.join(site, "site.config.json")
     cfg = json.load(open(cfg_path, encoding="utf-8"))
-    cfg["photographer_instagram_url"] = ig
+    cfg["business_instagram_url"] = ig
     json.dump(cfg, open(cfg_path, "w", encoding="utf-8"))
-    env = {k: v for k, v in os.environ.items() if k != "PHOTOGRAPHER_INSTAGRAM_URL"}
+    env = {k: v for k, v in os.environ.items() if k != "BUSINESS_INSTAGRAM_URL"}
     r = subprocess.run([sys.executable, os.path.join(site, "build.py")], capture_output=True, text=True, env=env)
     page = ""
     if r.returncode == 0:
@@ -84,7 +84,7 @@ with tempfile.TemporaryDirectory() as tmp:
     check("photos are grouped under Srinagar and Patnitop", "<h3>Srinagar</h3>" in page and "<h3>Patnitop</h3>" in page)
     check("photos carry alt text", 'alt="Couple photoshoot sri-1.jpg"' in page)
     check("credit shown only when given", page.count("<figcaption>") == 1 and "Photo: Test Photographer" in page)
-    check("Instagram profile link is kept, opens safely", f'href="{IG}"' in page and 'rel="noopener noreferrer"' in page)
+    check("business Instagram link is shown, opens safely", f'href="{IG}"' in page and 'rel="noopener noreferrer"' in page)
 
     print("One location only")
     os.remove(os.path.join(site, "images", "photography", "portfolio", "pat-1.jpg"))

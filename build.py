@@ -37,11 +37,11 @@ def _load_config():
         cfg[key] = os.environ.get(key.upper(), cfg.get(key, "")).strip()
         if cfg[key] and not cfg[key].startswith("https://"):
             raise SystemExit(f"{key} must be an https:// link (copy it from your Google Business Profile)")
-    cfg["photographer_instagram_url"] = os.environ.get(
-        "PHOTOGRAPHER_INSTAGRAM_URL", cfg.get("photographer_instagram_url", "")).strip()
-    if cfg["photographer_instagram_url"] and not re.match(
-            r"^https://(www\.)?instagram\.com/[A-Za-z0-9._]{1,30}/?(\?[^\s#]*)?$", cfg["photographer_instagram_url"]):
-        raise SystemExit("photographer_instagram_url must look like https://www.instagram.com/<username>/")
+    cfg["business_instagram_url"] = os.environ.get(
+        "BUSINESS_INSTAGRAM_URL", cfg.get("business_instagram_url", "")).strip()
+    if cfg["business_instagram_url"] and not re.match(
+            r"^https://(www\.)?instagram\.com/[A-Za-z0-9._]{1,30}/?(\?[^\s#]*)?$", cfg["business_instagram_url"]):
+        raise SystemExit("business_instagram_url must look like https://www.instagram.com/<username>/")
     if not re.match(r"^https?://[^/\s]+$", cfg["site_url"]):
         raise SystemExit("site_url in site.config.json must look like https://example.com (no trailing path)")
     if cfg["ga4_measurement_id"] and not re.match(r"^G-[A-Z0-9]{6,14}$", cfg["ga4_measurement_id"]):
@@ -56,7 +56,7 @@ GA4_ID = CONFIG["ga4_measurement_id"]
 LEAD_ENDPOINT = CONFIG["lead_endpoint"]
 GBP_MAPS_URL = CONFIG["gbp_maps_url"]      # your real Google Maps / Business Profile link (empty until it exists)
 GBP_REVIEW_URL = CONFIG["gbp_review_url"]  # your real "write a review" link (empty until it exists)
-PHOTOGRAPHER_INSTAGRAM_URL = CONFIG["photographer_instagram_url"]  # photographer's real profile link (empty = no link shown)
+BUSINESS_INSTAGRAM_URL = CONFIG["business_instagram_url"]  # Patnitop Travels Hub's own Instagram profile (empty = no link shown)
 PHONE = "9103331334"
 PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
@@ -1330,7 +1330,7 @@ def _loc_cards(items, city):
 # the file exists in images/photography/portfolio/. Nothing is ever picked up
 # just because a file is sitting in the folder. With no approved photos the
 # page shows a plain "coming soon" note. The Instagram link comes from
-# site.config.json (photographer_instagram_url) and is hidden while empty.
+# site.config.json (business_instagram_url) and is hidden while empty.
 # ---------------------------------------------------------------
 PORTFOLIO_URL_DIR = "images/photography/portfolio"
 PORTFOLIO_LOCATIONS = (("srinagar", "Srinagar"), ("patnitop", "Patnitop"))
@@ -1375,9 +1375,9 @@ def portfolio_section(wa_quote):
     esc = lambda s: _html.escape(str(s), quote=True)
     shown = load_portfolio()
     has_any = any(shown.values())
-    ig = PHOTOGRAPHER_INSTAGRAM_URL
+    ig = BUSINESS_INSTAGRAM_URL
     ig_link = (f'<a class="btn btn-outline" href="{esc(ig)}" target="_blank" rel="noopener noreferrer">'
-               f'View the photographer\'s Instagram profile →</a>') if ig else ""
+               f'Follow Patnitop Travels Hub on Instagram →</a>') if ig else ""
 
     if has_any:
         lede = "A selection of photographs by the photographer, shown with permission. Your own shoot is planned around you, so ask us for the look you have in mind."

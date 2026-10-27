@@ -114,7 +114,7 @@ for r in data["rates"]:
     for k in ("verified_on", "verified_by", "includes"):
         if not r.get(k): fail(f"rate missing {k}: {r}")
 
-# photographer portfolio: only approved photos, nothing stray, Instagram link only from config
+# portfolio: only approved photos, nothing stray, Instagram link only from config
 import html as _html
 PORT_DIR = os.path.join(ROOT, "images", "photography", "portfolio")
 manifest = json.load(open(os.path.join(ROOT, "data", "photographer-portfolio.json"), encoding="utf-8"))
@@ -138,7 +138,7 @@ has_placeholder = 'class="portfolio-placeholder"' in photo_raw
 if approved and has_placeholder: fail("portfolio: placeholder is shown although approved photos exist")
 if not approved and not has_placeholder: fail("portfolio: no approved photos, but the placeholder is missing")
 if 'id="portfolio"' not in photo_raw: fail("portfolio: section is missing from the couple-shoot page")
-ig_cfg = cfg.get("photographer_instagram_url", "").strip()
+ig_cfg = cfg.get("business_instagram_url", "").strip()
 for n, (p, raw) in parsed.items():
     ig_hrefs = [_html.unescape(h) for h in re.findall(r'href="([^"]*instagram\.com[^"]*)"', raw)]
     for h in ig_hrefs:
