@@ -11,3 +11,8 @@ Lead sheet: apps-script/lead-receiver.gs
 Full guide: docs/SETUP.md      (deploy, domain, Search Console, lead sheet, analytics)
 Photos:     images/photography/<slug>.jpg shows on the couple-shoot page cards (slugs in build.py).
             Add only photos you own or have written permission to use, then run build.py.
+Portfolio:  data/photographer-portfolio.json + images/photography/portfolio/ (couple-shoot page).
+            A photo shows ONLY with "approved": true plus who approved it and when; with none, a plain
+            "coming soon" note shows instead. The business Instagram link (Patnitop Travels Hub) is
+            business_instagram_url in site.config.json (hidden while empty).
+            python3 tests/portfolio.test.py checks all of this against throw-away copies of the site.

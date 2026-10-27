@@ -517,3 +517,24 @@ footer.site-footer a:hover { color: var(--saffron); }
   .photo-band { padding: 52px 0 112px; }
   .photo-hero .btn-row .btn, .photo-band .btn-row .btn { width: 100%; justify-content: center; }
 }
+
+/* Photographer portfolio (approved photos only; plain placeholder otherwise) */
+.portfolio { border-top: 1px solid var(--line); }
+.portfolio-group h3 { margin: 28px 0 14px; }
+.portfolio-group:first-of-type h3 { margin-top: 0; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.portfolio-item { margin: 0; background: var(--white); border: 1px solid var(--line); }
+.portfolio-item img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.portfolio-item figcaption { padding: 8px 12px; font-size: 0.8rem; color: var(--slate); }
+.portfolio-empty { margin: 0; color: var(--slate); font-size: 0.95rem; }
+.portfolio-actions { margin-top: 28px; }
+.portfolio-placeholder { max-width: 720px; margin: 0 auto; padding: 36px 28px; text-align: center; background: var(--snow); border: 1.5px dashed var(--line); }
+.portfolio-placeholder h3 { margin: 0 0 8px; }
+.portfolio-placeholder p { max-width: 56ch; margin: 0 auto 20px; color: var(--slate); }
+.portfolio-placeholder .btn-row { justify-content: center; }
+@media (max-width: 900px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) {
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .portfolio-placeholder { padding: 28px 18px; }
+  .portfolio-placeholder .btn-row .btn { width: 100%; justify-content: center; }
+}

@@ -37,6 +37,11 @@ def _load_config():
         cfg[key] = os.environ.get(key.upper(), cfg.get(key, "")).strip()
         if cfg[key] and not cfg[key].startswith("https://"):
             raise SystemExit(f"{key} must be an https:// link (copy it from your Google Business Profile)")
+    cfg["business_instagram_url"] = os.environ.get(
+        "BUSINESS_INSTAGRAM_URL", cfg.get("business_instagram_url", "")).strip()
+    if cfg["business_instagram_url"] and not re.match(
+            r"^https://(www\.)?instagram\.com/[A-Za-z0-9._]{1,30}/?(\?[^\s#]*)?$", cfg["business_instagram_url"]):
+        raise SystemExit("business_instagram_url must look like https://www.instagram.com/<username>/")
     if not re.match(r"^https?://[^/\s]+$", cfg["site_url"]):
         raise SystemExit("site_url in site.config.json must look like https://example.com (no trailing path)")
     if cfg["ga4_measurement_id"] and not re.match(r"^G-[A-Z0-9]{6,14}$", cfg["ga4_measurement_id"]):
@@ -51,6 +56,7 @@ GA4_ID = CONFIG["ga4_measurement_id"]
 LEAD_ENDPOINT = CONFIG["lead_endpoint"]
 GBP_MAPS_URL = CONFIG["gbp_maps_url"]      # your real Google Maps / Business Profile link (empty until it exists)
 GBP_REVIEW_URL = CONFIG["gbp_review_url"]  # your real "write a review" link (empty until it exists)
+BUSINESS_INSTAGRAM_URL = CONFIG["business_instagram_url"]  # Patnitop Travels Hub's own Instagram profile (empty = no link shown)
 PHONE = "9103331334"
 PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
@@ -1317,8 +1323,102 @@ def _loc_cards(items, city):
         out += f'<div class="card place-card">{img}<h3>{name}</h3><p>{desc}</p></div>'
     return out
 
+# ---------------------------------------------------------------
+# Photographer portfolio (Srinagar and Patnitop)
+# Source of truth: data/photographer-portfolio.json. A photo is shown ONLY
+# if its entry has "approved": true AND records who approved it and when AND
+# the file exists in images/photography/portfolio/. Nothing is ever picked up
+# just because a file is sitting in the folder. With no approved photos the
+# page shows a plain "coming soon" note. The Instagram link comes from
+# site.config.json (business_instagram_url) and is hidden while empty.
+# ---------------------------------------------------------------
+PORTFOLIO_URL_DIR = "images/photography/portfolio"
+PORTFOLIO_LOCATIONS = (("srinagar", "Srinagar"), ("patnitop", "Patnitop"))
+PORTFOLIO_FILE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*\.(jpe?g|png|webp)$", re.I)
+
+def load_portfolio():
+    """Return {location: [entry, ...]} containing ONLY approved, existing photos.
+    Entries that are not approved are ignored. An entry marked approved that is
+    incomplete, duplicated or missing its file stops the build, so a mistake in
+    the approval record is never hidden."""
+    shown = {key: [] for key, _ in PORTFOLIO_LOCATIONS}
+    path = os.path.join(ROOT, "data", "photographer-portfolio.json")
+    if not os.path.exists(path):
+        return shown
+    with open(path, encoding="utf-8") as f:
+        entries = json.load(f).get("images", [])
+    seen = set()
+    for i, e in enumerate(entries, start=1):
+        if not isinstance(e, dict) or e.get("approved") is not True:
+            continue
+        name = e.get("file", "")
+        label = f"photographer-portfolio.json entry {i} ({name or 'no file'})"
+        if not isinstance(name, str) or not PORTFOLIO_FILE_RE.match(name):
+            raise SystemExit(f"{label}: 'file' must be a plain .jpg/.jpeg/.png/.webp name inside images/photography/portfolio/")
+        if name.lower() in seen:
+            raise SystemExit(f"{label}: file is listed twice")
+        seen.add(name.lower())
+        if e.get("location") not in shown:
+            raise SystemExit(f"{label}: 'location' must be 'srinagar' or 'patnitop'")
+        for field in ("alt", "approved_by"):
+            if not isinstance(e.get(field), str) or not e[field].strip():
+                raise SystemExit(f"{label}: approved photos need a non-empty '{field}'")
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(e.get("approved_on", ""))):
+            raise SystemExit(f"{label}: 'approved_on' must be a date like 2026-11-01")
+        if not os.path.isfile(os.path.join(ROOT, "images", "photography", "portfolio", name)):
+            raise SystemExit(f"{label}: approved, but the file is missing from images/photography/portfolio/")
+        shown[e["location"]].append(e)
+    return shown
+
+def portfolio_section(wa_quote):
+    import html as _html
+    esc = lambda s: _html.escape(str(s), quote=True)
+    shown = load_portfolio()
+    has_any = any(shown.values())
+    ig = BUSINESS_INSTAGRAM_URL
+    ig_link = (f'<a class="btn btn-outline" href="{esc(ig)}" target="_blank" rel="noopener noreferrer">'
+               f'Follow Patnitop Travels Hub on Instagram →</a>') if ig else ""
+
+    if has_any:
+        lede = "A selection of photographs by the photographer, shown with permission. Your own shoot is planned around you, so ask us for the look you have in mind."
+        groups = ""
+        for key, city in PORTFOLIO_LOCATIONS:
+            items = shown[key]
+            if items:
+                figs = "".join(
+                    f'<figure class="portfolio-item"><img src="{PORTFOLIO_URL_DIR}/{esc(e["file"])}" alt="{esc(e["alt"])}" loading="lazy" decoding="async">'
+                    + (f'<figcaption>Photo: {esc(e["credit"])}</figcaption>' if str(e.get("credit", "")).strip() else "")
+                    + '</figure>'
+                    for e in items
+                )
+                body = f'<div class="portfolio-grid">{figs}</div>'
+            else:
+                body = f'<p class="portfolio-empty">Photographs from {city} will be added soon.</p>'
+            groups += f'<div class="portfolio-group"><h3>{city}</h3>{body}</div>'
+        actions = f'<div class="btn-row portfolio-actions">{ig_link}</div>' if ig_link else ""
+        inner = groups + actions
+    else:
+        lede = "We are putting together a selection of photographs for Srinagar and Patnitop that the photographer and the people in them have approved for display."
+        inner = (
+            '<div class="portfolio-placeholder">'
+            '<h3>Portfolio coming soon</h3>'
+            '<p>Until the photographs are ready, tell us the look and locations you have in mind and we will plan your shoot with you.</p>'
+            f'<div class="btn-row"><a href="{wa_quote}" class="btn btn-whatsapp" target="_blank" rel="noopener">💬 Ask on WhatsApp</a>{ig_link}</div>'
+            '</div>'
+        )
+    return f'''<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Portfolio</span>
+      <h2>Photographer Portfolio: Srinagar and Patnitop</h2>
+      <p>{lede}</p>
+    </div>
+    {inner}
+  </div>
+</section>'''
+
 def build_photography():
-    service_cards = "".join(f'<div class="card service-card"><h3>{n}</h3><p>{d}</p></div>' for n, d in PHOTO_SERVICES)
+    service_cards ="".join(f'<div class="card service-card"><h3>{n}</h3><p>{d}</p></div>' for n, d in PHOTO_SERVICES)
     srinagar_cards = _loc_cards(SRINAGAR_LOCATIONS, "Srinagar")
     patnitop_cards = _loc_cards(PATNITOP_LOCATIONS, "Patnitop")
     package_cards = "".join(
@@ -1333,6 +1433,7 @@ def build_photography():
     location_options = "".join(f"<option>{s}</option>" for s in PHOTO_LOCATION_CHOICES)
     duration_options = "".join(f"<option>{s}</option>" for s in PHOTO_DURATIONS)
     wa_quote = wa_href(PHOTO_WA_MSG)
+    portfolio_block = portfolio_section(wa_quote)
 
     body = f'''
 <section class="photo-hero">
@@ -1403,6 +1504,8 @@ def build_photography():
     <p class="small" style="margin-top:18px;">Planning the rest of your Patnitop trip? See <a href="things-to-do-in-patnitop.html">things to do in Patnitop</a>, the <a href="patnitop-sightseeing.html">Patnitop sightseeing taxi</a> and the <a href="nathatop-sanasar-taxi.html">Nathatop and Sanasar taxi</a>.</p>
   </div>
 </section>
+
+{portfolio_block}
 
 <section class="section-alt" id="packages">
   <div class="container">

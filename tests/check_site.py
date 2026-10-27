@@ -114,6 +114,40 @@ for r in data["rates"]:
     for k in ("verified_on", "verified_by", "includes"):
         if not r.get(k): fail(f"rate missing {k}: {r}")
 
+# portfolio: only approved photos, nothing stray, Instagram link only from config
+import html as _html
+PORT_DIR = os.path.join(ROOT, "images", "photography", "portfolio")
+manifest = json.load(open(os.path.join(ROOT, "data", "photographer-portfolio.json"), encoding="utf-8"))
+approved = [e for e in manifest.get("images", []) if isinstance(e, dict) and e.get("approved") is True]
+approved_files = set()
+for e in approved:
+    for k in ("file", "location", "alt", "approved_by", "approved_on"):
+        if not str(e.get(k, "")).strip(): fail(f"portfolio: approved entry {e.get('file')!r} is missing {k!r}")
+    if e.get("location") not in ("srinagar", "patnitop"): fail(f"portfolio: {e.get('file')!r} has bad location {e.get('location')!r}")
+    if not os.path.isfile(os.path.join(PORT_DIR, str(e.get("file", "")))): fail(f"portfolio: approved file {e.get('file')!r} is missing")
+    approved_files.add(e.get("file"))
+if os.path.isdir(PORT_DIR):
+    for fn in os.listdir(PORT_DIR):
+        if re.search(r"\.(jpe?g|png|webp|gif|avif|heic)$", fn, re.I) and fn not in approved_files:
+            fail(f"portfolio: {fn} is in images/photography/portfolio/ but has no approved entry (remove it, it would be publicly reachable)")
+photo_raw = parsed["couple-photoshoot-srinagar-patnitop.html"][1]
+shown_files = re.findall(r'<img src="images/photography/portfolio/([^"]+)"', photo_raw)
+if sorted(_html.unescape(s) for s in shown_files) != sorted(approved_files):
+    fail(f"portfolio: page shows {sorted(shown_files)} but approved set is {sorted(approved_files)} (re-run build.py)")
+has_placeholder = 'class="portfolio-placeholder"' in photo_raw
+if approved and has_placeholder: fail("portfolio: placeholder is shown although approved photos exist")
+if not approved and not has_placeholder: fail("portfolio: no approved photos, but the placeholder is missing")
+if 'id="portfolio"' not in photo_raw: fail("portfolio: section is missing from the couple-shoot page")
+ig_cfg = cfg.get("business_instagram_url", "").strip()
+for n, (p, raw) in parsed.items():
+    ig_hrefs = [_html.unescape(h) for h in re.findall(r'href="([^"]*instagram\.com[^"]*)"', raw)]
+    for h in ig_hrefs:
+        if h != ig_cfg: fail(f"{n}: Instagram link {h!r} does not come from site.config.json")
+    if n == "couple-photoshoot-srinagar-patnitop.html":
+        if ig_cfg and ig_hrefs != [ig_cfg]: fail("portfolio: the configured Instagram profile link is missing from the page")
+        if ig_cfg and 'rel="noopener noreferrer"' not in raw: fail("portfolio: Instagram link needs rel=noopener noreferrer")
+        if not ig_cfg and ig_hrefs: fail("portfolio: an Instagram link is shown although none is configured")
+
 print(f"checked {len(parsed)} pages, {len(locs)} sitemap URLs, {len(data['rates'])} verified rates")
 if failures:
     print("\nFAILED:"); [print(" -", f) for f in failures]; sys.exit(1)
