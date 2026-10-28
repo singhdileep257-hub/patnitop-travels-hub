@@ -52,7 +52,6 @@ LEAD_ENDPOINT = CONFIG["lead_endpoint"]
 GBP_MAPS_URL = CONFIG["gbp_maps_url"]      # your real Google Maps / Business Profile link (empty until it exists)
 GBP_REVIEW_URL = CONFIG["gbp_review_url"]  # your real "write a review" link (empty until it exists)
 PHONE = "9103331334"
-PHONE2 = "8493988568"
 PHONE_INTL = "+919103331334"
 EMAIL = "singhdileep257@gmail.com"
 
@@ -353,7 +352,6 @@ def footer():
         <ul>
           <li>Dileep Singh</li>
           <li><a href="tel:+91{PHONE}">{PHONE}</a></li>
-          <li><a href="tel:+91{PHONE2}">{PHONE2}</a></li>
           <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
           <li>Patnitop, Jammu &amp; Kashmir, India</li>{(f'{chr(10)}          <li><a href="{GBP_MAPS_URL}" target="_blank" rel="noopener">📍 Find us on Google Maps</a></li>') if GBP_MAPS_URL else ''}
         </ul>
@@ -443,7 +441,7 @@ GLOBAL_FAQS = [
     ("Do you provide Patnitop sightseeing?", "Yes, we provide local sightseeing taxi service covering Patnitop, Nathatop, Sanasar and nearby attractions."),
     ("Can I hire a taxi for Srinagar or Bhaderwah?", "Yes, our team can arrange taxi and travel assistance to Srinagar, Bhaderwah, Gulmarg, Pahalgam, Sonamarg and other destinations across Jammu &amp; Kashmir, subject to availability."),
     ("Do you provide Tempo Traveller?", "Yes, Tempo Traveller service is available for group and family travel. Call us to check current availability and fare."),
-    ("How can I contact Dileep Singh?", "You can call or WhatsApp Dileep Singh at 9103331334 (alternate number 8493988568) or email singhdileep257@gmail.com."),
+    ("How can I contact Dileep Singh?", "You can call or WhatsApp Dileep Singh at 9103331334 or email singhdileep257@gmail.com."),
 ]
 
 # ---------------------------------------------------------------
@@ -1719,7 +1717,6 @@ def build_contact():
         <p><strong>Patnitop Travels Hub</strong><br>Dileep Singh<br>Patnitop, Jammu &amp; Kashmir, India</p>
         <p>
           📞 <a href="tel:+91{PHONE}">{PHONE}</a><br>
-          📞 <a href="tel:+91{PHONE2}">{PHONE2}</a><br>
           ✉️ <a href="mailto:{EMAIL}">{EMAIL}</a><br>
           ✉️ <a href="mailto:patnitoptravelshub@gmail.com">patnitoptravelshub@gmail.com</a>
         </p>
@@ -1776,7 +1773,7 @@ def build_contact():
     schemas = [local_business_schema(), breadcrumb_schema([("Home", "index.html"), ("Contact", "contact.html")])]
     return page(
         "Contact Patnitop Travels Hub | Book a Taxi or Hotel",
-        "Contact Dileep Singh at Patnitop Travels Hub — call 9103331334 or 8493988568, WhatsApp, or fill the booking form for taxi and hotel enquiries.",
+        "Contact Dileep Singh at Patnitop Travels Hub — call or WhatsApp 9103331334, or fill the booking form for taxi and hotel enquiries.",
         "contact.html", "contact.html", body,
         breadcrumb_items=[("Home", "index.html"), ("Contact", "contact.html")],
         schema_list=schemas
@@ -2036,7 +2033,6 @@ def build_agent_data():
     data = {
         "whatsappNumber": WA_NUMBER,
         "phone": PHONE,
-        "phone2": PHONE2,
         "businessName": "Patnitop Travels Hub",
         "leadEndpoint": LEAD_ENDPOINT,
         "privacyPath": "privacy.html",
