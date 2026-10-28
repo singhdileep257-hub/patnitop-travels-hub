@@ -4,7 +4,6 @@
 var AGENT_DATA = {
   "whatsappNumber": "919103331334",
   "phone": "9103331334",
-  "phone2": "8493988568",
   "businessName": "Patnitop Travels Hub",
   "leadEndpoint": "",
   "privacyPath": "privacy.html",
@@ -500,7 +499,7 @@ var AGENT_DATA = {
     },
     {
       "q": "How can I contact Dileep Singh?",
-      "a": "You can call or WhatsApp Dileep Singh at 9103331334 (alternate number 8493988568) or email singhdileep257@gmail.com."
+      "a": "You can call or WhatsApp Dileep Singh at 9103331334 or email singhdileep257@gmail.com."
     }
   ],
   "rates": []

@@ -81,7 +81,8 @@ for n, (p, raw) in parsed.items():
     for bad in ("priceRange", "aggregateRating", "AggregateRating", '"review"', "★", "₹", " Rs.", "Rs "):
         if bad in raw: fail(f"{n}: contains unverified-claim marker {bad!r}")
     for num in re.findall(r"tel:\+?(\d+)", raw):
-        if num not in ("919103331334", "918493988568"): fail(f"{n}: unexpected phone number {num}")
+        if num != "919103331334": fail(f"{n}: unexpected phone number {num}")
+    if "8493988568" in raw: fail(f"{n}: removed alternate phone number 8493988568 is still present")
     for num in re.findall(r"wa\.me/(\d+)", raw):
         if num != "919103331334": fail(f"{n}: unexpected WhatsApp number {num}")
     if "PRODUCT" in raw.upper() and n not in ("local-products-enquiry.html", "404.html"):
