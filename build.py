@@ -340,6 +340,11 @@ def footer():
           <li><a href="kudh-to-patnitop-taxi.html">Kud to Patnitop Taxi</a></li>
           <li><a href="nathatop-sanasar-taxi.html">Nathatop &amp; Sanasar Taxi</a></li>
           <li><a href="srinagar-taxi.html">Srinagar Taxi</a></li>
+          <li><a href="gulmarg-taxi.html">Gulmarg Taxi</a></li>
+          <li><a href="pahalgam-taxi.html">Pahalgam Taxi</a></li>
+          <li><a href="sonamarg-taxi.html">Sonamarg Taxi</a></li>
+          <li><a href="doodhpathri-taxi.html">Doodhpathri Taxi</a></li>
+          <li><a href="yusmarg-taxi.html">Yusmarg Taxi</a></li>
           <li><a href="bhaderwah-taxi.html">Bhaderwah Taxi</a></li>
           <li><a href="sudh-mahadev-taxi.html">Sudh Mahadev Taxi</a></li>
           <li><a href="mantalai-taxi.html">Mantalai Taxi</a></li>
@@ -399,10 +404,12 @@ def write(path, content):
 # Reusable content blocks
 # ---------------------------------------------------------------
 
-def cta_buttons(context="general"):
+def cta_buttons(context="general", wa_message=None):
+    import html as _h
+    wa_attr = f' data-wa-message="{_h.escape(wa_message, quote=True)}"' if wa_message else ""
     return f'''<div class="btn-row">
   <a href="tel:+91{PHONE}" class="btn btn-pine">📞 Call Now</a>
-  <a href="{wa_href()}" data-whatsapp class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp Now</a>
+  <a href="{wa_href(wa_message)}" data-whatsapp{wa_attr} class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp Now</a>
   <a href="contact.html#booking-form" class="btn btn-primary">🚕 Book a Taxi</a>
 </div>'''
 
@@ -546,7 +553,7 @@ def build_home():
     <p>Beyond Patnitop, we provide taxi and travel assistance across Jammu &amp; Kashmir, including Bhaderwah, Srinagar, Gulmarg, Pahalgam, Sonamarg, Doodhpathri and Yusmarg. Exact itinerary and fare depend on your travel dates, chosen vehicle, group size and destination — call or WhatsApp us to plan yours.</p>
     <div class="tag-list">
       <span>Patnitop</span><span>Katra</span><span>Jammu</span><span>Bhaderwah</span><span>Srinagar</span>
-      <span>Gulmarg</span><span>Pahalgam</span><span>Sonamarg</span><span>Doodhpathri</span><span>Yusmarg</span>
+      <span><a href="gulmarg-taxi.html">Gulmarg</a></span><span><a href="pahalgam-taxi.html">Pahalgam</a></span><span><a href="sonamarg-taxi.html">Sonamarg</a></span><span><a href="doodhpathri-taxi.html">Doodhpathri</a></span><span><a href="yusmarg-taxi.html">Yusmarg</a></span>
     </div>
     <div class="btn-row"><a href="tour-packages.html" class="btn btn-pine">Explore Tour Packages</a></div>
   </div>
@@ -634,6 +641,11 @@ TAXI_SERVICES = [
     ("Patnitop Sightseeing Taxi", "Local taxi for Nathatop, Sanasar and nearby attractions.", "patnitop-sightseeing.html"),
     ("Nathatop &amp; Sanasar Taxi", "Dedicated taxi service for the Nathatop and Sanasar viewpoints.", "nathatop-sanasar-taxi.html"),
     ("Srinagar Taxi", "Taxi service from Patnitop or Jammu towards Srinagar.", "srinagar-taxi.html"),
+    ("Gulmarg Taxi", "Taxi enquiries to Gulmarg from Jammu, Katra and Udhampur, subject to availability.", "gulmarg-taxi.html"),
+    ("Pahalgam Taxi", "Taxi enquiries to Pahalgam from Jammu, Katra and Udhampur, subject to availability.", "pahalgam-taxi.html"),
+    ("Sonamarg Taxi", "Taxi enquiries to Sonamarg from Jammu, Katra and Udhampur, subject to availability.", "sonamarg-taxi.html"),
+    ("Doodhpathri Taxi Enquiry", "Ask about a taxi to Doodhpathri from Jammu, Katra and Udhampur; availability is confirmed first.", "doodhpathri-taxi.html"),
+    ("Yusmarg Taxi Enquiry", "Ask about a taxi to Yusmarg from Jammu, Katra and Udhampur; availability is confirmed first.", "yusmarg-taxi.html"),
     ("Bhaderwah Taxi", "Taxi service to Bhaderwah from Patnitop and Jammu.", "bhaderwah-taxi.html"),
     ("Sudh Mahadev Taxi", "Taxi to the ancient Sudh Mahadev temple from Patnitop, Jammu and Katra.", "sudh-mahadev-taxi.html"),
     ("Mantalai Taxi", "Taxi to Mantalai, the place linked in local belief to the Shiv-Parvati wedding.", "mantalai-taxi.html"),
@@ -690,7 +702,7 @@ write("taxi-services.html", build_taxi_services())
 # ROUTE / KEYWORD LANDING PAGES (shared template)
 # ---------------------------------------------------------------
 
-def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs, active="taxi-services.html", crumb_name=None, related=None, area_served=None):
+def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs, active="taxi-services.html", crumb_name=None, related=None, area_served=None, wa_message=None, vehicles_html=None):
     points_html = "".join(f'<li>{p}</li>' for p in points)
     paras = "".join(f'<p>{p}</p>' for p in intro_paragraphs)
     related = related or [("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")]
@@ -706,13 +718,13 @@ def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs,
   <div class="container">
     {paras}
     <ul>{points_html}</ul>
-    {cta_buttons()}
+    {cta_buttons(wa_message=wa_message)}
   </div>
 </section>
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Vehicles available</h2></div>
-    <p>Dzire, Ertiga, Innova / Toyota Crysta and Tempo Traveller are commonly available for this route, depending on your group size. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>
+    {vehicles_html or '<p>Dzire, Ertiga, Innova / Toyota Crysta and Tempo Traveller are commonly available for this route, depending on your group size. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>'}
   </div>
 </section>
 <section>
@@ -961,7 +973,7 @@ ROUTES = [
             ("Can this be combined with Gulmarg or Pahalgam?", "Yes, this can be arranged as part of a wider Jammu &amp; Kashmir tour — see our tour packages page for more."),
         ],
         crumb_name="Srinagar Taxi",
-        related=[("J&K Tour Packages", "tour-packages.html"), ("Couple Photoshoots in Srinagar", PHOTO_PATH), ("Bhaderwah Taxi", "bhaderwah-taxi.html"), ("Vehicles", "vehicles.html")],
+        related=[("J&K Tour Packages", "tour-packages.html"), ("Couple Photoshoots in Srinagar", PHOTO_PATH), ("Gulmarg Taxi", "gulmarg-taxi.html"), ("Pahalgam Taxi", "pahalgam-taxi.html"), ("Sonamarg Taxi", "sonamarg-taxi.html"), ("Bhaderwah Taxi", "bhaderwah-taxi.html"), ("Vehicles", "vehicles.html")],
         area_served=["Srinagar", "Patnitop", "Jammu"],
         active="taxi-services.html",
         agent_label="Srinagar Taxi",
@@ -1094,12 +1106,131 @@ ROUTES = [
     ),
 ]
 
+# ---------------------------------------------------------------
+# KASHMIR TAXI PAGES: Gulmarg, Pahalgam, Sonamarg, Doodhpathri, Yusmarg
+# Written to be honest by design:
+#   - pickup ENQUIRIES from Jammu, Katra and Udhampur only
+#   - no fares anywhere: the rate is given on call/WhatsApp (9103331334)
+#   - trips are "arranged using our vehicles and partner drivers", never
+#     "all vehicles are ours"
+#   - no claims about permits, local sightseeing, entry rules or opening
+#     seasons: those are "confirmed when you enquire"
+#   - Doodhpathri and Yusmarg are ENQUIRY-ONLY pages: we say we confirm
+#     whether we can arrange the trip, and the Service schema does not list
+#     them as an area served
+#   - no distances, drive times or "how to reach" route claims
+# tests/check_site.py enforces these rules on all five pages.
+# ---------------------------------------------------------------
+KASHMIR_PICKUPS = "Jammu, Katra and Udhampur"
+
+# (id, slug, display name, about-the-place sentence, enquiry_only)
+KASHMIR_DESTINATIONS = [
+    ("gulmarg", "gulmarg-taxi.html", "Gulmarg",
+     "Gulmarg is a high meadow resort in the Pir Panjal range of Kashmir, known for its open meadows in summer, snow in winter and its gondola cable car.",
+     False),
+    ("pahalgam", "pahalgam-taxi.html", "Pahalgam",
+     "Pahalgam is a valley town on the Lidder river in south Kashmir, known for its pine forests, meadows and nearby valleys such as Aru and Betaab.",
+     False),
+    ("sonamarg", "sonamarg-taxi.html", "Sonamarg",
+     "Sonamarg is a mountain valley on the Sind river in Kashmir, known for its alpine meadows and the Thajiwas Glacier.",
+     False),
+    ("doodhpathri", "doodhpathri-taxi.html", "Doodhpathri",
+     "Doodhpathri is a quiet meadow destination in Kashmir's Budgam district, known for its green meadows, pine forests and streams.",
+     True),
+    ("yusmarg", "yusmarg-taxi.html", "Yusmarg",
+     "Yusmarg is a meadow destination in Kashmir's Budgam district, known for its pine forests and open green meadows.",
+     True),
+]
+
+def _kashmir_route(idx):
+    rid, path, name, about, enquiry_only = KASHMIR_DESTINATIONS[idx]
+    peers = [KASHMIR_DESTINATIONS[(idx + k) % len(KASHMIR_DESTINATIONS)] for k in (1, 2)]
+    if enquiry_only:
+        intro_1 = (f"Interested in {name}? Send us your plan and Patnitop Travels Hub will confirm whether we can arrange a taxi to {name} "
+                   f"for your dates, pickup point and group size. Where we can, the trip is arranged using our vehicles and partner drivers, "
+                   f"and nothing is booked until we confirm it with you.")
+        title = f"{name} Taxi Enquiry | Jammu, Katra &amp; Udhampur | Patnitop Travels Hub"
+        meta = (f"Taxi enquiries for {name} from Jammu, Katra and Udhampur. Call or WhatsApp 9103331334 and we confirm availability "
+                f"and the current rate before booking.")
+        h1 = f"{name} Taxi Enquiry"
+        point_1 = f"Taxi enquiries for {name}, with availability confirmed before booking"
+        faq_1 = (f"Can I get a taxi to {name} from Jammu, Katra or Udhampur?",
+                 f"You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm "
+                 f"whether we can arrange the trip, and how, before anything is booked.")
+        areas = ["Jammu", "Katra", "Udhampur"]
+        vehicles_html = ('<p>Which vehicle suits your trip depends on your group size and on availability, and we confirm it when you enquire. '
+                         '<a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current rate.</p>')
+    else:
+        vehicles_html = None
+        intro_1 = (f"Patnitop Travels Hub can arrange a taxi to {name} for travellers setting off from Jammu, Katra or Udhampur, subject to availability. "
+                   f"Trips are arranged using our vehicles and partner drivers, and the vehicle, driver and rate are confirmed with you before anything is booked.")
+        title = f"{name} Taxi from Jammu, Katra &amp; Udhampur | Patnitop Travels Hub"
+        meta = (f"Taxi to {name} from Jammu, Katra and Udhampur with Patnitop Travels Hub, subject to availability. "
+                f"Call or WhatsApp 9103331334 for the current rate.")
+        h1 = f"{name} Taxi Service"
+        point_1 = f"Taxi to {name}, subject to availability"
+        faq_1 = (f"Can I get a taxi to {name} from Jammu, Katra or Udhampur?",
+                 f"You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm "
+                 f"availability and the plan with you.")
+        areas = [name, "Jammu", "Katra", "Udhampur"]
+    intro_2 = about
+    intro_3 = (f"We do not publish fares for {name}, because the rate depends on your pickup point, dates, number of days, vehicle and group size. "
+               f"Call or WhatsApp 9103331334 for the current rate.")
+    points = [
+        point_1,
+        f"Jammu to {name} taxi enquiries",
+        f"Katra to {name} taxi enquiries",
+        f"Udhampur to {name} taxi enquiries",
+        "Vehicle chosen by group size, subject to availability",
+        "Route, timing and number of days planned with you before booking",
+        "Current rate on call or WhatsApp at 9103331334 (no fixed fares are published)",
+    ]
+    faqs = [
+        faq_1,
+        (f"How much does a taxi to {name} cost?",
+         f"We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."),
+        ("Are the vehicles owned by Patnitop Travels Hub?",
+         "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."),
+        (f"What is included in a trip to {name}?",
+         "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."),
+        (f"Do local entry or taxi rules apply at {name}?",
+         f"Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."),
+        ("How do weather and roads affect the trip?",
+         "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."),
+        (f"Can {name} be combined with Srinagar or other places?",
+         "A wider itinerary can be discussed. See our Srinagar taxi and J&amp;K tour packages pages, or call or WhatsApp 9103331334."),
+    ]
+    wa_message = (f"Hello Patnitop Travels Hub, I would like to enquire about a taxi to {name}.\n"
+                  f"Pickup (Jammu / Katra / Udhampur):\n"
+                  f"Travel dates:\n"
+                  f"Number of people:\n"
+                  f"One-way or round trip:")
+    related = [("Srinagar Taxi", "srinagar-taxi.html"), ("J&K Tour Packages", "tour-packages.html")]
+    related += [(f"{p[2]} Taxi", p[1]) for p in peers]
+    related += [("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"),
+                ("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"),
+                ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html")]
+    return dict(
+        id=rid, path=path, title=title, meta_desc=meta, h1=h1,
+        intro=[intro_1, intro_2, intro_3], points=points, faqs=faqs,
+        related=related, area_served=areas,
+        active="taxi-services.html", crumb_name=f"{name} Taxi",
+        wa_message=wa_message, vehicles_html=vehicles_html,
+        agent_label=f"{name} Taxi" if not enquiry_only else f"{name} Taxi Enquiry",
+        agent_default_pickup="Jammu, Katra or Udhampur",
+        agent_default_drop=name,
+        agent_ask_sightseeing=False, agent_ask_hotel=False,
+    )
+
+ROUTES += [_kashmir_route(i) for i in range(len(KASHMIR_DESTINATIONS))]
+
 for r in ROUTES:
     write(r["path"], build_route_page(
         r["path"], r["title"], r["meta_desc"], r["h1"],
         r["intro"], r["points"], r["faqs"],
         active=r["active"], crumb_name=r["crumb_name"],
         related=r["related"], area_served=r["area_served"],
+        wa_message=r.get("wa_message"), vehicles_html=r.get("vehicles_html"),
     ))
 
 print("route pages built")
@@ -1579,11 +1710,11 @@ PACKAGE_DESTINATIONS = [
     ("Kud", "kudh-to-patnitop-taxi.html"),
     ("Bhaderwah", "bhaderwah-taxi.html"),
     ("Srinagar", "srinagar-taxi.html"),
-    ("Gulmarg", None),
-    ("Pahalgam", None),
-    ("Sonamarg", None),
-    ("Doodhpathri", None),
-    ("Yusmarg", None),
+    ("Gulmarg", "gulmarg-taxi.html"),
+    ("Pahalgam", "pahalgam-taxi.html"),
+    ("Sonamarg", "sonamarg-taxi.html"),
+    ("Doodhpathri", "doodhpathri-taxi.html"),
+    ("Yusmarg", "yusmarg-taxi.html"),
 ]
 
 def build_packages():
