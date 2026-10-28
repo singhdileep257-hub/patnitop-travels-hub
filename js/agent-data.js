@@ -319,6 +319,211 @@ var AGENT_DATA = {
           "a": "This depends on the season and local arrangements. Please tell us who is travelling when you call, so we can advise on timing and what to expect."
         }
       ]
+    },
+    {
+      "id": "gulmarg",
+      "label": "Gulmarg Taxi",
+      "path": "gulmarg-taxi.html",
+      "summary": "Patnitop Travels Hub can arrange a taxi to Gulmarg for travellers setting off from Jammu, Katra or Udhampur, subject to availability. Trips are arranged using our vehicles and partner drivers, and the vehicle, driver and rate are confirmed with you before anything is booked.",
+      "defaultPickup": "Jammu, Katra or Udhampur",
+      "defaultDrop": "Gulmarg",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I get a taxi to Gulmarg from Jammu, Katra or Udhampur?",
+          "a": "You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm availability and the plan with you."
+        },
+        {
+          "q": "How much does a taxi to Gulmarg cost?",
+          "a": "We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        },
+        {
+          "q": "Are the vehicles owned by Patnitop Travels Hub?",
+          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."
+        },
+        {
+          "q": "What is included in a trip to Gulmarg?",
+          "a": "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."
+        },
+        {
+          "q": "Do local entry or taxi rules apply at Gulmarg?",
+          "a": "Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."
+        },
+        {
+          "q": "Can Gulmarg be combined with Srinagar or other places?",
+          "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
+        }
+      ]
+    },
+    {
+      "id": "pahalgam",
+      "label": "Pahalgam Taxi",
+      "path": "pahalgam-taxi.html",
+      "summary": "Patnitop Travels Hub can arrange a taxi to Pahalgam for travellers setting off from Jammu, Katra or Udhampur, subject to availability. Trips are arranged using our vehicles and partner drivers, and the vehicle, driver and rate are confirmed with you before anything is booked.",
+      "defaultPickup": "Jammu, Katra or Udhampur",
+      "defaultDrop": "Pahalgam",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I get a taxi to Pahalgam from Jammu, Katra or Udhampur?",
+          "a": "You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm availability and the plan with you."
+        },
+        {
+          "q": "How much does a taxi to Pahalgam cost?",
+          "a": "We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        },
+        {
+          "q": "Are the vehicles owned by Patnitop Travels Hub?",
+          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."
+        },
+        {
+          "q": "What is included in a trip to Pahalgam?",
+          "a": "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."
+        },
+        {
+          "q": "Do local entry or taxi rules apply at Pahalgam?",
+          "a": "Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."
+        },
+        {
+          "q": "Can Pahalgam be combined with Srinagar or other places?",
+          "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
+        }
+      ]
+    },
+    {
+      "id": "sonamarg",
+      "label": "Sonamarg Taxi",
+      "path": "sonamarg-taxi.html",
+      "summary": "Patnitop Travels Hub can arrange a taxi to Sonamarg for travellers setting off from Jammu, Katra or Udhampur, subject to availability. Trips are arranged using our vehicles and partner drivers, and the vehicle, driver and rate are confirmed with you before anything is booked.",
+      "defaultPickup": "Jammu, Katra or Udhampur",
+      "defaultDrop": "Sonamarg",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I get a taxi to Sonamarg from Jammu, Katra or Udhampur?",
+          "a": "You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm availability and the plan with you."
+        },
+        {
+          "q": "How much does a taxi to Sonamarg cost?",
+          "a": "We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        },
+        {
+          "q": "Are the vehicles owned by Patnitop Travels Hub?",
+          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."
+        },
+        {
+          "q": "What is included in a trip to Sonamarg?",
+          "a": "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."
+        },
+        {
+          "q": "Do local entry or taxi rules apply at Sonamarg?",
+          "a": "Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."
+        },
+        {
+          "q": "Can Sonamarg be combined with Srinagar or other places?",
+          "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
+        }
+      ]
+    },
+    {
+      "id": "doodhpathri",
+      "label": "Doodhpathri Taxi Enquiry",
+      "path": "doodhpathri-taxi.html",
+      "summary": "Interested in Doodhpathri? Send us your plan and Patnitop Travels Hub will confirm whether we can arrange a taxi to Doodhpathri for your dates, pickup point and group size. Where we can, the trip is arranged using our vehicles and partner drivers, and nothing is booked until we confirm it with you.",
+      "defaultPickup": "Jammu, Katra or Udhampur",
+      "defaultDrop": "Doodhpathri",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I get a taxi to Doodhpathri from Jammu, Katra or Udhampur?",
+          "a": "You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm whether we can arrange the trip, and how, before anything is booked."
+        },
+        {
+          "q": "How much does a taxi to Doodhpathri cost?",
+          "a": "We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        },
+        {
+          "q": "Are the vehicles owned by Patnitop Travels Hub?",
+          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."
+        },
+        {
+          "q": "What is included in a trip to Doodhpathri?",
+          "a": "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."
+        },
+        {
+          "q": "Do local entry or taxi rules apply at Doodhpathri?",
+          "a": "Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."
+        },
+        {
+          "q": "Can Doodhpathri be combined with Srinagar or other places?",
+          "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
+        }
+      ]
+    },
+    {
+      "id": "yusmarg",
+      "label": "Yusmarg Taxi Enquiry",
+      "path": "yusmarg-taxi.html",
+      "summary": "Interested in Yusmarg? Send us your plan and Patnitop Travels Hub will confirm whether we can arrange a taxi to Yusmarg for your dates, pickup point and group size. Where we can, the trip is arranged using our vehicles and partner drivers, and nothing is booked until we confirm it with you.",
+      "defaultPickup": "Jammu, Katra or Udhampur",
+      "defaultDrop": "Yusmarg",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I get a taxi to Yusmarg from Jammu, Katra or Udhampur?",
+          "a": "You can enquire from all three. Tell us your pickup point, dates and group size on 9103331334 and we will confirm whether we can arrange the trip, and how, before anything is booked."
+        },
+        {
+          "q": "How much does a taxi to Yusmarg cost?",
+          "a": "We do not publish fixed fares. The rate depends on your pickup point, dates, number of days, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        },
+        {
+          "q": "Are the vehicles owned by Patnitop Travels Hub?",
+          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver for your trip when you book."
+        },
+        {
+          "q": "What is included in a trip to Yusmarg?",
+          "a": "We agree what is included when you enquire, and nothing is assumed. Please ask about tolls, parking, entry fees, waiting time and any sightseeing stop before you book."
+        },
+        {
+          "q": "Do local entry or taxi rules apply at Yusmarg?",
+          "a": "Entry rules and local taxi arrangements can differ by place, vehicle and season. Ask us when you enquire and we will confirm what applies to your trip before booking."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather, snow and road conditions change with the season and can affect timing, so we plan the route with you and advise based on current conditions."
+        },
+        {
+          "q": "Can Yusmarg be combined with Srinagar or other places?",
+          "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
+        }
+      ]
     }
   ],
   "taxiServices": [
@@ -357,6 +562,26 @@ var AGENT_DATA = {
     {
       "name": "Srinagar Taxi",
       "desc": "Taxi service from Patnitop or Jammu towards Srinagar."
+    },
+    {
+      "name": "Gulmarg Taxi",
+      "desc": "Taxi enquiries to Gulmarg from Jammu, Katra and Udhampur, subject to availability."
+    },
+    {
+      "name": "Pahalgam Taxi",
+      "desc": "Taxi enquiries to Pahalgam from Jammu, Katra and Udhampur, subject to availability."
+    },
+    {
+      "name": "Sonamarg Taxi",
+      "desc": "Taxi enquiries to Sonamarg from Jammu, Katra and Udhampur, subject to availability."
+    },
+    {
+      "name": "Doodhpathri Taxi Enquiry",
+      "desc": "Ask about a taxi to Doodhpathri from Jammu, Katra and Udhampur; availability is confirmed first."
+    },
+    {
+      "name": "Yusmarg Taxi Enquiry",
+      "desc": "Ask about a taxi to Yusmarg from Jammu, Katra and Udhampur; availability is confirmed first."
     },
     {
       "name": "Bhaderwah Taxi",
