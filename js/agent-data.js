@@ -158,6 +158,64 @@ var AGENT_DATA = {
       ]
     },
     {
+      "id": "ramban",
+      "label": "Ramban Taxi",
+      "path": "ramban-taxi.html",
+      "summary": "Patnitop Travels Hub arranges taxi trips between Patnitop and Ramban, in both directions. Ramban is a town on the Chenab river on the Jammu\u2013Srinagar highway (NH 44), further along the highway from Patnitop towards Banihal and the Kashmir Valley.",
+      "defaultPickup": "Patnitop or Ramban (your pickup point)",
+      "defaultDrop": "Ramban or Patnitop (your drop point)",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Do you provide taxi service to Ramban?",
+          "a": "Patnitop Travels Hub arranges taxi trips between Patnitop and Ramban. For a pickup in Ramban, call or WhatsApp 9103331334 with your pickup point and date and we will confirm availability and fare."
+        },
+        {
+          "q": "Can I book a one-way taxi from Patnitop to Ramban?",
+          "a": "Yes, one-way drop is available, along with round-trip service if you need a return journey, subject to availability."
+        },
+        {
+          "q": "Can the trip continue to Banihal or Srinagar?",
+          "a": "Onward travel can be added. See our Banihal and Srinagar taxi pages, or call or WhatsApp 9103331334 to plan it."
+        },
+        {
+          "q": "Do you publish fixed fares for Ramban?",
+          "a": "No. The fare depends on your pickup point, date, vehicle and group size, so call or WhatsApp 9103331334 for the current rate."
+        }
+      ]
+    },
+    {
+      "id": "banihal",
+      "label": "Banihal Taxi",
+      "path": "banihal-taxi.html",
+      "summary": "Patnitop Travels Hub arranges taxi trips between Patnitop and Banihal, in both directions. Banihal is a town on the Jammu\u2013Srinagar highway (NH 44) near the Banihal Pass, which carries the highway over the Pir Panjal range into the Kashmir Valley.",
+      "defaultPickup": "Patnitop or Banihal (your pickup point)",
+      "defaultDrop": "Banihal or Patnitop (your drop point)",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Do you provide taxi service to Banihal?",
+          "a": "Patnitop Travels Hub arranges taxi trips between Patnitop and Banihal. For a pickup in Banihal, call or WhatsApp 9103331334 with your pickup point and date and we will confirm availability and fare."
+        },
+        {
+          "q": "Can I book a one-way taxi from Patnitop to Banihal?",
+          "a": "Yes, one-way drop is available, along with round-trip service if you need a return journey, subject to availability."
+        },
+        {
+          "q": "Can the trip continue to Srinagar?",
+          "a": "Onward travel can be added. See our Srinagar taxi page, or call or WhatsApp 9103331334 to plan it."
+        },
+        {
+          "q": "How do weather and road conditions affect a Banihal trip?",
+          "a": "Weather and road conditions on the highway change with the season and can affect timing, so we plan the trip with you and advise based on current conditions."
+        }
+      ]
+    },
+    {
       "id": "airport-railway",
       "label": "Airport / Railway Station Transfer",
       "path": "airport-railway-transfer.html",
@@ -548,6 +606,14 @@ var AGENT_DATA = {
       "desc": "Short-hop taxi between Kud and Patnitop."
     },
     {
+      "name": "Ramban Taxi",
+      "desc": "Taxi between Patnitop and Ramban, and enquiries for Ramban pickups; availability confirmed first."
+    },
+    {
+      "name": "Banihal Taxi",
+      "desc": "Taxi between Patnitop and Banihal, and enquiries for Banihal pickups; availability confirmed first."
+    },
+    {
       "name": "Airport & Railway Station Transfers",
       "desc": "Jammu Airport, Jammu Railway Station, Katra Railway Station pickup &amp; drop."
     },
@@ -677,6 +743,8 @@ var AGENT_DATA = {
     "Udhampur",
     "Chenani",
     "Kud",
+    "Ramban",
+    "Banihal",
     "Bhaderwah",
     "Srinagar",
     "Gulmarg",
