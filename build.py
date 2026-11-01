@@ -338,6 +338,8 @@ def footer():
           <li><a href="udhampur-to-patnitop-taxi.html">Udhampur to Patnitop Taxi</a></li>
           <li><a href="chenani-to-patnitop-taxi.html">Chenani to Patnitop Taxi</a></li>
           <li><a href="kudh-to-patnitop-taxi.html">Kud to Patnitop Taxi</a></li>
+          <li><a href="ramban-taxi.html">Ramban Taxi</a></li>
+          <li><a href="banihal-taxi.html">Banihal Taxi</a></li>
           <li><a href="nathatop-sanasar-taxi.html">Nathatop &amp; Sanasar Taxi</a></li>
           <li><a href="srinagar-taxi.html">Srinagar Taxi</a></li>
           <li><a href="gulmarg-taxi.html">Gulmarg Taxi</a></li>
@@ -505,7 +507,7 @@ def build_home():
       <div class="card service-card"><h3>Outstation Taxi</h3><p>One-way and round-trip outstation taxi anywhere in Jammu &amp; Kashmir.</p><a class="card-link" href="tour-packages.html">See destinations →</a></div>
       <div class="card service-card"><h3>Tempo Traveller</h3><p>For families and groups travelling together, with more luggage space.</p><a class="card-link" href="vehicles.html">View vehicles →</a></div>
     </div>
-    <p class="small">Popular pickup points for Patnitop: <a href="katra-to-patnitop-taxi.html">Katra</a> · <a href="jammu-to-patnitop-taxi.html">Jammu</a> · <a href="udhampur-to-patnitop-taxi.html">Udhampur</a> · <a href="chenani-to-patnitop-taxi.html">Chenani</a> · <a href="kudh-to-patnitop-taxi.html">Kud</a></p>
+    <p class="small">Popular pickup points for Patnitop: <a href="katra-to-patnitop-taxi.html">Katra</a> · <a href="jammu-to-patnitop-taxi.html">Jammu</a> · <a href="udhampur-to-patnitop-taxi.html">Udhampur</a> · <a href="chenani-to-patnitop-taxi.html">Chenani</a> · <a href="kudh-to-patnitop-taxi.html">Kud</a> · <a href="ramban-taxi.html">Ramban</a> · <a href="banihal-taxi.html">Banihal</a></p>
     <div class="btn-row"><a href="taxi-services.html" class="btn btn-pine">View All Taxi Services</a></div>
   </div>
 </section>
@@ -637,6 +639,8 @@ TAXI_SERVICES = [
     ("Udhampur to Patnitop Taxi", "Taxi between Udhampur and Patnitop, one-way or round trip.", "udhampur-to-patnitop-taxi.html"),
     ("Chenani to Patnitop Taxi", "Taxi between Chenani and Patnitop, in both directions.", "chenani-to-patnitop-taxi.html"),
     ("Kud to Patnitop Taxi", "Short-hop taxi between Kud and Patnitop.", "kudh-to-patnitop-taxi.html"),
+    ("Ramban Taxi", "Taxi between Patnitop and Ramban, and enquiries for Ramban pickups; availability confirmed first.", "ramban-taxi.html"),
+    ("Banihal Taxi", "Taxi between Patnitop and Banihal, and enquiries for Banihal pickups; availability confirmed first.", "banihal-taxi.html"),
     ("Airport &amp; Railway Station Transfers", "Jammu Airport, Jammu Railway Station, Katra Railway Station pickup &amp; drop.", "airport-railway-transfer.html"),
     ("Patnitop Sightseeing Taxi", "Local taxi for Nathatop, Sanasar and nearby attractions.", "patnitop-sightseeing.html"),
     ("Nathatop &amp; Sanasar Taxi", "Dedicated taxi service for the Nathatop and Sanasar viewpoints.", "nathatop-sanasar-taxi.html"),
@@ -752,7 +756,7 @@ ROUTES = [
     dict(
         id="katra",
         path="katra-to-patnitop-taxi.html",
-        title="Katra to Patnitop Taxi | Patnitop Travels Hub",
+        title="Katra to Patnitop Taxi Service | Patnitop Travels Hub",
         meta_desc="Book a Katra to Patnitop taxi or Patnitop to Katra taxi with pickup from Katra town or Katra Railway Station. Call 9103331334 for fare and availability.",
         h1="Katra to Patnitop Taxi",
         intro=[
@@ -782,7 +786,7 @@ ROUTES = [
     dict(
         id="jammu",
         path="jammu-to-patnitop-taxi.html",
-        title="Jammu to Patnitop Taxi | Patnitop Travels Hub",
+        title="Jammu to Patnitop Taxi Service | Patnitop Travels Hub",
         meta_desc="Book a Jammu to Patnitop taxi or Patnitop to Jammu taxi with Jammu Airport and Railway Station pickup. Call 9103331334 for fare and availability.",
         h1="Jammu to Patnitop Taxi",
         intro=[
@@ -812,7 +816,7 @@ ROUTES = [
     dict(
         id="udhampur",
         path="udhampur-to-patnitop-taxi.html",
-        title="Udhampur to Patnitop Taxi | Patnitop Travels Hub",
+        title="Udhampur to Patnitop Taxi Service | Patnitop Travels Hub",
         meta_desc="Book an Udhampur to Patnitop taxi or Patnitop to Udhampur taxi, one-way or round trip. Call or WhatsApp 9103331334 for fare and availability.",
         h1="Udhampur to Patnitop Taxi",
         intro=[
@@ -840,7 +844,7 @@ ROUTES = [
     dict(
         id="chenani",
         path="chenani-to-patnitop-taxi.html",
-        title="Chenani to Patnitop Taxi | Patnitop Travels Hub",
+        title="Chenani to Patnitop Taxi Service | Patnitop Travels Hub",
         meta_desc="Book a Chenani to Patnitop taxi or Patnitop to Chenani taxi with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
         h1="Chenani to Patnitop Taxi",
         intro=[
@@ -868,7 +872,7 @@ ROUTES = [
     dict(
         id="kudh",
         path="kudh-to-patnitop-taxi.html",
-        title="Kud to Patnitop Taxi | Patnitop Travels Hub",
+        title="Kud to Patnitop Taxi Service | Patnitop Travels Hub",
         meta_desc="Taxi from Kud to Patnitop and back, one-way or round trip, with Patnitop Travels Hub. Call or WhatsApp 9103331334 for fare and availability.",
         h1="Kud to Patnitop Taxi",
         intro=[
@@ -892,6 +896,74 @@ ROUTES = [
         agent_default_pickup="Kud (your pickup point)",
         agent_default_drop="Patnitop (your hotel)",
         agent_ask_sightseeing=True, agent_ask_hotel=True,
+    ),
+    dict(
+        id="ramban",
+        path="ramban-taxi.html",
+        title="Ramban Taxi Service from Patnitop | Patnitop Travels Hub",
+        meta_desc="Taxi between Patnitop and Ramban, plus enquiries for Ramban pickups on the Jammu-Srinagar highway. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Ramban Taxi Service",
+        intro=[
+            "Patnitop Travels Hub arranges taxi trips between Patnitop and Ramban, in both directions. Ramban is a town on the Chenab river on the Jammu&ndash;Srinagar highway (NH 44), further along the highway from Patnitop towards Banihal and the Kashmir Valley.",
+            "If you are starting from Ramban itself, tell us your pickup point and travel date and we will confirm whether we can arrange it, and at what fare. Onward travel to Banihal or Srinagar can be added to the same booking.",
+            "We do not publish fixed fares for Ramban, because the fare depends on your pickup point, date, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        ],
+        points=[
+            "Patnitop to Ramban taxi and Ramban to Patnitop taxi, both directions",
+            "Enquiries for pickups in Ramban, with availability confirmed before booking",
+            "One-way drop or round-trip taxi service, subject to availability",
+            "Can be extended onward to Banihal or Srinagar",
+            "Family and group transportation, including Tempo Traveller for larger groups",
+        ],
+        faqs=[
+            ("Do you provide taxi service to Ramban?", "Patnitop Travels Hub arranges taxi trips between Patnitop and Ramban. For a pickup in Ramban, call or WhatsApp 9103331334 with your pickup point and date and we will confirm availability and fare."),
+            ("Can I book a one-way taxi from Patnitop to Ramban?", "Yes, one-way drop is available, along with round-trip service if you need a return journey, subject to availability."),
+            ("Can the trip continue to Banihal or Srinagar?", "Onward travel can be added. See our Banihal and Srinagar taxi pages, or call or WhatsApp 9103331334 to plan it."),
+            ("Do you publish fixed fares for Ramban?", "No. The fare depends on your pickup point, date, vehicle and group size, so call or WhatsApp 9103331334 for the current rate."),
+        ],
+        related=[("Banihal Taxi", "banihal-taxi.html"), ("Srinagar Taxi", "srinagar-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html")],
+        area_served=["Patnitop"],
+        active="taxi-services.html", crumb_name="Ramban Taxi",
+        wa_message=("Hello Patnitop Travels Hub, I would like to enquire about a taxi to or from Ramban.\n"
+                    "Pickup point:\nTravel date:\nNumber of people:\nOne-way or round trip:"),
+        agent_label="Ramban Taxi",
+        agent_default_pickup="Patnitop or Ramban (your pickup point)",
+        agent_default_drop="Ramban or Patnitop (your drop point)",
+        agent_ask_sightseeing=False, agent_ask_hotel=False,
+    ),
+    dict(
+        id="banihal",
+        path="banihal-taxi.html",
+        title="Banihal Taxi Service from Patnitop | Patnitop Travels Hub",
+        meta_desc="Taxi between Patnitop and Banihal, plus enquiries for Banihal pickups on the way to Kashmir. Call or WhatsApp 9103331334 for fare and availability.",
+        h1="Banihal Taxi Service",
+        intro=[
+            "Patnitop Travels Hub arranges taxi trips between Patnitop and Banihal, in both directions. Banihal is a town on the Jammu&ndash;Srinagar highway (NH 44) near the Banihal Pass, which carries the highway over the Pir Panjal range into the Kashmir Valley.",
+            "If you are starting from Banihal, tell us your pickup point and travel date and we will confirm whether we can arrange it, and at what fare. Because Banihal lies on the way to the Kashmir Valley, a Banihal trip can be combined with onward travel to Srinagar.",
+            "We do not publish fixed fares for Banihal, because the fare depends on your pickup point, date, vehicle and group size. Call or WhatsApp 9103331334 for the current rate."
+        ],
+        points=[
+            "Patnitop to Banihal taxi and Banihal to Patnitop taxi, both directions",
+            "Enquiries for pickups in Banihal, with availability confirmed before booking",
+            "One-way drop or round-trip taxi service, subject to availability",
+            "Can be extended onward to Srinagar or back towards Jammu",
+            "Family and group transportation, including Tempo Traveller for larger groups",
+        ],
+        faqs=[
+            ("Do you provide taxi service to Banihal?", "Patnitop Travels Hub arranges taxi trips between Patnitop and Banihal. For a pickup in Banihal, call or WhatsApp 9103331334 with your pickup point and date and we will confirm availability and fare."),
+            ("Can I book a one-way taxi from Patnitop to Banihal?", "Yes, one-way drop is available, along with round-trip service if you need a return journey, subject to availability."),
+            ("Can the trip continue to Srinagar?", "Onward travel can be added. See our Srinagar taxi page, or call or WhatsApp 9103331334 to plan it."),
+            ("How do weather and road conditions affect a Banihal trip?", "Weather and road conditions on the highway change with the season and can affect timing, so we plan the trip with you and advise based on current conditions."),
+        ],
+        related=[("Ramban Taxi", "ramban-taxi.html"), ("Srinagar Taxi", "srinagar-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html")],
+        area_served=["Patnitop"],
+        active="taxi-services.html", crumb_name="Banihal Taxi",
+        wa_message=("Hello Patnitop Travels Hub, I would like to enquire about a taxi to or from Banihal.\n"
+                    "Pickup point:\nTravel date:\nNumber of people:\nOne-way or round trip:"),
+        agent_label="Banihal Taxi",
+        agent_default_pickup="Patnitop or Banihal (your pickup point)",
+        agent_default_drop="Banihal or Patnitop (your drop point)",
+        agent_ask_sightseeing=False, agent_ask_hotel=False,
     ),
     dict(
         id="airport-railway",
@@ -1708,6 +1780,8 @@ PACKAGE_DESTINATIONS = [
     ("Udhampur", "udhampur-to-patnitop-taxi.html"),
     ("Chenani", "chenani-to-patnitop-taxi.html"),
     ("Kud", "kudh-to-patnitop-taxi.html"),
+    ("Ramban", "ramban-taxi.html"),
+    ("Banihal", "banihal-taxi.html"),
     ("Bhaderwah", "bhaderwah-taxi.html"),
     ("Srinagar", "srinagar-taxi.html"),
     ("Gulmarg", "gulmarg-taxi.html"),
