@@ -187,7 +187,7 @@ def local_business_schema():
     "latitude": 33.0903,
     "longitude": 75.3264
   }},
-  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
+  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Ramban", "Banihal", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
   "founder": {{ "@type": "Person", "name": "Dileep Singh" }},
   "sameAs": {json.dumps([GBP_MAPS_URL] if GBP_MAPS_URL else [])}{(',' + chr(10) + '  "hasMap": ' + json.dumps(GBP_MAPS_URL)) if GBP_MAPS_URL else ''}
 }}
@@ -350,6 +350,14 @@ def footer():
           <li><a href="mantalai-taxi.html">Mantalai Taxi</a></li>
           <li><a href="gauri-kund-taxi.html">Gauri Kund Taxi</a></li>
           <li><a href="airport-railway-transfer.html">Airport &amp; Railway Transfer</a></li>
+          <li><a href="jammu-airport-taxi.html">Jammu Airport Taxi</a></li>
+          <li><a href="katra-railway-station-taxi.html">Katra Railway Station Taxi</a></li>
+          <li><a href="katra-to-jammu-taxi.html">Katra to Jammu Taxi</a></li>
+          <li><a href="ramban-taxi-service.html">Ramban Taxi Service</a></li>
+          <li><a href="banihal-taxi-service.html">Banihal Taxi Service</a></li>
+          <li><a href="tempo-traveller-booking.html">Tempo Traveller Booking</a></li>
+          <li><a href="urbania-booking.html">Urbania Booking</a></li>
+          <li><a href="glanza-taxi-service.html">Glanza Taxi Service</a></li>
         </ul>
       </div>
       <div>
@@ -404,14 +412,53 @@ def write(path, content):
 # Reusable content blocks
 # ---------------------------------------------------------------
 
-def cta_buttons(context="general", wa_message=None):
+def cta_buttons(context="general", wa_message=None, book_href="contact.html#booking-form"):
     import html as _h
     wa_attr = f' data-wa-message="{_h.escape(wa_message, quote=True)}"' if wa_message else ""
     return f'''<div class="btn-row">
   <a href="tel:+91{PHONE}" class="btn btn-pine">📞 Call Now</a>
   <a href="{wa_href(wa_message)}" data-whatsapp{wa_attr} class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp Now</a>
-  <a href="contact.html#booking-form" class="btn btn-primary">🚕 Book a Taxi</a>
+  <a href="{book_href}" class="btn btn-primary">🚕 Book a Taxi</a>
 </div>'''
+
+VEHICLE_OPTIONS = ["Dzire", "Ertiga", "Glanza", "Innova / Toyota Crysta", "Tempo Traveller", "Urbania", "Not sure — please suggest"]
+
+def vehicle_options_html():
+    return "".join(f"<option>{v}</option>" for v in VEHICLE_OPTIONS)
+
+def route_form_html(service_label, pickup_hint="", drop_hint=""):
+    """Compact taxi enquiry form used on every route / location landing page.
+    Submitting it records an ENQUIRY (never a booking) and hands the customer to
+    a Call button first and WhatsApp second. Behaviour lives in js/script.js."""
+    import html as _h
+    label = _h.escape(service_label, quote=True)
+    ph_pick = _h.escape(pickup_hint or "Pickup point", quote=True)
+    ph_drop = _h.escape(drop_hint or "Drop point", quote=True)
+    return f'''<section class="section-alt" id="enquiry">
+  <div class="container">
+    <div class="booking-panel route-form">
+      <h2 class="mt-0">Taxi enquiry: {service_label}</h2>
+      <p class="route-form-lead"><strong>Fastest way to book: call <a href="tel:+91{PHONE}">{PHONE}</a>.</strong> Prefer to write? Fill in the form and we will come back to you by phone or WhatsApp. An enquiry is not a confirmed booking until we confirm it with you.</p>
+      <form id="route-enquiry-form" data-service="{label}">
+        <div class="form-grid">
+          <div><label for="rf-name">Name</label><input id="rf-name" name="name" autocomplete="name" required></div>
+          <div><label for="rf-mobile">Mobile Number</label><input id="rf-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
+          <div><label for="rf-pickup">Pickup Location</label><input id="rf-pickup" name="pickup" placeholder="{ph_pick}" required></div>
+          <div><label for="rf-drop">Destination</label><input id="rf-drop" name="drop" placeholder="{ph_drop}" required></div>
+          <div><label for="rf-date">Travel Date</label><input id="rf-date" name="travel_date" type="date" required></div>
+          <div><label for="rf-pax">Number of Passengers</label><input id="rf-pax" name="passengers" type="number" min="1" required></div>
+          <div class="full"><label for="rf-vehicle">Vehicle Preference</label><select id="rf-vehicle" name="vehicle">{vehicle_options_html()}</select></div>
+          <div class="full"><label for="rf-message">Message (optional)</label><textarea id="rf-message" name="message" rows="2"></textarea></div>
+          <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+          <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:16px;">Send Enquiry</button>
+        <p class="form-note">We use your details only to reply to this enquiry. See our <a href="privacy.html">Privacy page</a>.</p>
+      </form>
+      <div class="form-success" id="route-form-success"></div>
+    </div>
+  </div>
+</section>'''
 
 def google_links_html():
     # Shown only once the real Business Profile links are set in site.config.json.
@@ -650,6 +697,14 @@ TAXI_SERVICES = [
     ("Sudh Mahadev Taxi", "Taxi to the ancient Sudh Mahadev temple from Patnitop, Jammu and Katra.", "sudh-mahadev-taxi.html"),
     ("Mantalai Taxi", "Taxi to Mantalai, the place linked in local belief to the Shiv-Parvati wedding.", "mantalai-taxi.html"),
     ("Gauri Kund Taxi", "Taxi to the sacred Gauri Kund near Sudh Mahadev, from Patnitop and Jammu.", "gauri-kund-taxi.html"),
+    ("Jammu Airport Taxi", "Airport pickup and drop with onward travel to Patnitop, Katra and Srinagar.", "jammu-airport-taxi.html"),
+    ("Katra Railway Station Taxi", "Pickup and drop at Katra Railway Station, with onward travel to Patnitop and Jammu.", "katra-railway-station-taxi.html"),
+    ("Katra to Jammu Taxi", "Taxi between Katra and Jammu, in both directions.", "katra-to-jammu-taxi.html"),
+    ("Ramban Taxi Service", "Taxi to and from Ramban on the Jammu&ndash;Srinagar highway, subject to availability.", "ramban-taxi-service.html"),
+    ("Banihal Taxi Service", "Taxi to and from Banihal on the Jammu&ndash;Srinagar highway, subject to availability.", "banihal-taxi-service.html"),
+    ("Tempo Traveller Booking", "Tempo Traveller for family and group trips, subject to availability.", "tempo-traveller-booking.html"),
+    ("Urbania Booking", "Urbania for larger groups, subject to availability; seating confirmed when you enquire.", "urbania-booking.html"),
+    ("Glanza Taxi Service", "Glanza for couples and small groups, subject to availability.", "glanza-taxi-service.html"),
     ("Hotel Pickup &amp; Drop", "Pickup and drop from your Patnitop hotel for onward travel.", "hotel-booking.html"),
 ]
 
@@ -702,7 +757,7 @@ write("taxi-services.html", build_taxi_services())
 # ROUTE / KEYWORD LANDING PAGES (shared template)
 # ---------------------------------------------------------------
 
-def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs, active="taxi-services.html", crumb_name=None, related=None, area_served=None, wa_message=None, vehicles_html=None):
+def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs, active="taxi-services.html", crumb_name=None, related=None, area_served=None, wa_message=None, vehicles_html=None, form_pickup="", form_drop=""):
     points_html = "".join(f'<li>{p}</li>' for p in points)
     paras = "".join(f'<p>{p}</p>' for p in intro_paragraphs)
     related = related or [("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")]
@@ -718,7 +773,7 @@ def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs,
   <div class="container">
     {paras}
     <ul>{points_html}</ul>
-    {cta_buttons(wa_message=wa_message)}
+    {cta_buttons(wa_message=wa_message, book_href="#enquiry")}
   </div>
 </section>
 <section class="section-alt">
@@ -727,6 +782,7 @@ def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs,
     {vehicles_html or '<p>Dzire, Ertiga, Innova / Toyota Crysta and Tempo Traveller are commonly available for this route, depending on your group size. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>'}
   </div>
 </section>
+{route_form_html(crumb_name or h1, form_pickup, form_drop)}
 <section>
   <div class="container">
     <p class="small">You may also want:{related_links}</p>
@@ -771,7 +827,7 @@ ROUTES = [
             ("Can you pick us up from Katra Railway Station?", "Yes, we provide Katra Railway Station pickup and drop as part of this route."),
             ("Is a round trip available, or only one-way drop?", "Both one-way taxi drop and full round-trip taxi service are available for Katra to Patnitop."),
         ],
-        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        related=[("Katra Railway Station Taxi", "katra-railway-station-taxi.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html"), ("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
         area_served=["Katra", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
         agent_label="Katra to Patnitop",
@@ -801,7 +857,7 @@ ROUTES = [
             ("Do you provide Jammu Railway Station pickup?", "Yes, Jammu Railway Station pickup and drop is available as part of this route."),
             ("Can I book a one-way taxi from Jammu to Patnitop?", "Yes, one-way taxi drop is available, along with full round-trip service if you need a return journey."),
         ],
-        related=[("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
+        related=[("Jammu Airport Taxi", "jammu-airport-taxi.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html"), ("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Patnitop Sightseeing", "patnitop-sightseeing.html"), ("Hotel Booking", "hotel-booking.html")],
         area_served=["Jammu", "Patnitop"],
         active="taxi-services.html", crumb_name=None,
         agent_label="Jammu to Patnitop",
@@ -915,7 +971,7 @@ ROUTES = [
             ("Should I share my flight or train number?", "Yes, sharing your flight or train details and expected arrival time helps us plan your pickup accurately."),
         ],
         crumb_name="Airport &amp; Railway Transfer",
-        related=[("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Hotel Booking", "hotel-booking.html")],
+        related=[("Jammu Airport Taxi", "jammu-airport-taxi.html"), ("Katra Railway Station Taxi", "katra-railway-station-taxi.html"), ("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Hotel Booking", "hotel-booking.html")],
         area_served=["Jammu", "Katra", "Patnitop"],
         active="taxi-services.html",
         agent_label="Airport / Railway Station Transfer",
@@ -1224,6 +1280,206 @@ def _kashmir_route(idx):
 
 ROUTES += [_kashmir_route(i) for i in range(len(KASHMIR_DESTINATIONS))]
 
+# ---------------------------------------------------------------
+# ADDITIONAL HIGH-INTENT LANDING PAGES (airport, railway, Katra-Jammu, vehicle and
+# NH 44 town pages). Each has its own angle and wording so none duplicates the
+# combined airport-railway-transfer.html overview. No fares, distances, journey times,
+# seat counts or availability promises are written anywhere: those are confirmed on the call.
+# ---------------------------------------------------------------
+def _extra_route(id_, path, title, meta, h1, crumb, intro, points, faqs, related, areas, label, pickup, drop, wa_intro, hotel=False, sights=False, vehicles_html=None):
+    wa = (f"Hello Patnitop Travels Hub, {wa_intro}\n"
+          "Pickup point:\nDrop point:\nTravel date:\nNumber of people:\nOne-way or round trip:")
+    return dict(
+        id=id_, path=path, title=title, meta_desc=meta, h1=h1, intro=intro, points=points, faqs=faqs,
+        related=related, area_served=areas, active="taxi-services.html", crumb_name=crumb,
+        wa_message=wa, vehicles_html=vehicles_html, agent_label=label,
+        agent_default_pickup=pickup, agent_default_drop=drop,
+        agent_ask_sightseeing=sights, agent_ask_hotel=hotel,
+        form_pickup=pickup, form_drop=drop,
+    )
+
+_FARE_FAQ = ("How much does this taxi cost?",
+             "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book.")
+_CONFIRM_FAQ = ("Is my taxi confirmed when I send the enquiry form?",
+                "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp.")
+_VEHICLE_FAQ = ("Are the vehicles owned by Patnitop Travels Hub?",
+                "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book.")
+
+EXTRA_ROUTES = [
+    _extra_route(
+        "jammu-airport", "jammu-airport-taxi.html",
+        "Jammu Airport Taxi Service | Patnitop Travels Hub",
+        "Jammu Airport taxi for arrivals and departures, with onward travel to Patnitop, Katra, Udhampur or Srinagar. Call 9103331334 to book.",
+        "Jammu Airport Taxi Service", "Jammu Airport Taxi",
+        ["Landing at Jammu Airport and need a taxi waiting? Patnitop Travels Hub arranges airport pickup for travellers heading to Patnitop, Katra, Udhampur, Ramban, Banihal and Srinagar, and airport drop for the journey back.",
+         "Tell us your flight number and arrival time when you call. We plan the pickup around your landing, so you are not left looking for a taxi after a long flight.",
+         "This page is about the airport. For Jammu Railway Station or Katra Railway Station pickup, see our <a href=\"airport-railway-transfer.html\">airport and railway transfer overview</a>."],
+        ["Pickup at Jammu Airport on arrival, drop at the airport before departure",
+         "Onward trips to Patnitop, Katra, Udhampur, Ramban, Banihal and Srinagar",
+         "Share your flight number so the pickup is planned around your landing time",
+         "One-way or round-trip taxi, family and group vehicles on request",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("Do you offer taxi pickup at Jammu Airport?", "Yes. Call or WhatsApp 9103331334 with your flight details and destination and we will confirm the pickup and the vehicle."),
+         ("Can you take me from Jammu Airport straight to Patnitop?", "Yes, Jammu Airport to Patnitop is one of the trips we arrange. See also our Jammu to Patnitop taxi page."),
+         ("What should I tell you when I book an airport pickup?", "Your flight number, arrival time, number of people, luggage and where you are going. This lets us suggest a suitable vehicle."),
+         ("What if my flight is delayed?", "Tell us as soon as you know and we will adjust the pickup. Call 9103331334 so we can plan around the new arrival time."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html"), ("Srinagar Taxi", "srinagar-taxi.html")],
+        ["Jammu", "Patnitop", "Katra", "Udhampur"],
+        "Jammu Airport Taxi", "Jammu Airport", "Patnitop, Katra or your hotel",
+        "I would like a taxi from Jammu Airport.", hotel=True),
+    _extra_route(
+        "katra-railway", "katra-railway-station-taxi.html",
+        "Katra Railway Station Taxi | Patnitop Travels Hub",
+        "Taxi from Katra Railway Station to Patnitop, Jammu or Srinagar, and station drop for your return. Call or WhatsApp 9103331334.",
+        "Katra Railway Station Taxi", "Katra Railway Station Taxi",
+        ["Arriving at Katra Railway Station and looking for a taxi? Patnitop Travels Hub arranges pickup at the station for travellers heading to Patnitop, Jammu, Udhampur or onward to Srinagar, and drop at the station when you return.",
+         "Many guests come to Katra for the Vaishno Devi yatra and continue to Patnitop afterwards. Tell us your train and arrival time and we will plan the pickup around it.",
+         "This page covers Katra Railway Station. For flights, see our <a href=\"jammu-airport-taxi.html\">Jammu Airport taxi</a> page, or the <a href=\"airport-railway-transfer.html\">airport and railway overview</a>."],
+        ["Pickup at Katra Railway Station on arrival, drop at the station for departure",
+         "Onward trips to Patnitop, Jammu, Udhampur and Srinagar",
+         "Share your train name or number and arrival time when you book",
+         "Family and group vehicles, including Tempo Traveller, on request",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("Can you pick me up from Katra Railway Station?", "Yes. Call or WhatsApp 9103331334 with your train details and destination and we will confirm the pickup."),
+         ("Can I go from Katra Railway Station directly to Patnitop?", "Yes, Katra to Patnitop is a route we arrange. See our Katra to Patnitop taxi page for more."),
+         ("What details do you need for a railway station pickup?", "Your train name or number, arrival time, number of people, luggage and where you want to go."),
+         ("What if my train is late?", "Call 9103331334 and tell us the new arrival time so we can adjust the pickup."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html"), ("Airport & Railway Transfer", "airport-railway-transfer.html"), ("Tempo Traveller Booking", "tempo-traveller-booking.html")],
+        ["Katra", "Patnitop", "Jammu"],
+        "Katra Railway Station Taxi", "Katra Railway Station", "Patnitop, Jammu or your hotel",
+        "I would like a taxi from Katra Railway Station.", hotel=True),
+    _extra_route(
+        "katra-jammu", "katra-to-jammu-taxi.html",
+        "Katra to Jammu Taxi | Patnitop Travels Hub",
+        "Book a Katra to Jammu taxi for Jammu Airport, Jammu Railway Station or Jammu city, or a Jammu to Katra taxi. Call 9103331334.",
+        "Katra to Jammu Taxi", "Katra to Jammu Taxi",
+        ["Patnitop Travels Hub arranges taxi service between Katra and Jammu in both directions, including drop at Jammu Airport and Jammu Railway Station after your yatra, and pickup from Jammu for the trip up to Katra.",
+         "Travelling on to Patnitop or Srinagar after Katra? The same taxi can be planned as a longer trip, so you do not need to change vehicles."],
+        ["Katra to Jammu taxi and Jammu to Katra taxi, both directions",
+         "Drop at Jammu Airport or Jammu Railway Station for your onward flight or train",
+         "Pickup from Katra town or Katra Railway Station",
+         "One-way drop or round trip, with family and group vehicles on request",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("Can I book a one-way taxi from Katra to Jammu?", "Yes. One-way drop is available, along with round-trip service. Call 9103331334 with your pickup point and date."),
+         ("Can you drop me at Jammu Airport or Jammu Railway Station?", "Yes. Tell us your flight or train time and we will plan the drop so you have enough time at the station or airport."),
+         ("Can the same taxi continue to Patnitop or Srinagar?", "A longer itinerary can be planned. See our Katra to Patnitop and Srinagar taxi pages, or call 9103331334."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Jammu Airport Taxi", "jammu-airport-taxi.html"), ("Katra Railway Station Taxi", "katra-railway-station-taxi.html")],
+        ["Katra", "Jammu"],
+        "Katra to Jammu Taxi", "Katra town or Katra Railway Station", "Jammu (Airport / Railway Station / city)",
+        "I would like a taxi between Katra and Jammu."),
+    _extra_route(
+        "tempo-traveller", "tempo-traveller-booking.html",
+        "Tempo Traveller Booking in Patnitop | Patnitop Travels Hub",
+        "Tempo Traveller booking for family and group trips from Jammu, Katra, Udhampur and Patnitop. Call or WhatsApp 9103331334 to enquire.",
+        "Tempo Traveller Booking", "Tempo Traveller Booking",
+        ["Travelling with a big family or a group? Patnitop Travels Hub can arrange a Tempo Traveller for trips to Patnitop, Nathatop, Sanasar, Katra, Srinagar and other Jammu &amp; Kashmir destinations, subject to availability.",
+         "A Tempo Traveller keeps the whole group in one vehicle. Tell us how many people are travelling and how much luggage you have, and we will confirm whether it suits your trip or whether two smaller vehicles would be better."],
+        ["Tempo Traveller for family groups, friends, pilgrims and tour groups",
+         "Pickup from Jammu Airport, Jammu or Katra Railway Station, Udhampur or your hotel",
+         "Local sightseeing around Patnitop, or outstation trips towards Srinagar, subject to availability",
+         "Seating confirmed with you when you enquire, based on your group size and luggage",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("How do I book a Tempo Traveller?", "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."),
+         ("How many people can travel in a Tempo Traveller?", "Seating can differ between vehicles, so we confirm the exact seating for your trip when you enquire. Tell us your group size and luggage."),
+         ("Can a Tempo Traveller be used for Patnitop sightseeing?", "Yes, it can be arranged for local sightseeing, subject to availability. See our Patnitop sightseeing taxi page."),
+         ("Can you pick up a group from the airport or railway station?", "Yes. Share your flight or train details and we will plan the pickup."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Vehicles", "vehicles.html"), ("Urbania Booking", "urbania-booking.html"), ("Patnitop Sightseeing Taxi", "patnitop-sightseeing.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html")],
+        ["Patnitop", "Jammu", "Katra", "Udhampur"],
+        "Tempo Traveller Booking", "Jammu, Katra, Udhampur or your hotel", "Patnitop or your destination",
+        "I would like to book a Tempo Traveller.", sights=True,
+        vehicles_html='<p>This page is about the Tempo Traveller. For cars such as Dzire, Ertiga, Glanza and Innova / Toyota Crysta, see our <a href="vehicles.html">vehicles page</a>.</p>'),
+    _extra_route(
+        "urbania", "urbania-booking.html",
+        "Urbania Booking for Group Travel | Patnitop Travels Hub",
+        "Urbania booking for larger groups and families travelling to Patnitop, Katra, Jammu and Srinagar. Call or WhatsApp 9103331334 to enquire.",
+        "Urbania Booking", "Urbania Booking",
+        ["Need a larger, comfortable vehicle for a group? Patnitop Travels Hub can arrange an Urbania for trips between Jammu, Katra, Udhampur, Patnitop and onward to Srinagar, subject to availability.",
+         "Because vehicles and seating can differ, we confirm the exact Urbania, its seating and your rate when you enquire. If another vehicle suits your group better, such as a Tempo Traveller, we will tell you."],
+        ["Urbania for large families, corporate groups and tour groups",
+         "Pickup from Jammu Airport, railway stations or your hotel, subject to availability",
+         "Patnitop, Nathatop, Sanasar and Srinagar trips, planned with you before booking",
+         "Seating and luggage space confirmed with you when you enquire",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("How do I book an Urbania?", "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."),
+         ("How many people does an Urbania seat?", "Seating can differ, so we confirm the exact seating for your trip when you enquire. Tell us your group size."),
+         ("Should I choose an Urbania or a Tempo Traveller?", "It depends on your group size, luggage and route. Tell us your plan and we will suggest what suits you. See our Tempo Traveller booking page for comparison."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Tempo Traveller Booking", "tempo-traveller-booking.html"), ("Vehicles", "vehicles.html"), ("Jammu Airport Taxi", "jammu-airport-taxi.html"), ("Srinagar Taxi", "srinagar-taxi.html")],
+        ["Patnitop", "Jammu", "Katra", "Udhampur"],
+        "Urbania Booking", "Jammu, Katra, Udhampur or your hotel", "Patnitop or your destination",
+        "I would like to book an Urbania.",
+        vehicles_html='<p>This page is about the Urbania. See our <a href="vehicles.html">vehicles page</a> for the other vehicles we arrange.</p>'),
+    _extra_route(
+        "glanza", "glanza-taxi-service.html",
+        "Glanza Taxi Service | Patnitop Travels Hub",
+        "Glanza taxi for couples and small groups travelling to Patnitop, Katra, Jammu and Srinagar. Call or WhatsApp 9103331334 to enquire.",
+        "Glanza Taxi Service", "Glanza Taxi Service",
+        ["Travelling as a couple or a small group with light luggage? Patnitop Travels Hub can arrange a Glanza for trips between Jammu, Katra, Udhampur and Patnitop, and onward drops, subject to availability.",
+         "Ask for a Glanza when you enquire. If your luggage or group size needs a larger vehicle, such as a Dzire, Ertiga or Innova / Toyota Crysta, we will suggest one."],
+        ["Glanza for couples, honeymoon trips and small families",
+         "Pickup from Jammu Airport, railway stations, Udhampur or your hotel, subject to availability",
+         "Point-to-point drops and Patnitop sightseeing, planned with you before booking",
+         "Luggage space and seating confirmed with you when you enquire",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("How do I book a Glanza taxi?", "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."),
+         ("Is a Glanza suitable for a family with luggage?", "It suits couples and small groups with light luggage. Tell us your group size and bags and we will suggest the right vehicle."),
+         ("Can I book a Glanza for Patnitop sightseeing?", "Ask us when you enquire. We confirm what can be arranged, subject to availability."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Vehicles", "vehicles.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Patnitop Sightseeing Taxi", "patnitop-sightseeing.html")],
+        ["Patnitop", "Jammu", "Katra", "Udhampur"],
+        "Glanza Taxi Service", "Jammu, Katra, Udhampur or your hotel", "Patnitop or your destination",
+        "I would like to book a Glanza taxi.",
+        vehicles_html='<p>This page is about the Glanza. See our <a href="vehicles.html">vehicles page</a> for the other vehicles we arrange.</p>'),
+    _extra_route(
+        "ramban", "ramban-taxi-service.html",
+        "Ramban Taxi Service | Patnitop Travels Hub",
+        "Taxi service to and from Ramban on the Jammu-Srinagar highway. Pickup from Jammu, Udhampur and Patnitop. Call 9103331334 to enquire.",
+        "Ramban Taxi Service", "Ramban Taxi Service",
+        ["Ramban lies on the Jammu&ndash;Srinagar highway (NH 44), between Patnitop and Banihal. Patnitop Travels Hub can arrange taxi service to and from Ramban for travellers from Jammu, Udhampur, Katra and Patnitop, subject to availability.",
+         "Whether Ramban is your destination or a stop on the way to Srinagar, tell us your plan and we will confirm what can be arranged. Road and weather conditions on this highway change through the year, so we plan the trip with you."],
+        ["Taxi to Ramban and Ramban to Jammu, Udhampur, Katra or Patnitop",
+         "Ramban as a stop on a longer Srinagar or Kashmir trip",
+         "One-way drop or round trip, with family and group vehicles on request",
+         "Route and timing planned with you, based on current road conditions",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("Do you provide taxi service to Ramban?", "Yes, we arrange Ramban trips subject to availability. Call or WhatsApp 9103331334 with your pickup point, date and group size."),
+         ("Can I book a taxi from Patnitop to Ramban?", "Yes. Patnitop to Ramban is one of the trips we can arrange. Tell us your date and we will confirm."),
+         ("Can I stop at Ramban on the way to Srinagar?", "A stop can be planned into a longer trip. See our Srinagar taxi page and tell us your plan."),
+         ("How do weather and roads affect the trip?", "Weather and road conditions on NH 44 change with the season and can affect timing. We advise based on current conditions when you call."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Banihal Taxi Service", "banihal-taxi-service.html"), ("Srinagar Taxi", "srinagar-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html")],
+        ["Ramban", "Patnitop", "Jammu", "Udhampur"],
+        "Ramban Taxi Service", "Jammu, Udhampur, Katra or Patnitop", "Ramban",
+        "I would like to enquire about a taxi to or from Ramban."),
+    _extra_route(
+        "banihal", "banihal-taxi-service.html",
+        "Banihal Taxi Service | Patnitop Travels Hub",
+        "Taxi service to and from Banihal on the Jammu-Srinagar highway, from Jammu, Udhampur and Patnitop. Call 9103331334 to enquire.",
+        "Banihal Taxi Service", "Banihal Taxi Service",
+        ["Banihal lies on the Jammu&ndash;Srinagar highway (NH 44), on the way from Patnitop and Ramban towards the Kashmir valley. Patnitop Travels Hub can arrange taxi service to and from Banihal for travellers from Jammu, Udhampur, Katra and Patnitop, subject to availability.",
+         "If you are heading for Srinagar and want to plan the journey in stages, or you are travelling to Banihal itself, tell us your dates and group size and we will confirm what can be arranged."],
+        ["Taxi to Banihal and Banihal to Jammu, Udhampur, Katra or Patnitop",
+         "Banihal as part of a longer trip to Srinagar and the Kashmir valley",
+         "One-way drop or round trip, with family and group vehicles on request",
+         "Route and timing planned with you, based on current road and weather conditions",
+         "Rate confirmed on call or WhatsApp at 9103331334 before you book"],
+        [("Do you provide taxi service to Banihal?", "Yes, we arrange Banihal trips subject to availability. Call or WhatsApp 9103331334 with your pickup point, date and group size."),
+         ("Can I book a taxi from Patnitop to Banihal?", "Yes. Patnitop to Banihal is one of the trips we can arrange. Tell us your date and we will confirm."),
+         ("Can you take me from Banihal onward to Srinagar?", "A longer trip can be planned. See our Srinagar taxi page and tell us your plan."),
+         ("How do weather and roads affect the trip?", "Weather, snow and road conditions on NH 44 change with the season and can affect timing. We advise based on current conditions when you call."),
+         _FARE_FAQ, _CONFIRM_FAQ, _VEHICLE_FAQ],
+        [("Ramban Taxi Service", "ramban-taxi-service.html"), ("Srinagar Taxi", "srinagar-taxi.html"), ("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html")],
+        ["Banihal", "Patnitop", "Jammu", "Udhampur"],
+        "Banihal Taxi Service", "Jammu, Udhampur, Katra or Patnitop", "Banihal",
+        "I would like to enquire about a taxi to or from Banihal."),
+]
+ROUTES += EXTRA_ROUTES
+
+
 for r in ROUTES:
     write(r["path"], build_route_page(
         r["path"], r["title"], r["meta_desc"], r["h1"],
@@ -1231,6 +1487,7 @@ for r in ROUTES:
         active=r["active"], crumb_name=r["crumb_name"],
         related=r["related"], area_served=r["area_served"],
         wa_message=r.get("wa_message"), vehicles_html=r.get("vehicles_html"),
+        form_pickup=r.get("form_pickup", r.get("agent_default_pickup", "")), form_drop=r.get("form_drop", r.get("agent_default_drop", "")),
     ))
 
 print("route pages built")
@@ -1765,6 +2022,8 @@ VEHICLES = [
     ("Ertiga", "MPV with more space, suited to 6 passengers with luggage."),
     ("Innova / Toyota Crysta", "Comfortable SUV, a common choice for mountain routes, 6-7 passengers."),
     ("Tempo Traveller", "Larger vehicle for groups and bigger families travelling together."),
+    ("Glanza", "Compact hatchback suited to couples and small groups with light luggage, subject to availability."),
+    ("Urbania", "Larger passenger van for bigger groups and families travelling together; confirm seating and availability when you enquire."),
 ]
 
 def build_vehicles():
@@ -1781,6 +2040,7 @@ def build_vehicles():
   <div class="container">
     <div class="section-head"><h2>Choose your vehicle</h2></div>
     <div class="grid grid-4">{cards}</div>
+    <p class="small" style="margin-top:20px;">Dedicated pages: <a href="tempo-traveller-booking.html">Tempo Traveller booking</a> · <a href="urbania-booking.html">Urbania booking</a> · <a href="glanza-taxi-service.html">Glanza taxi service</a>.</p>
     <p class="small" style="margin-top:20px;">Fares depend on route, distance, season and vehicle availability, so we do not publish fixed prices online. Call or WhatsApp {PHONE} and we will confirm the current fare for your exact trip.</p>
     {cta_buttons()}
   </div>
@@ -1871,7 +2131,7 @@ def build_contact():
             <div>
               <label for="vehicle">Vehicle Required</label>
               <select id="vehicle" name="vehicle">
-                <option>Dzire</option><option>Ertiga</option><option>Innova / Toyota Crysta</option><option>Tempo Traveller</option><option>Not sure — please suggest</option>
+                {vehicle_options_html()}
               </select>
             </div>
             <div class="full">
@@ -1928,8 +2188,10 @@ def build_privacy():
     analytics_line = (
         "This website uses Google Analytics to count visits and button clicks (for example, Call and WhatsApp buttons). These counts are used only to understand which pages help travellers reach us."
         if GA4_ID else
-        "This website does not currently run analytics or advertising trackers."
+        "This website does not currently run third-party analytics or advertising trackers."
     )
+    if LEAD_ENDPOINT:
+        analytics_line += " When you tap a Call, WhatsApp or email button, we record only that a tap happened, on which page and where you came from (for example Google search), in our private spreadsheet. No name, number or message is stored with it. Your first page and source for the visit are also saved with an enquiry you submit."
     body = f'''
 <section class="page-hero">
   <div class="container">
@@ -2058,6 +2320,55 @@ write("404.html", build_404())
 # Lists every indexable page built above. Excludes: 404, the Google
 # verification file, and the products page unless made indexable.
 # ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+# OWNER LEAD DASHBOARD (dashboard.html)
+# noindex, not in the nav, footer or sitemap. Shows COUNTS ONLY, fetched from the
+# private Apps Script web app with a key that is never written into the site.
+# ---------------------------------------------------------------
+def build_dashboard():
+    endpoint_js = json.dumps(LEAD_ENDPOINT)
+    body = f'''<body>
+<main class="dash">
+  <h1>Patnitop Travels Hub: Lead Dashboard</h1>
+  <p class="dash-sub">Genuine enquiries first. Call and WhatsApp taps show interest; they are not calls answered or bookings. A booking counts as Confirmed only when you set Status to Confirmed in the lead sheet.</p>
+
+  <div class="dash-card">
+    <h2>Unlock</h2>
+    <div class="dash-key">
+      <div><label for="dash-key">Dashboard key</label><input id="dash-key" type="password" autocomplete="off" placeholder="Paste your key"></div>
+      <button type="button" id="dash-load" class="btn btn-primary">Load numbers</button>
+      <button type="button" id="dash-forget" class="btn btn-outline">Forget key</button>
+    </div>
+    <p id="dash-msg" class="dash-msg" role="status"></p>
+  </div>
+
+  <div id="dash-results" hidden>
+    <div class="dash-card"><h2>Summary</h2><div id="dash-tiles" class="dash-tiles"></div><p class="dash-note" id="dash-updated"></p></div>
+    <div class="dash-card"><h2>Enquiries, last 30 days</h2><div id="dash-bars" class="dash-bars" aria-label="Enquiries per day, last 30 days"></div></div>
+    <div class="dash-card"><h2>Most popular landing pages</h2><div id="dash-pages"></div></div>
+    <div class="dash-card"><h2>Enquiry source</h2><div id="dash-sources"></div><p class="dash-note">Source is the first visit source in that browser session: google_organic, google_business_profile (links tagged utm_campaign=gbp), direct, social or referral.</p></div>
+    <div class="dash-card"><h2>What customers asked about</h2><div id="dash-services"></div></div>
+    <div class="dash-card"><h2>Which buttons get tapped</h2><div id="dash-buttons"></div></div>
+  </div>
+
+  <div class="dash-card">
+    <h2>Google search keywords</h2>
+    <p class="dash-note" style="margin-top:0;">Google does not pass search words to websites, so they come from Search Console. In Search Console open Performance, then Export, then Download CSV, and choose the Queries.csv file below. It is read on your device only and is not uploaded.</p>
+    <p><input type="file" id="dash-file" accept=".csv,text/csv" aria-label="Search Console Queries.csv"></p>
+    <div id="dash-gsc"></div>
+  </div>
+</main>
+<script>window.DASH_ENDPOINT = {endpoint_js};</script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>'''
+    html = head("Lead Dashboard | Patnitop Travels Hub",
+                "Private owner dashboard for Patnitop Travels Hub enquiries, call taps, WhatsApp taps and confirmed bookings.",
+                "dashboard.html", "", "", "noindex, nofollow")
+    return html + body
+
+write("dashboard.html", build_dashboard())
 
 def build_sitemap_and_robots():
     paths = ["index.html", "taxi-services.html"] + [r["path"] for r in ROUTES] + [

@@ -20,8 +20,10 @@ Commit the regenerated files together with your edit. Netlify publishes the repo
 ```
 python3 build.py
 python3 tests/check_site.py                                   # pages, SEO, links, sitemap, no invented claims
-node tests/lead-receiver.test.js                              # lead sheet script
-cd tests && npm install && npx playwright install chromium && node agent.test.js   # real-browser tests
+node tests/lead-receiver.test.js                              # lead sheet script (leads, clicks, dashboard stats)
+python3 tests/lead_system.test.py                             # new landing pages, forms, private dashboard, honesty rules
+cd tests && npm install && npx playwright install chromium && node agent.test.js && node lead_forms.test.js   # real-browser tests
+python3 tests/check_live_urls.py                              # AFTER deploy: real Netlify redirect/canonical test
 ```
 
 ## 1. Deploy (Netlify)

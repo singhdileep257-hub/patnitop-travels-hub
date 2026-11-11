@@ -60,7 +60,7 @@ for n, (p, raw) in parsed.items():
     if p.canonical != want: fail(f"{n}: canonical {p.canonical!r} != {want!r}")
     if p.meta.get("og:url") != want: fail(f"{n}: og:url mismatch")
     robots = p.meta.get("robots", "")
-    expect_noindex = n in ("404.html", "local-products-enquiry.html") and not (n == "local-products-enquiry.html" and cfg.get("indexable_products_page"))
+    expect_noindex = n in ("404.html", "local-products-enquiry.html", "dashboard.html") and not (n == "local-products-enquiry.html" and cfg.get("indexable_products_page"))
     if expect_noindex and "noindex" not in robots: fail(f"{n}: should be noindex, robots={robots!r}")
     if not expect_noindex and "noindex" in robots: fail(f"{n}: unexpectedly noindex")
     for j in p.jsonld:
@@ -230,7 +230,7 @@ for fn, (place, enquiry_only) in KASHMIR.items():
         body_part = parsed[src][1][:parsed[src][1].find("<footer")]
         if f'href="{fn}"' not in body_part: fail(f"{fn}: not linked from the content of {src}")
     for src, (sp, sraw) in parsed.items():
-        if src in ("local-products-enquiry.html",) or src.startswith("google"): continue
+        if src in ("local-products-enquiry.html", "dashboard.html") or src.startswith("google"): continue
         if f'href="{fn}"' not in sraw and f'href="/{fn}"' not in sraw: fail(f"{fn}: not linked from {src}")
     if not enquiry_only and fn not in {h.split('#')[0] for h in parsed["srinagar-taxi.html"][0].hrefs}: fail(f"{fn}: not linked from srinagar-taxi.html")
 

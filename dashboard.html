@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Dashboard | Patnitop Travels Hub</title>
+<meta name="description" content="Private owner dashboard for Patnitop Travels Hub enquiries, call taps, WhatsApp taps and confirmed bookings.">
+<link rel="canonical" href="https://patnitoptravelshub.netlify.app/dashboard.html">
+<meta name="robots" content="noindex, nofollow">
+<meta name="geo.region" content="IN-JK">
+<meta name="geo.placename" content="Patnitop, Jammu and Kashmir">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lead Dashboard | Patnitop Travels Hub">
+<meta property="og:description" content="Private owner dashboard for Patnitop Travels Hub enquiries, call taps, WhatsApp taps and confirmed bookings.">
+<meta property="og:url" content="https://patnitoptravelshub.netlify.app/dashboard.html">
+<meta property="og:image" content="https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg">
+<meta property="og:locale" content="en_IN">
+<meta property="og:site_name" content="Patnitop Travels Hub">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lead Dashboard | Patnitop Travels Hub">
+<meta name="twitter:description" content="Private owner dashboard for Patnitop Travels Hub enquiries, call taps, WhatsApp taps and confirmed bookings.">
+<meta name="twitter:image" content="https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚕</text></svg>">
+
+</head>
+<body>
+<main class="dash">
+  <h1>Patnitop Travels Hub: Lead Dashboard</h1>
+  <p class="dash-sub">Genuine enquiries first. Call and WhatsApp taps show interest; they are not calls answered or bookings. A booking counts as Confirmed only when you set Status to Confirmed in the lead sheet.</p>
+
+  <div class="dash-card">
+    <h2>Unlock</h2>
+    <div class="dash-key">
+      <div><label for="dash-key">Dashboard key</label><input id="dash-key" type="password" autocomplete="off" placeholder="Paste your key"></div>
+      <button type="button" id="dash-load" class="btn btn-primary">Load numbers</button>
+      <button type="button" id="dash-forget" class="btn btn-outline">Forget key</button>
+    </div>
+    <p id="dash-msg" class="dash-msg" role="status"></p>
+  </div>
+
+  <div id="dash-results" hidden>
+    <div class="dash-card"><h2>Summary</h2><div id="dash-tiles" class="dash-tiles"></div><p class="dash-note" id="dash-updated"></p></div>
+    <div class="dash-card"><h2>Enquiries, last 30 days</h2><div id="dash-bars" class="dash-bars" aria-label="Enquiries per day, last 30 days"></div></div>
+    <div class="dash-card"><h2>Most popular landing pages</h2><div id="dash-pages"></div></div>
+    <div class="dash-card"><h2>Enquiry source</h2><div id="dash-sources"></div><p class="dash-note">Source is the first visit source in that browser session: google_organic, google_business_profile (links tagged utm_campaign=gbp), direct, social or referral.</p></div>
+    <div class="dash-card"><h2>What customers asked about</h2><div id="dash-services"></div></div>
+    <div class="dash-card"><h2>Which buttons get tapped</h2><div id="dash-buttons"></div></div>
+  </div>
+
+  <div class="dash-card">
+    <h2>Google search keywords</h2>
+    <p class="dash-note" style="margin-top:0;">Google does not pass search words to websites, so they come from Search Console. In Search Console open Performance, then Export, then Download CSV, and choose the Queries.csv file below. It is read on your device only and is not uploaded.</p>
+    <p><input type="file" id="dash-file" accept=".csv,text/csv" aria-label="Search Console Queries.csv"></p>
+    <div id="dash-gsc"></div>
+  </div>
+</main>
+<script>window.DASH_ENDPOINT = "";</script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

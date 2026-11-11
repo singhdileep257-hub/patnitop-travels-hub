@@ -517,3 +517,35 @@ footer.site-footer a:hover { color: var(--saffron); }
   .photo-band { padding: 52px 0 112px; }
   .photo-hero .btn-row .btn, .photo-band .btn-row .btn { width: 100%; justify-content: center; }
 }
+
+/* ---------- Route-page enquiry form (call-first) ---------- */
+.route-form { max-width: 760px; margin: 0 auto; }
+.route-form-lead { margin: 0 0 16px; }
+.route-form-lead a { font-weight: 700; white-space: nowrap; }
+#route-form-success .btn-row { margin-top: 12px; }
+
+/* ---------- Lead dashboard (dashboard.html, owner only, noindex) ---------- */
+.dash { max-width: 980px; margin: 0 auto; padding: 20px 16px 60px; }
+.dash h1 { margin: 0 0 4px; font-size: 1.5rem; }
+.dash .dash-sub { margin: 0 0 18px; color: var(--slate); font-size: .95rem; }
+.dash-card { background: var(--white); border: 1px solid var(--line); padding: 16px; margin-bottom: 16px; }
+.dash-card h2 { margin: 0 0 10px; font-size: 1.1rem; }
+.dash-key { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.dash-key label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 4px; }
+.dash-key input { padding: 10px; border: 1px solid var(--line); min-width: 230px; font: inherit; }
+.dash-msg { margin: 10px 0 0; font-size: .95rem; }
+.dash-msg.err { color: #a12a1b; }
+.dash-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 720px) { .dash-tiles { grid-template-columns: repeat(3, 1fr); } }
+.dash-tile { border: 1px solid var(--line); padding: 12px; background: var(--snow); }
+.dash-tile .n { font-size: 1.9rem; font-weight: 700; line-height: 1.1; color: var(--pine); }
+.dash-tile .l { font-size: .85rem; font-weight: 600; margin-top: 2px; }
+.dash-tile .h { font-size: .75rem; color: var(--slate); margin-top: 2px; }
+.dash-tile.conf .n { color: var(--saffron-dark); }
+.dash-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.dash-table th, .dash-table td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--line); vertical-align: top; word-break: break-word; }
+.dash-table td.num, .dash-table th.num { text-align: right; white-space: nowrap; }
+.dash-bars { display: flex; align-items: flex-end; gap: 2px; height: 90px; }
+.dash-bars span { flex: 1; background: var(--pine); min-height: 2px; }
+.dash-note { font-size: .85rem; color: var(--slate); margin: 8px 0 0; }
+.dash-empty { color: var(--slate); font-size: .92rem; margin: 0; }

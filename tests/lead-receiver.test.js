@@ -9,6 +9,7 @@ const vm = require('vm');
 function makeEnv({ notify = '' } = {}) {
   const sheets = {};
   const mails = [];
+  const props = {};
   function Sheet(name) {
     const rows = [];
     return {
@@ -19,6 +20,7 @@ function makeEnv({ notify = '' } = {}) {
       setFrozenRows: n => { sheets[name].frozen = n; },
       getRange(r, c, nr, nc) {
         return {
+          getValues() { const out = []; for (let i = r - 1; i < Math.min(rows.length, r - 1 + nr); i++) out.push(rows[i].slice(c - 1, c - 1 + nc)); return out; },
           setFontWeight() {}, setDataValidation(rule) { sheets[name].validations.push({ r, c, rule }); },
           createTextFinder(text) {
             return { matchEntireCell() { return this; }, findNext() { for (let i = r - 1; i < rows.length; i++) if (String(rows[i][c - 1]) === text) return {}; return null; } };
@@ -39,6 +41,10 @@ function makeEnv({ notify = '' } = {}) {
     LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
     ContentService: { MimeType: { JSON: 'json' }, createTextOutput: t => ({ text: t, setMimeType() { return this; } }) },
     MailApp: { sendEmail: (...a) => mails.push(a) },
+    PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { props[k] = v; } }) },
+    Utilities: { formatDate: (d) => new Date(d).toISOString().slice(0, 10) },
+    Session: { getScriptTimeZone: () => 'Asia/Kolkata' },
+    Logger: { log() {} },
     console
   };
   vm.createContext(sandbox);
@@ -131,6 +137,76 @@ test('email notification is optional, and a mail failure never loses the lead', 
   env = makeEnv({ notify: 'owner@example.com' });
   env.sandbox.MailApp.sendEmail = () => { throw new Error('quota'); };
   assert.strictEqual(env.post(good()).ok, true); assert.strictEqual(env.sheets['Leads'].rows.length, 2);
+});
+
+
+// ---------------------------------------------------------------
+// Click events, attribution and the dashboard stats endpoint
+// ---------------------------------------------------------------
+test('leads store traffic source, landing page and referrer', () => {
+  const { post, sheets } = makeEnv();
+  post(good({ source: 'route-form', traffic_source: 'google_organic', landing_page: '/ramban-taxi-service.html', referrer: 'www.google.com' }));
+  const head = sheets['Leads'].rows[0], row = sheets['Leads'].rows[1];
+  assert.strictEqual(row[head.indexOf('Traffic source')], 'google_organic');
+  assert.strictEqual(row[head.indexOf('Landing page')], '/ramban-taxi-service.html');
+  assert.strictEqual(row[head.indexOf('Referrer')], 'www.google.com');
+});
+
+test('button-tap events go to the Events tab, never into Leads', () => {
+  const { post, sheets } = makeEnv();
+  assert.strictEqual(post({ type: 'event', event: 'phone_click', page: '/jammu-airport-taxi.html', link_location: 'mobile_bar', traffic_source: 'direct' }).ok, true);
+  assert.strictEqual(post({ type: 'event', event: 'whatsapp_click', page: '/', link_location: 'hero' }).ok, true);
+  assert.strictEqual(sheets['Events'].rows.length, 3);
+  assert(!sheets['Leads'] || sheets['Leads'].rows.length <= 1, 'a click is not a lead');
+});
+
+test('unknown event names are rejected and nothing is stored', () => {
+  const { post, sheets } = makeEnv();
+  assert.strictEqual(post({ type: 'event', event: 'confirmed_booking' }).error, 'bad event');
+  assert(!sheets['Events'] || sheets['Events'].rows.length <= 1);
+});
+
+test('stats are refused without a key, with a wrong key, and when no key was ever created', () => {
+  const env = makeEnv();
+  assert.strictEqual(JSON.parse(env.sandbox.doGet({ parameter: { action: 'stats', key: 'x' } }).text).ok, false);
+  const key = env.sandbox.createDashboardKey();
+  assert(/^[a-z0-9]{24}$/.test(key));
+  assert.strictEqual(JSON.parse(env.sandbox.doGet({ parameter: { action: 'stats' } }).text).error, 'bad key');
+  assert.strictEqual(JSON.parse(env.sandbox.doGet({ parameter: { action: 'stats', key: 'wrong' } }).text).error, 'bad key');
+  assert.strictEqual(JSON.parse(env.sandbox.doGet({ parameter: { action: 'stats', key } }).text).ok, true);
+});
+
+test('stats count enquiries, clicks and confirmed bookings separately', () => {
+  const env = makeEnv(); const { post, sheets, sandbox } = env;
+  const key = sandbox.createDashboardKey();
+  post(good({ lead_id: 'LAAAAAA01', source: 'route-form', traffic_source: 'google_organic', landing_page: '/katra-to-jammu-taxi.html' }));
+  post(good({ lead_id: 'LAAAAAA02', source: 'agent', traffic_source: 'direct', landing_page: '/' }));
+  post(good({ lead_id: 'LAAAAAA03', source: 'contact-form', traffic_source: 'google_organic', landing_page: '/' }));
+  for (let i = 0; i < 5; i++) post({ type: 'event', event: 'phone_click', page: '/', link_location: 'mobile_bar' });
+  for (let i = 0; i < 2; i++) post({ type: 'event', event: 'whatsapp_click', page: '/', link_location: 'hero' });
+  let st = JSON.parse(sandbox.doGet({ parameter: { action: 'stats', key } }).text);
+  assert.strictEqual(st.totals.enquiries, 3);
+  assert.strictEqual(st.totals.confirmed, 0, 'nothing is confirmed until the owner sets Status by hand');
+  assert.strictEqual(st.totals.call_clicks, 5);
+  assert.strictEqual(st.totals.whatsapp_clicks, 2);
+  assert.strictEqual(st.totals.form_submissions, 2);
+  assert.strictEqual(st.totals.assistant_submissions, 1);
+  assert.strictEqual(st.by_source.google_organic, 2);
+  // owner marks one Confirmed and one Cancelled in the sheet
+  sheets['Leads'].rows[1][2] = 'Confirmed'; sheets['Leads'].rows[2][2] = 'Cancelled';
+  st = JSON.parse(sandbox.doGet({ parameter: { action: 'stats', key } }).text);
+  assert.strictEqual(st.totals.confirmed, 1);
+  assert.strictEqual(st.totals.cancelled, 1);
+  assert.strictEqual(st.totals.genuine, 2, 'genuine = not marked Cancelled');
+  assert.strictEqual(st.totals.call_clicks, 5, 'clicks never become bookings');
+});
+
+test('stats never contain names, mobile numbers or message text', () => {
+  const env = makeEnv(); const { post, sandbox } = env;
+  const key = sandbox.createDashboardKey();
+  post(good({ lead_id: 'LPRIVATE01', name: 'Secret Person', mobile: '9876543210', notes: 'private note text' }));
+  const text = sandbox.doGet({ parameter: { action: 'stats', key } }).text;
+  assert(!/Secret Person|9876543210|private note text/.test(text), 'no personal data in stats');
 });
 
 console.log(`\n${passed} passed, ${failed} failed`);

@@ -143,6 +143,82 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+
+  // Route / location landing-page enquiry form. Call-first hand-off: the big
+  // Call button comes before WhatsApp. A submission is an ENQUIRY, never a booking.
+  function showCallFirstHandoff(box, name, waLink) {
+    if (!box) return;
+    box.textContent = '';
+    box.classList.add('show');
+    var p = document.createElement('p');
+    p.textContent = 'Thank you, ' + (name || 'traveller') + '! Your enquiry has been noted. The quickest way to confirm your taxi is to call us now. This is an enquiry, not a confirmed booking.';
+    box.appendChild(p);
+    var row = document.createElement('div');
+    row.className = 'btn-row';
+    var call = document.createElement('a');
+    call.className = 'btn btn-pine';
+    call.href = 'tel:+91' + PHONE_DISPLAY;
+    call.textContent = '📞 Call ' + PHONE_DISPLAY;
+    row.appendChild(call);
+    var wa = document.createElement('a');
+    wa.className = 'btn btn-whatsapp';
+    wa.href = waLink;
+    wa.target = '_blank';
+    wa.rel = 'noopener';
+    wa.textContent = '💬 Send these details on WhatsApp';
+    row.appendChild(wa);
+    box.appendChild(row);
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  var rform = document.getElementById('route-enquiry-form');
+  if (rform) {
+    rform.addEventListener('input', function (e) {
+      if (e.target && e.target.setCustomValidity) e.target.setCustomValidity('');
+    });
+    rform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(rform);
+      var get = function (k) { return (data.get(k) || '').toString().trim(); };
+      if (get('website')) { rform.reset(); return; } // honeypot
+
+      var mobile = validMobile(rform);
+      if (!mobile) return;
+
+      var service = rform.getAttribute('data-service') || 'Taxi enquiry';
+      var consent = get('consent_followup') === 'Yes' ? 'Yes' : 'No';
+      var leadId = window.ptvLead ? window.ptvLead.newId() : '';
+      var payload = {
+        lead_id: leadId, type: 'taxi', source: 'route-form', service: service,
+        name: get('name'), mobile: mobile, pickup: get('pickup'), drop: get('drop'),
+        travel_date: get('travel_date'), passengers: get('passengers'), vehicle: get('vehicle'),
+        notes: get('message'), consent_followup: consent
+      };
+      if (window.ptvLead) window.ptvLead.submit(payload);
+      if (window.ptvTrack) {
+        window.ptvTrack('generate_lead', { lead_type: 'taxi', source: 'route_form' });
+        window.ptvTrack('quote_request', { lead_type: 'taxi', source: 'route_form' });
+      }
+
+      var lines = [
+        'New taxi enquiry — Patnitop Travels Hub (' + service + ')',
+        'Name: ' + payload.name,
+        'Mobile: ' + mobile,
+        'Pickup: ' + payload.pickup,
+        'Destination: ' + payload.drop,
+        'Travel date: ' + payload.travel_date,
+        'Passengers: ' + payload.passengers,
+        'Vehicle: ' + payload.vehicle,
+        'Message: ' + (payload.notes || 'N/A'),
+        'OK to follow up: ' + consent,
+        'Ref: ' + leadId
+      ];
+      var waLink = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+      showCallFirstHandoff(document.getElementById('route-form-success'), payload.name, waLink);
+      rform.reset();
+    });
+  }
+
   // Local products enquiry form (separate from taxi bookings)
   var pform = document.getElementById('product-enquiry-form');
   if (pform) {
