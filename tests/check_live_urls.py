@@ -12,7 +12,8 @@ Standard library only; read-only GET requests."""
 import re, sys, json, os, urllib.request, urllib.error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-site = (sys.argv[1] if len(sys.argv) > 1 else json.load(open(os.path.join(ROOT, "site.config.json")))["site_url"]).rstrip("/")
+configured = json.load(open(os.path.join(ROOT, "site.config.json")))["site_url"].rstrip("/")
+site = (sys.argv[1] if len(sys.argv) > 1 else configured).rstrip("/")   # pass a deploy-preview URL to test it instead
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *a, **k): return None
@@ -30,14 +31,14 @@ def get(url):
 locs = re.findall(r"<loc>([^<]+)</loc>", open(os.path.join(ROOT, "sitemap.xml"), encoding="utf-8").read())
 bad, redirected, unreachable = [], [], 0
 for u in locs:
-    path = u.replace(site, "") or "/"
+    path = u.replace(configured, "") or "/"
     code, loc, body = get(site + path)
     if code == 0: unreachable += 1; print(f"UNREACHABLE {path}: {loc}"); continue
     canon = re.search(r'<link rel="canonical" href="([^"]+)"', body)
     line = f"{code} {path}"
     if code in (301, 302, 307, 308): redirected.append(path); line += f" -> {loc}"
     elif code != 200: bad.append(path); line += "  (unexpected status)"
-    elif canon and canon.group(1) != u: bad.append(path); line += f"  canonical mismatch: {canon.group(1)}"
+    elif canon and canon.group(1) != u:  # canonical is expected to be the configured address bad.append(path); line += f"  canonical mismatch: {canon.group(1)}"
     if path.endswith(".html"):
         c2, l2, _ = get(site + path[:-5]); line += f" | clean variant: {c2}" + (f" -> {l2}" if l2 else "")
     print(line)
