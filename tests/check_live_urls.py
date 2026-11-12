@@ -38,7 +38,7 @@ for u in locs:
     line = f"{code} {path}"
     if code in (301, 302, 307, 308): redirected.append(path); line += f" -> {loc}"
     elif code != 200: bad.append(path); line += "  (unexpected status)"
-    elif canon and canon.group(1) != u:  # canonical is expected to be the configured address bad.append(path); line += f"  canonical mismatch: {canon.group(1)}"
+    elif canon and canon.group(1) != u: bad.append(path); line += f"  canonical mismatch: {canon.group(1)}"
     if path.endswith(".html"):
         c2, l2, _ = get(site + path[:-5]); line += f" | clean variant: {c2}" + (f" -> {l2}" if l2 else "")
     print(line)
