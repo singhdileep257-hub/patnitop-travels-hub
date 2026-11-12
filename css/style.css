@@ -549,3 +549,6 @@ footer.site-footer a:hover { color: var(--saffron); }
 .dash-bars span { flex: 1; background: var(--pine); min-height: 2px; }
 .dash-note { font-size: .85rem; color: var(--slate); margin: 8px 0 0; }
 .dash-empty { color: var(--slate); font-size: .92rem; margin: 0; }
+
+/* 16px minimum on form fields so phones (iPhone Safari in particular) do not zoom the page when a field is tapped */
+.booking-panel input, .booking-panel select, .booking-panel textarea, form input, form select, form textarea { font-size: 16px; }

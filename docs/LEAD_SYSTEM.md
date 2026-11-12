@@ -20,7 +20,7 @@ New landing pages: Jammu Airport Taxi, Katra Railway Station Taxi, Katra to Jamm
 
 I cannot sign in to your Google or Netlify accounts, and I will never ask for a password, OTP or recovery code.
 
-1. **Create the lead sheet (10 minutes, free).** Follow section 4 of `docs/SETUP.md`: new Google Sheet, Extensions, Apps Script, paste `apps-script/lead-receiver.gs`, run `setup`, then run `createDashboardKey` and read the key in View, Logs. Deploy as a Web app (Execute as: Me, Access: Anyone). Copy the `/exec` URL.
+1. **Create the lead sheet (10 minutes, free).** Follow `docs/ANDROID_SETUP.md` (phone) or section 4 of `docs/SETUP.md` (computer): new Google Sheet, Extensions, Apps Script, paste `apps-script/lead-receiver.gs`, run `setup`, then run `createDashboardKey` and read the key in View, Logs. Deploy as a Web app (Execute as: Me, Access: Anyone). Copy the `/exec` URL.
 2. **Create the free GA4 property** at analytics.google.com, add a Web data stream for the Netlify address, and copy the Measurement ID (looks like `G-XXXXXXXXXX`). In GA4, Admin, Events, mark `generate_lead` as a key event.
 3. **Put both values in `site.config.json`** (`ga4_measurement_id`, `lead_endpoint`) and tell me, or run `python3 build.py` yourself. Nothing else needs editing; the privacy page text updates by itself.
 4. **Search Console:** submit `https://patnitoptravelshub.netlify.app/sitemap.xml` (Indexing, Sitemaps) and use URL Inspection, Request indexing, on the 8 new pages.

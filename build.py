@@ -779,7 +779,7 @@ def build_route_page(path, title, meta_desc, h1, intro_paragraphs, points, faqs,
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Vehicles available</h2></div>
-    {vehicles_html or '<p>Dzire, Ertiga, Innova / Toyota Crysta and Tempo Traveller are commonly available for this route, depending on your group size. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>'}
+    {vehicles_html or '<p>Dzire, Ertiga, Glanza, Innova / Toyota Crysta, Tempo Traveller and Urbania can be arranged for this route, depending on your group size and availability. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>'}
   </div>
 </section>
 {route_form_html(crumb_name or h1, form_pickup, form_drop)}

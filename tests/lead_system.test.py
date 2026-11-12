@@ -91,6 +91,21 @@ for f in glob.glob(os.path.join(ROOT, "*.html")):
 if re.search(r"key\s*=\s*['\"][a-z0-9]{12,}", d + read("js/dashboard.js")): fail("a dashboard key appears to be hard-coded")
 if "Confirmed bookings" not in d + read("js/dashboard.js"): fail("dashboard must show confirmed bookings separately")
 
+# all six vehicles are named on route pages and recognised by the chat assistant
+for fn in ("katra-to-patnitop-taxi.html", "jammu-to-patnitop-taxi.html"):
+    v = visible(read(fn))
+    for name in ("Dzire", "Ertiga", "Glanza", "Innova / Toyota Crysta", "Tempo Traveller", "Urbania"):
+        if name not in v: fail(f"{fn}: vehicle {name} not mentioned")
+ag = read("js/agent.js")
+for w in ("'glanza'", "'urbania'"):
+    if w not in ag: fail(f"agent.js free-text vehicle recogniser missing {w}")
+av = json.loads(re.search(r"=\s*(\{.*\})\s*;?\s*$", read("js/agent-data.js"), re.S).group(1))
+names = [x["name"] for x in av["vehicles"]]
+for name in ("Glanza", "Urbania"):
+    if name not in names: fail(f"agent-data vehicles missing {name}")
+    x = [y for y in av["vehicles"] if y["name"] == name][0]
+    if x.get("capacity"): fail(f"{name}: seat capacity must not be invented")
+
 # only the primary number anywhere
 for f in glob.glob(os.path.join(ROOT, "*.html")) + glob.glob(os.path.join(ROOT, "js", "*.js")):
     r = open(f, encoding="utf-8").read()

@@ -233,6 +233,28 @@ async function test(name, fn) {
     }
   });
 
+  await test('small Android width (360px): all new pages fit, taps are big enough, the sticky bar hides nothing, inputs do not trigger zoom', async () => {
+    for (const f of NEW_PAGES.concat(['katra-to-patnitop-taxi.html', 'contact.html'])) {
+      const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true });
+      const page = await ctx.newPage(); await page.route('**/*', r => r.request().url().startsWith(base) ? r.continue() : r.abort());
+      await page.goto(base + '/' + f);
+      const m = await page.evaluate(() => {
+        const bar = document.querySelector('.mobile-bar'), barH = bar ? bar.getBoundingClientRect().height : 0;
+        const call = [...document.querySelectorAll('a[href^="tel:"]')].filter(a => a.offsetParent && a.className); // buttons only; inline text links inside sentences are exempt
+        const small = call.filter(a => a.getBoundingClientRect().height < 44).map(a => a.textContent.trim().slice(0, 30));
+        const inputs = [...document.querySelectorAll('form input:not([type=checkbox]):not([type=hidden]), form select, form textarea')].filter(i => i.offsetParent);
+        const tiny = inputs.filter(i => parseFloat(getComputedStyle(i).fontSize) < 16).map(i => i.name || i.id);
+        return { over: document.documentElement.scrollWidth - document.documentElement.clientWidth, barH, pad: parseFloat(getComputedStyle(document.body).paddingBottom), small, tiny, barVisible: !!bar && getComputedStyle(bar).display !== 'none' };
+      });
+      assert(m.over <= 1, f + ' overflows by ' + m.over + 'px');
+      assert(m.barVisible, f + ': sticky Call bar not visible');
+      assert(m.pad + 1 >= m.barH, f + ': page bottom padding ' + m.pad + ' is smaller than the sticky bar ' + m.barH + ' (footer content would be hidden)');
+      assert.deepStrictEqual(m.small, [], f + ': Call links under 44px tall: ' + m.small);
+      assert.deepStrictEqual(m.tiny, [], f + ': form fields under 16px font (phones zoom in): ' + m.tiny);
+      await ctx.close();
+    }
+  });
+
   await browser.close(); server.close();
   console.log(`\n${passed} passed, ${failures.length} failed`);
   process.exit(failures.length ? 1 : 0);
