@@ -234,7 +234,7 @@ async function test(name, fn) {
   });
 
   await test('small Android width (360px): all new pages fit, taps are big enough, the sticky bar hides nothing, inputs do not trigger zoom', async () => {
-    for (const f of NEW_PAGES.concat(['katra-to-patnitop-taxi.html', 'contact.html'])) {
+    for (const f of NEW_PAGES.concat(['katra-to-patnitop-taxi.html', 'contact.html', 'index.html', 'taxi-services.html', 'faq.html', 'privacy.html'])) {
       const ctx = await browser.newContext({ viewport: { width: 360, height: 740 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true });
       const page = await ctx.newPage(); await page.route('**/*', r => r.request().url().startsWith(base) ? r.continue() : r.abort());
       await page.goto(base + '/' + f);

@@ -552,3 +552,9 @@ footer.site-footer a:hover { color: var(--saffron); }
 
 /* 16px minimum on form fields so phones (iPhone Safari in particular) do not zoom the page when a field is tapped */
 .booking-panel input, .booking-panel select, .booking-panel textarea, form input, form select, form textarea { font-size: 16px; }
+
+/* Local-SEO service areas block */
+.area-links { list-style: none; margin: 10px 0 0; padding: 0; }
+.area-links li { margin: 6px 0; font-size: .95rem; }
+.area-links a { font-weight: 600; }
+@media (max-width: 720px) { #service-areas .grid-2 { grid-template-columns: 1fr; } }

@@ -150,6 +150,11 @@ def head(title, description, canonical_path, extra_schema="", extra_meta="", rob
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="Patnitop Travels Hub">
 
+<meta property="business:contact_data:phone_number" content="{PHONE_INTL}">
+<meta property="business:contact_data:locality" content="Patnitop">
+<meta property="business:contact_data:region" content="Jammu and Kashmir">
+<meta property="business:contact_data:country_name" content="India">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{description}">
@@ -164,34 +169,61 @@ def head(title, description, canonical_path, extra_schema="", extra_meta="", rob
 </head>
 '''
 
+BUSINESS_ID = f"{SITE_URL}/#business"
+INSTAGRAM_URL = "https://www.instagram.com/patnitoptravelshub/"   # official business profile, supplied by the owner
+SERVICE_TOWNS = ["Jammu", "Katra", "Udhampur", "Chenani", "Ramban", "Banihal", "Bhaderwah", "Srinagar"]
+SERVICE_PLACES = ["Patnitop", "Kud", "Nathatop", "Sanasar", "Gulmarg", "Pahalgam", "Sonamarg"]
+
+def _ld(obj):
+    """Serialise one JSON-LD block. Built from real objects, never hand-written JSON."""
+    return '<script type="application/ld+json">\n' + json.dumps(obj, indent=2, ensure_ascii=False) + '\n</script>'
+
+def _area_objects(names=None):
+    names = names or (SERVICE_TOWNS + SERVICE_PLACES)
+    return [{"@type": "City" if n in SERVICE_TOWNS else "Place", "name": n} for n in names]
+
+def _phone_channel():
+    """The one phone number, expressed as a reservations channel (used by the business and every service)."""
+    return {
+        "@type": "ServiceChannel",
+        "name": "Call or WhatsApp to book a taxi",
+        "servicePhone": {"@type": "ContactPoint", "telephone": PHONE_INTL, "contactType": "reservations", "areaServed": "IN"},
+    }
+
 def local_business_schema():
-    return f'''<script type="application/ld+json">
-{{
-  "@context": "https://schema.org",
-  "@type": "TravelAgency",
-  "name": "Patnitop Travels Hub",
-  "image": "{SITE_URL}/images/patnitop-hero.jpg",
-  "url": "{SITE_URL}/",
-  "telephone": "{PHONE_INTL}",
-  "email": "{EMAIL}",
-  "address": {{
-    "@type": "PostalAddress",
-    "streetAddress": "Patnitop",
-    "addressLocality": "Patnitop",
-    "addressRegion": "Jammu and Kashmir",
-    "postalCode": "182142",
-    "addressCountry": "IN"
-  }},
-  "geo": {{
-    "@type": "GeoCoordinates",
-    "latitude": 33.0903,
-    "longitude": 75.3264
-  }},
-  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Ramban", "Banihal", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
-  "founder": {{ "@type": "Person", "name": "Dileep Singh" }},
-  "sameAs": {json.dumps([GBP_MAPS_URL] if GBP_MAPS_URL else [])}{(',' + chr(10) + '  "hasMap": ' + json.dumps(GBP_MAPS_URL)) if GBP_MAPS_URL else ''}
-}}
-</script>'''
+    same_as = [INSTAGRAM_URL] + ([GBP_MAPS_URL] if GBP_MAPS_URL else [])
+    obj = {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",           # a schema.org LocalBusiness subtype
+        "@id": BUSINESS_ID,
+        "name": "Patnitop Travels Hub",
+        "description": f"Taxi, sightseeing and hotel booking assistance for travellers in Patnitop and Jammu & Kashmir. Call or WhatsApp {PHONE}.",
+        "url": f"{SITE_URL}/",
+        "image": f"{SITE_URL}/images/patnitop-hero.jpg",
+        "telephone": PHONE_INTL,
+        "email": EMAIL,
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Kud, Patnitop",
+            "addressLocality": "Patnitop",
+            "addressRegion": "Jammu and Kashmir",
+            "postalCode": "182142",
+            "addressCountry": "IN",
+        },
+        "geo": {"@type": "GeoCoordinates", "latitude": 33.0903, "longitude": 75.3264},
+        "contactPoint": [{"@type": "ContactPoint", "telephone": PHONE_INTL, "contactType": "reservations", "areaServed": "IN"}],
+        "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "00:00", "closes": "23:59",
+        }],
+        "areaServed": _area_objects(),
+        "founder": {"@type": "Person", "name": "Dileep Singh"},
+        "sameAs": same_as,
+    }
+    if GBP_MAPS_URL:
+        obj["hasMap"] = GBP_MAPS_URL
+    return _ld(obj)
 
 def breadcrumb_schema(items):
     # items: list of (name, path)
@@ -218,26 +250,31 @@ def website_schema():
 </script>'''
 
 def service_schema(name, description, area_served):
-    # Used only on the 6 dedicated single-route/single-service landing
-    # pages, where one page = one genuine service. Not added to the
-    # taxi-services hub or homepage, which already cover the business
-    # broadly via TravelAgency — adding Service there would duplicate it.
-    areas = ",".join(f'"{a}"' for a in area_served)
-    return f'''<script type="application/ld+json">
-{{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "serviceType": "{name}",
-  "name": "{name}",
-  "description": "{description}",
-  "provider": {{
-    "@type": "TravelAgency",
-    "name": "Patnitop Travels Hub",
-    "telephone": "{PHONE_INTL}"
-  }},
-  "areaServed": [{areas}]
-}}
-</script>'''
+    # Used on the dedicated single-route / single-service landing pages (one page = one genuine service).
+    # TaxiService is a schema.org Service subtype. The provider points at the one business entity by @id.
+    return _ld({
+        "@context": "https://schema.org",
+        "@type": "TaxiService",
+        "serviceType": name,
+        "name": name,
+        "description": description,
+        "provider": {"@type": "TravelAgency", "@id": BUSINESS_ID, "name": "Patnitop Travels Hub", "telephone": PHONE_INTL, "url": f"{SITE_URL}/"},
+        "areaServed": _area_objects([a for a in area_served]),
+        "availableChannel": _phone_channel(),
+    })
+
+def taxi_service_schema():
+    # Business-wide taxi service for the home and taxi-services pages (the per-route pages carry their own).
+    return _ld({
+        "@context": "https://schema.org",
+        "@type": "TaxiService",
+        "name": "Patnitop Travels Hub taxi service",
+        "serviceType": ["Outstation taxi", "Airport and railway station transfer", "Patnitop sightseeing taxi", "Tempo Traveller and Urbania group travel"],
+        "description": f"Taxi service from Jammu, Katra, Udhampur and Patnitop. Call or WhatsApp {PHONE} for current rates and availability.",
+        "provider": {"@type": "TravelAgency", "@id": BUSINESS_ID, "name": "Patnitop Travels Hub", "telephone": PHONE_INTL, "url": f"{SITE_URL}/"},
+        "areaServed": _area_objects(),
+        "availableChannel": _phone_channel(),
+    })
 
 def faq_schema(qas):
     entries = []
@@ -366,7 +403,7 @@ def footer():
           <li>Dileep Singh</li>
           <li><a href="tel:+91{PHONE}">{PHONE}</a></li>
           <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
-          <li>Patnitop, Jammu &amp; Kashmir, India</li>{(f'{chr(10)}          <li><a href="{GBP_MAPS_URL}" target="_blank" rel="noopener">📍 Find us on Google Maps</a></li>') if GBP_MAPS_URL else ''}
+          <li>Kud, Patnitop, Jammu &amp; Kashmir, India</li>{(f'{chr(10)}          <li><a href="{GBP_MAPS_URL}" target="_blank" rel="noopener">📍 Find us on Google Maps</a></li>') if GBP_MAPS_URL else ''}
         </ul>
       </div>
     </div>
@@ -457,6 +494,34 @@ def route_form_html(service_label, pickup_hint="", drop_hint=""):
       </form>
       <div class="form-success" id="route-form-success"></div>
     </div>
+  </div>
+</section>'''
+
+def service_areas_html():
+    """Local-SEO hub: one short, distinct block per base area, linking only to pages that already exist.
+    No fares, distances or journey times. Every block carries the call number."""
+    areas = [
+        ("Taxi from Jammu", "Pickup from Jammu city, Jammu Airport or Jammu Railway Station for Patnitop and onward trips.",
+         [("Jammu to Patnitop Taxi", "jammu-to-patnitop-taxi.html"), ("Jammu Airport Taxi", "jammu-airport-taxi.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html")]),
+        ("Taxi from Katra", "Pickup from Katra town or Katra Railway Station, including for travellers continuing to Patnitop after the Vaishno Devi yatra.",
+         [("Katra to Patnitop Taxi", "katra-to-patnitop-taxi.html"), ("Katra Railway Station Taxi", "katra-railway-station-taxi.html"), ("Katra to Jammu Taxi", "katra-to-jammu-taxi.html")]),
+        ("Taxi from Udhampur", "One-way or round-trip taxi between Udhampur, Chenani and Patnitop.",
+         [("Udhampur to Patnitop Taxi", "udhampur-to-patnitop-taxi.html"), ("Chenani to Patnitop Taxi", "chenani-to-patnitop-taxi.html"), ("Ramban Taxi Service", "ramban-taxi-service.html")]),
+        ("Taxi in Patnitop and Kud", "Based in Kud, Patnitop: hotel pickup and drop, and local sightseeing around Nathatop and Sanasar.",
+         [("Patnitop Sightseeing Taxi", "patnitop-sightseeing.html"), ("Kud to Patnitop Taxi", "kudh-to-patnitop-taxi.html"), ("Nathatop &amp; Sanasar Taxi", "nathatop-sanasar-taxi.html")]),
+    ]
+    cards = ""
+    for title, text, links in areas:
+        li = "".join(f'<li><a href="{href}">{label}</a></li>' for label, href in links)
+        cards += f'''<div class="card"><h3>{title}</h3><p>{text}</p><ul class="area-links">{li}</ul><p style="margin-top:12px;"><a class="btn btn-pine" href="tel:+91{PHONE}">📞 Call {PHONE}</a></p></div>'''
+    return f'''<section id="service-areas">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow-plain">Where we pick you up</span>
+      <h2>Taxi service from Jammu, Katra, Udhampur and Patnitop</h2>
+      <p>Call <a href="tel:+91{PHONE}">{PHONE}</a> or WhatsApp us with your pickup point, date and number of people. We confirm availability and the rate with you before booking.</p>
+    </div>
+    <div class="grid grid-2">{cards}</div>
   </div>
 </section>'''
 
@@ -606,6 +671,8 @@ def build_home():
   </div>
 </section>
 
+{service_areas_html()}
+
 <section class="section-alt">
   <div class="container">
     <div class="section-head">
@@ -663,7 +730,7 @@ def build_home():
   </div>
 </section>
 '''
-    schemas = [local_business_schema(), website_schema(), faq_schema(GLOBAL_FAQS)]
+    schemas = [local_business_schema(), taxi_service_schema(), website_schema(), faq_schema(GLOBAL_FAQS)]
     return page(
         "Patnitop Taxi Service &amp; Travel Agency | Patnitop Travels Hub",
         "Taxi service in Patnitop, Kud, Chenani, Udhampur, Katra and Jammu, plus sightseeing and hotel booking help. Call or WhatsApp Patnitop Travels Hub on 9103331334.",
@@ -740,9 +807,10 @@ def build_taxi_services():
     {cta_buttons()}
   </div>
 </section>
+{service_areas_html()}
 {faq_block(taxi_faqs, "Taxi Service FAQs")}
 '''
-    schemas = [local_business_schema(), breadcrumb_schema([("Home", "index.html"), ("Taxi Services", "taxi-services.html")]), faq_schema(taxi_faqs)]
+    schemas = [local_business_schema(), taxi_service_schema(), breadcrumb_schema([("Home", "index.html"), ("Taxi Services", "taxi-services.html")]), faq_schema(taxi_faqs)]
     return page(
         "Patnitop Taxi Service | Airport, Railway &amp; Sightseeing Taxi",
         "Taxi in Patnitop from Kud, Chenani, Udhampur, Katra and Jammu: airport and railway transfers, sightseeing and outstation trips. Call 9103331334.",
@@ -2080,7 +2148,7 @@ def build_faq():
     schemas = [local_business_schema(), faq_schema(GLOBAL_FAQS), breadcrumb_schema([("Home", "index.html"), ("FAQ", "faq.html")])]
     return page(
         "FAQ — Patnitop Taxi, Hotel &amp; Sightseeing Questions",
-        "Frequently asked questions about Patnitop taxi booking, Katra & Jammu transfers, hotel booking and sightseeing with Patnitop Travels Hub.",
+        f"Answers about Patnitop taxi booking, Katra and Jammu transfers, hotel booking and sightseeing. Call or WhatsApp Patnitop Travels Hub on {PHONE}.",
         "faq.html", "faq.html", body,
         breadcrumb_items=[("Home", "index.html"), ("FAQ", "faq.html")],
         schema_list=schemas
@@ -2105,7 +2173,7 @@ def build_contact():
     <div class="grid grid-2" style="align-items:start;">
       <div>
         <h2 class="mt-0">Get in touch</h2>
-        <p><strong>Patnitop Travels Hub</strong><br>Dileep Singh<br>Patnitop, Jammu &amp; Kashmir, India</p>
+        <p><strong>Patnitop Travels Hub</strong><br>Dileep Singh<br>Kud, Patnitop, Jammu &amp; Kashmir, India</p>
         <p>
           📞 <a href="tel:+91{PHONE}">{PHONE}</a><br>
           ✉️ <a href="mailto:{EMAIL}">{EMAIL}</a><br>
@@ -2218,10 +2286,10 @@ def build_privacy():
 '''
     return page(
         "Privacy Notice | Patnitop Travels Hub",
-        "How Patnitop Travels Hub uses the details you share when you make a taxi, hotel, couple shoot or product enquiry.",
+        f"How Patnitop Travels Hub uses the details you share in a taxi, hotel or product enquiry. Questions? Call {PHONE}.",
         "privacy.html", "", body,
         breadcrumb_items=[("Home", "index.html"), ("Privacy", "privacy.html")],
-        schema_list=[breadcrumb_schema([("Home", "index.html"), ("Privacy", "privacy.html")])]
+        schema_list=[local_business_schema(), breadcrumb_schema([("Home", "index.html"), ("Privacy", "privacy.html")])]
     )
 
 write("privacy.html", build_privacy())

@@ -19,6 +19,11 @@
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="Patnitop Travels Hub">
 
+<meta property="business:contact_data:phone_number" content="+919103331334">
+<meta property="business:contact_data:locality" content="Patnitop">
+<meta property="business:contact_data:region" content="Jammu and Kashmir">
+<meta property="business:contact_data:country_name" content="India">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mantalai Taxi from Patnitop &amp; Jammu | Patnitop Travels Hub">
 <meta name="twitter:description" content="Book a Mantalai taxi from Patnitop, Jammu or Katra, alone or with Sudh Mahadev and Gauri Kund. Call or WhatsApp 9103331334 for fare and availability.">
@@ -33,14 +38,16 @@
 {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
+  "@id": "https://patnitoptravelshub.netlify.app/#business",
   "name": "Patnitop Travels Hub",
-  "image": "https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg",
+  "description": "Taxi, sightseeing and hotel booking assistance for travellers in Patnitop and Jammu & Kashmir. Call or WhatsApp 9103331334.",
   "url": "https://patnitoptravelshub.netlify.app/",
+  "image": "https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg",
   "telephone": "+919103331334",
   "email": "singhdileep257@gmail.com",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Patnitop",
+    "streetAddress": "Kud, Patnitop",
     "addressLocality": "Patnitop",
     "addressRegion": "Jammu and Kashmir",
     "postalCode": "182142",
@@ -51,9 +58,99 @@
     "latitude": 33.0903,
     "longitude": 75.3264
   },
-  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Ramban", "Banihal", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
-  "founder": { "@type": "Person", "name": "Dileep Singh" },
-  "sameAs": []
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+919103331334",
+      "contactType": "reservations",
+      "areaServed": "IN"
+    }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  ],
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Jammu"
+    },
+    {
+      "@type": "City",
+      "name": "Katra"
+    },
+    {
+      "@type": "City",
+      "name": "Udhampur"
+    },
+    {
+      "@type": "City",
+      "name": "Chenani"
+    },
+    {
+      "@type": "City",
+      "name": "Ramban"
+    },
+    {
+      "@type": "City",
+      "name": "Banihal"
+    },
+    {
+      "@type": "City",
+      "name": "Bhaderwah"
+    },
+    {
+      "@type": "City",
+      "name": "Srinagar"
+    },
+    {
+      "@type": "Place",
+      "name": "Patnitop"
+    },
+    {
+      "@type": "Place",
+      "name": "Kud"
+    },
+    {
+      "@type": "Place",
+      "name": "Nathatop"
+    },
+    {
+      "@type": "Place",
+      "name": "Sanasar"
+    },
+    {
+      "@type": "Place",
+      "name": "Gulmarg"
+    },
+    {
+      "@type": "Place",
+      "name": "Pahalgam"
+    },
+    {
+      "@type": "Place",
+      "name": "Sonamarg"
+    }
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Dileep Singh"
+  },
+  "sameAs": [
+    "https://www.instagram.com/patnitoptravelshub/"
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -65,16 +162,45 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
+  "@type": "TaxiService",
   "serviceType": "Mantalai Taxi",
   "name": "Mantalai Taxi",
   "description": "Book a Mantalai taxi from Patnitop, Jammu or Katra, alone or with Sudh Mahadev and Gauri Kund. Call or WhatsApp 9103331334 for fare and availability.",
   "provider": {
     "@type": "TravelAgency",
+    "@id": "https://patnitoptravelshub.netlify.app/#business",
     "name": "Patnitop Travels Hub",
-    "telephone": "+919103331334"
+    "telephone": "+919103331334",
+    "url": "https://patnitoptravelshub.netlify.app/"
   },
-  "areaServed": ["Mantalai","Sudh Mahadev","Patnitop","Jammu"]
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Mantalai"
+    },
+    {
+      "@type": "Place",
+      "name": "Sudh Mahadev"
+    },
+    {
+      "@type": "Place",
+      "name": "Patnitop"
+    },
+    {
+      "@type": "City",
+      "name": "Jammu"
+    }
+  ],
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "name": "Call or WhatsApp to book a taxi",
+    "servicePhone": {
+      "@type": "ContactPoint",
+      "telephone": "+919103331334",
+      "contactType": "reservations",
+      "areaServed": "IN"
+    }
+  }
 }
 </script>
 </head>
@@ -238,7 +364,7 @@
           <li>Dileep Singh</li>
           <li><a href="tel:+919103331334">9103331334</a></li>
           <li><a href="mailto:singhdileep257@gmail.com">singhdileep257@gmail.com</a></li>
-          <li>Patnitop, Jammu &amp; Kashmir, India</li>
+          <li>Kud, Patnitop, Jammu &amp; Kashmir, India</li>
         </ul>
       </div>
     </div>

@@ -174,7 +174,7 @@ for fn, (place, enquiry_only) in KASHMIR.items():
     for j in p.jsonld:
         d = json.loads(j)
         for node in (d if isinstance(d, list) else [d]):
-            if node.get("@type") in ("FAQPage", "Service"):
+            if node.get("@type") in ("FAQPage", "Service", "TaxiService"):
                 schema_text += " " + " ".join(s for k, v in node.items() if k not in ("@context", "@type", "provider") for s in _strings(v))
     scan = vis + " " + meta_all + " " + _kh.unescape(schema_text)
 
@@ -189,7 +189,7 @@ for fn, (place, enquiry_only) in KASHMIR.items():
     if other_numbers: fail(f"{tag}: other phone-like numbers on page: {sorted(other_numbers)}")
 
     # no invented prices or figures: the phone number is the only number allowed in visible text/meta
-    leftover = re.sub(PRIMARY, "", scan)
+    leftover = re.sub(r"\+91\s?" + PRIMARY + "|" + PRIMARY, "", scan)   # the +91 country code belongs to the number
     if re.search(r"\d", leftover): fail(f"{tag}: contains numbers other than {PRIMARY} (prices, distances, times, years?): {re.findall(r'.{15}\d+.{10}', leftover)[:3]}")
     for pat, why in BANNED:
         m = re.search(pat, scan, re.I)
@@ -212,9 +212,9 @@ for fn, (place, enquiry_only) in KASHMIR.items():
         d = json.loads(j)
         for node in (d if isinstance(d, list) else [d]):
             t = node.get("@type"); types.update(t if isinstance(t, list) else [t])
-            if t == "Service": svc_areas = [a if isinstance(a, str) else a.get("name") for a in node.get("areaServed", [])]
+            if t in ("Service", "TaxiService"): svc_areas = [a if isinstance(a, str) else a.get("name") for a in node.get("areaServed", [])]
             if t == "FAQPage" and len(node.get("mainEntity", [])) < 5: fail(f"{tag}: FAQ schema has fewer than 5 questions")
-    for want in ("Service", "FAQPage", "BreadcrumbList", "TravelAgency"):
+    for want in ("TaxiService", "FAQPage", "BreadcrumbList", "TravelAgency"):
         if want not in types: fail(f"{tag}: missing {want} structured data")
     if enquiry_only and place in svc_areas: fail(f"{tag}: Service schema must not list {place} as an area served until service there is verified")
     if len(re.findall(r'<details class="faq-item">', raw)) < 5: fail(f"{tag}: visible FAQ has fewer than 5 questions")
