@@ -19,6 +19,11 @@
 <meta property="og:locale" content="en_IN">
 <meta property="og:site_name" content="Patnitop Travels Hub">
 
+<meta property="business:contact_data:phone_number" content="+919103331334">
+<meta property="business:contact_data:locality" content="Patnitop">
+<meta property="business:contact_data:region" content="Jammu and Kashmir">
+<meta property="business:contact_data:country_name" content="India">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gauri Kund Taxi from Patnitop &amp; Jammu | Patnitop Travels Hub">
 <meta name="twitter:description" content="Book a Gauri Kund taxi near Sudh Mahadev from Patnitop, Jammu or Katra, with optional Mantalai stop. Call or WhatsApp 9103331334.">
@@ -33,14 +38,16 @@
 {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
+  "@id": "https://patnitoptravelshub.netlify.app/#business",
   "name": "Patnitop Travels Hub",
-  "image": "https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg",
+  "description": "Taxi, sightseeing and hotel booking assistance for travellers in Patnitop and Jammu & Kashmir. Call or WhatsApp 9103331334.",
   "url": "https://patnitoptravelshub.netlify.app/",
+  "image": "https://patnitoptravelshub.netlify.app/images/patnitop-hero.jpg",
   "telephone": "+919103331334",
   "email": "singhdileep257@gmail.com",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Patnitop",
+    "streetAddress": "Kud, Patnitop",
     "addressLocality": "Patnitop",
     "addressRegion": "Jammu and Kashmir",
     "postalCode": "182142",
@@ -51,9 +58,99 @@
     "latitude": 33.0903,
     "longitude": 75.3264
   },
-  "areaServed": ["Patnitop", "Kud", "Chenani", "Udhampur", "Katra", "Jammu", "Nathatop", "Sanasar", "Bhaderwah", "Srinagar", "Gulmarg", "Pahalgam", "Sonamarg"],
-  "founder": { "@type": "Person", "name": "Dileep Singh" },
-  "sameAs": []
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+919103331334",
+      "contactType": "reservations",
+      "areaServed": "IN"
+    }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  ],
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Jammu"
+    },
+    {
+      "@type": "City",
+      "name": "Katra"
+    },
+    {
+      "@type": "City",
+      "name": "Udhampur"
+    },
+    {
+      "@type": "City",
+      "name": "Chenani"
+    },
+    {
+      "@type": "City",
+      "name": "Ramban"
+    },
+    {
+      "@type": "City",
+      "name": "Banihal"
+    },
+    {
+      "@type": "City",
+      "name": "Bhaderwah"
+    },
+    {
+      "@type": "City",
+      "name": "Srinagar"
+    },
+    {
+      "@type": "Place",
+      "name": "Patnitop"
+    },
+    {
+      "@type": "Place",
+      "name": "Kud"
+    },
+    {
+      "@type": "Place",
+      "name": "Nathatop"
+    },
+    {
+      "@type": "Place",
+      "name": "Sanasar"
+    },
+    {
+      "@type": "Place",
+      "name": "Gulmarg"
+    },
+    {
+      "@type": "Place",
+      "name": "Pahalgam"
+    },
+    {
+      "@type": "Place",
+      "name": "Sonamarg"
+    }
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Dileep Singh"
+  },
+  "sameAs": [
+    "https://www.instagram.com/patnitoptravelshub/"
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -65,16 +162,45 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
+  "@type": "TaxiService",
   "serviceType": "Gauri Kund Taxi",
   "name": "Gauri Kund Taxi",
   "description": "Book a Gauri Kund taxi near Sudh Mahadev from Patnitop, Jammu or Katra, with optional Mantalai stop. Call or WhatsApp 9103331334.",
   "provider": {
     "@type": "TravelAgency",
+    "@id": "https://patnitoptravelshub.netlify.app/#business",
     "name": "Patnitop Travels Hub",
-    "telephone": "+919103331334"
+    "telephone": "+919103331334",
+    "url": "https://patnitoptravelshub.netlify.app/"
   },
-  "areaServed": ["Gauri Kund","Sudh Mahadev","Patnitop","Jammu"]
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Gauri Kund"
+    },
+    {
+      "@type": "Place",
+      "name": "Sudh Mahadev"
+    },
+    {
+      "@type": "Place",
+      "name": "Patnitop"
+    },
+    {
+      "@type": "City",
+      "name": "Jammu"
+    }
+  ],
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "name": "Call or WhatsApp to book a taxi",
+    "servicePhone": {
+      "@type": "ContactPoint",
+      "telephone": "+919103331334",
+      "contactType": "reservations",
+      "areaServed": "IN"
+    }
+  }
 }
 </script>
 </head>
@@ -122,14 +248,39 @@
     <div class="btn-row">
   <a href="tel:+919103331334" class="btn btn-pine">📞 Call Now</a>
   <a href="https://wa.me/919103331334?text=Hello%20Patnitop%20Travels%20Hub%2C%20I%20would%20like%20to%20enquire%20about%20a%20taxi/hotel%20booking." data-whatsapp class="btn btn-whatsapp" target="_blank" rel="noopener">💬 WhatsApp Now</a>
-  <a href="contact.html#booking-form" class="btn btn-primary">🚕 Book a Taxi</a>
+  <a href="#enquiry" class="btn btn-primary">🚕 Book a Taxi</a>
 </div>
   </div>
 </section>
 <section class="section-alt">
   <div class="container">
     <div class="section-head"><h2>Vehicles available</h2></div>
-    <p>Dzire, Ertiga, Innova / Toyota Crysta and Tempo Traveller are commonly available for this route, depending on your group size. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>
+    <p>Dzire, Ertiga, Glanza, Innova / Toyota Crysta, Tempo Traveller and Urbania can be arranged for this route, depending on your group size and availability. <a href="vehicles.html">See all vehicles</a> or call/WhatsApp for the current fare.</p>
+  </div>
+</section>
+<section class="section-alt" id="enquiry">
+  <div class="container">
+    <div class="booking-panel route-form">
+      <h2 class="mt-0">Taxi enquiry: Gauri Kund Taxi</h2>
+      <p class="route-form-lead"><strong>Fastest way to book: call <a href="tel:+919103331334">9103331334</a>.</strong> Prefer to write? Fill in the form and we will come back to you by phone or WhatsApp. An enquiry is not a confirmed booking until we confirm it with you.</p>
+      <form id="route-enquiry-form" data-service="Gauri Kund Taxi">
+        <div class="form-grid">
+          <div><label for="rf-name">Name</label><input id="rf-name" name="name" autocomplete="name" required></div>
+          <div><label for="rf-mobile">Mobile Number</label><input id="rf-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required></div>
+          <div><label for="rf-pickup">Pickup Location</label><input id="rf-pickup" name="pickup" placeholder="Patnitop, Jammu or Katra" required></div>
+          <div><label for="rf-drop">Destination</label><input id="rf-drop" name="drop" placeholder="Gauri Kund (return if needed)" required></div>
+          <div><label for="rf-date">Travel Date</label><input id="rf-date" name="travel_date" type="date" required></div>
+          <div><label for="rf-pax">Number of Passengers</label><input id="rf-pax" name="passengers" type="number" min="1" required></div>
+          <div class="full"><label for="rf-vehicle">Vehicle Preference</label><select id="rf-vehicle" name="vehicle"><option>Dzire</option><option>Ertiga</option><option>Glanza</option><option>Innova / Toyota Crysta</option><option>Tempo Traveller</option><option>Urbania</option><option>Not sure — please suggest</option></select></div>
+          <div class="full"><label for="rf-message">Message (optional)</label><textarea id="rf-message" name="message" rows="2"></textarea></div>
+          <div class="full consent-row"><label><input type="checkbox" name="consent_followup" value="Yes"> You may follow up with me by call or WhatsApp about this enquiry if needed (optional).</label></div>
+          <div class="hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top:16px;">Send Enquiry</button>
+        <p class="form-note">We use your details only to reply to this enquiry. See our <a href="privacy.html">Privacy page</a>.</p>
+      </form>
+      <div class="form-success" id="route-form-success"></div>
+    </div>
   </div>
 </section>
 <section>
@@ -197,6 +348,14 @@
           <li><a href="mantalai-taxi.html">Mantalai Taxi</a></li>
           <li><a href="gauri-kund-taxi.html">Gauri Kund Taxi</a></li>
           <li><a href="airport-railway-transfer.html">Airport &amp; Railway Transfer</a></li>
+          <li><a href="jammu-airport-taxi.html">Jammu Airport Taxi</a></li>
+          <li><a href="katra-railway-station-taxi.html">Katra Railway Station Taxi</a></li>
+          <li><a href="katra-to-jammu-taxi.html">Katra to Jammu Taxi</a></li>
+          <li><a href="ramban-taxi-service.html">Ramban Taxi Service</a></li>
+          <li><a href="banihal-taxi-service.html">Banihal Taxi Service</a></li>
+          <li><a href="tempo-traveller-booking.html">Tempo Traveller Booking</a></li>
+          <li><a href="urbania-booking.html">Urbania Booking</a></li>
+          <li><a href="glanza-taxi-service.html">Glanza Taxi Service</a></li>
         </ul>
       </div>
       <div>
@@ -205,7 +364,7 @@
           <li>Dileep Singh</li>
           <li><a href="tel:+919103331334">9103331334</a></li>
           <li><a href="mailto:singhdileep257@gmail.com">singhdileep257@gmail.com</a></li>
-          <li>Patnitop, Jammu &amp; Kashmir, India</li>
+          <li>Kud, Patnitop, Jammu &amp; Kashmir, India</li>
         </ul>
       </div>
     </div>

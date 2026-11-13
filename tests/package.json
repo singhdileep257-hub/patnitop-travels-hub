@@ -5,7 +5,10 @@
   "scripts": {
     "check": "python3 check_site.py",
     "kashmir": "python3 kashmir_pages.test.py",
-    "test": "node agent.test.js && node lead-receiver.test.js && python3 kashmir_pages.test.py"
+    "test": "node agent.test.js && node lead-receiver.test.js && node lead_forms.test.js && python3 kashmir_pages.test.py && python3 lead_system.test.py && python3 seo_phone_schema.test.py && python3 check_site.py",
+    "live": "python3 check_live_urls.py"
   },
-  "devDependencies": { "playwright": "^1.50.0" }
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
 }
