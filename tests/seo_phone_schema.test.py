@@ -121,6 +121,18 @@ for fn in ("index.html", "taxi-services.html"):
         if not os.path.exists(os.path.join(ROOT, href)): fail(f"{fn}: service-areas links to missing {href}")
     if re.search(r"₹|\d+\s*(km|kms|hours|hrs)\b", strip(blk), re.I): fail(f"{fn}: service-areas must not state fares, distances or times")
 
+# approved clean-ups: no unverified coordinates, one public business email, no repeated FAQ triple
+for f in glob.glob(os.path.join(ROOT, "*.html")):
+    t = open(f, encoding="utf-8", errors="ignore").read()
+    n = os.path.basename(f)
+    if "GeoCoordinates" in t: fail(f"{n}: unverified geo coordinates present")
+    if "singhdileep257@gmail.com" in t: fail(f"{n}: personal email shown; use patnitoptravelshub@gmail.com")
+if "singhdileep257@gmail.com" in open(os.path.join(ROOT, "js", "agent-data.js"), encoding="utf-8").read(): fail("agent-data.js: personal email")
+for n in ("jammu-airport-taxi", "katra-to-jammu-taxi", "banihal-taxi-service"):
+    t = read(n + ".html")
+    if "Are the vehicles owned by" in t or "Is my taxi confirmed when I send" in t: fail(f"{n}.html: old repeated FAQ present")
+
+
 # one number in every data file too
 for f in glob.glob(os.path.join(ROOT, "**", "*"), recursive=True):
     if not os.path.isfile(f) or any(x in f for x in (".git/", "node_modules", "/tests/", "googleb3")) or not f.endswith((".html", ".js", ".json", ".xml", ".txt", ".gs", ".md")): continue

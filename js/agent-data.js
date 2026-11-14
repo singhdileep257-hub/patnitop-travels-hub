@@ -553,16 +553,8 @@ var AGENT_DATA = {
           "a": "Tell us as soon as you know and we will adjust the pickup. Call 9103331334 so we can plan around the new arrival time."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
-        },
-        {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Jammu Airport taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -594,16 +586,8 @@ var AGENT_DATA = {
           "a": "Call 9103331334 and tell us the new arrival time so we can adjust the pickup."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
-        },
-        {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Katra Railway Station taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -631,16 +615,12 @@ var AGENT_DATA = {
           "a": "A longer itinerary can be planned. See our Katra to Patnitop and Srinagar taxi pages, or call 9103331334."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
+          "q": "What details should I share for a Katra to Jammu booking?",
+          "a": "Pickup point in Katra, drop point in Jammu, date, number of people and luggage, and whether you need one-way or round trip."
         },
         {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Katra to Jammu taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -672,16 +652,8 @@ var AGENT_DATA = {
           "a": "Yes. Share your flight or train details and we will plan the pickup."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
-        },
-        {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Tempo Traveller cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -709,16 +681,12 @@ var AGENT_DATA = {
           "a": "It depends on your group size, luggage and route. Tell us your plan and we will suggest what suits you. See our Tempo Traveller booking page for comparison."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
+          "q": "What details should I share when I enquire about an Urbania?",
+          "a": "Pickup point, destination, date, number of people and luggage, so we can confirm whether an Urbania suits your trip."
         },
         {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Urbania cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -746,16 +714,12 @@ var AGENT_DATA = {
           "a": "Ask us when you enquire. We confirm what can be arranged, subject to availability."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
+          "q": "What details should I share for a Glanza booking?",
+          "a": "Pickup point, destination, date, number of people and luggage, and whether you need one-way or round trip."
         },
         {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Glanza taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -787,16 +751,8 @@ var AGENT_DATA = {
           "a": "Weather and road conditions on NH 44 change with the season and can affect timing. We advise based on current conditions when you call."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
-        },
-        {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Ramban taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     },
@@ -804,7 +760,7 @@ var AGENT_DATA = {
       "id": "banihal",
       "label": "Banihal Taxi Service",
       "path": "banihal-taxi-service.html",
-      "summary": "Banihal lies on the Jammu\u2013Srinagar highway (NH 44), on the way from Patnitop and Ramban towards the Kashmir valley. Patnitop Travels Hub can arrange taxi service to and from Banihal for travellers from Jammu, Udhampur, Katra and Patnitop, subject to availability.",
+      "summary": "Banihal is on the Jammu\u2013Srinagar highway (NH 44), on the way to the Kashmir valley. This page is for travellers whose trip starts or ends at Banihal: a pickup from Banihal, a drop at Banihal, or a change of vehicle there.",
       "defaultPickup": "Jammu, Udhampur, Katra or Patnitop",
       "defaultDrop": "Banihal",
       "askSightseeing": false,
@@ -812,32 +768,24 @@ var AGENT_DATA = {
       "quoteEndpoints": null,
       "faqs": [
         {
-          "q": "Do you provide taxi service to Banihal?",
-          "a": "Yes, we arrange Banihal trips subject to availability. Call or WhatsApp 9103331334 with your pickup point, date and group size."
+          "q": "Can you pick me up from Banihal?",
+          "a": "Yes, we can arrange it subject to availability. Share the exact pickup spot, your date and the number of people when you call or WhatsApp 9103331334."
         },
         {
-          "q": "Can I book a taxi from Patnitop to Banihal?",
-          "a": "Yes. Patnitop to Banihal is one of the trips we can arrange. Tell us your date and we will confirm."
+          "q": "Can I get a one-way drop to Banihal?",
+          "a": "Yes, one-way drops can be arranged. Tell us where you start and your travel date."
         },
         {
-          "q": "Can you take me from Banihal onward to Srinagar?",
-          "a": "A longer trip can be planned. See our Srinagar taxi page and tell us your plan."
+          "q": "Do you go beyond Banihal?",
+          "a": "Longer trips can be planned. See our Srinagar taxi page and tell us your plan."
         },
         {
-          "q": "How do weather and roads affect the trip?",
-          "a": "Weather, snow and road conditions on NH 44 change with the season and can affect timing. We advise based on current conditions when you call."
+          "q": "What details should I give for a Banihal booking?",
+          "a": "Pickup point, drop point, date, number of people and luggage, and whether you need one-way or round trip."
         },
         {
-          "q": "How much does this taxi cost?",
-          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) and we will tell you the current rate before you book."
-        },
-        {
-          "q": "Is my taxi confirmed when I send the enquiry form?",
-          "a": "No. The form sends us an enquiry. Your taxi is confirmed only when we confirm the vehicle, driver and rate with you directly by call or WhatsApp."
-        },
-        {
-          "q": "Are the vehicles owned by Patnitop Travels Hub?",
-          "a": "Trips are arranged using our vehicles and partner drivers, depending on availability. We confirm the vehicle and driver when you book."
+          "q": "How much does the Banihal taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
         }
       ]
     }
@@ -1082,7 +1030,7 @@ var AGENT_DATA = {
     },
     {
       "q": "How can I contact Dileep Singh?",
-      "a": "You can call or WhatsApp Dileep Singh at 9103331334 or email singhdileep257@gmail.com."
+      "a": "You can call or WhatsApp Dileep Singh at 9103331334 or email patnitoptravelshub@gmail.com."
     }
   ],
   "rates": []
