@@ -20,8 +20,10 @@ Commit the regenerated files together with your edit. Netlify publishes the repo
 ```
 python3 build.py
 python3 tests/check_site.py                                   # pages, SEO, links, sitemap, no invented claims
-node tests/lead-receiver.test.js                              # lead sheet script
-cd tests && npm install && npx playwright install chromium && node agent.test.js   # real-browser tests
+node tests/lead-receiver.test.js                              # lead sheet script (leads, clicks, dashboard stats)
+python3 tests/lead_system.test.py                             # new landing pages, forms, private dashboard, honesty rules
+cd tests && npm install && npx playwright install chromium && node agent.test.js && node lead_forms.test.js   # real-browser tests
+python3 tests/check_live_urls.py                              # AFTER deploy: real Netlify redirect/canonical test
 ```
 
 ## 1. Deploy (Netlify)
@@ -49,11 +51,13 @@ Step-by-step phone instructions are in **`docs/GOOGLE_BUSINESS_PROFILE.md`**. Su
 
 ## 4. Lead sheet: store enquiries and track status (free)
 
+**On an Android phone with no laptop, follow `docs/ANDROID_SETUP.md` instead.** It covers the same steps plus the dashboard key, the Events tab and GA4. The steps below are the same flow for a computer.
+
 Enquiries from the chat and forms can be saved to a private Google Sheet you own. Without this step they only go to WhatsApp.
 
 1. Create a new Google Sheet (name it e.g. *PTH Leads*).
 2. Extensions → Apps Script. Delete the sample code and paste in the whole of `apps-script/lead-receiver.gs`. Save.
-3. Choose the function `setup` and click Run. Approve the permission prompt (it only touches this sheet). Two tabs appear: **Leads** and **Product Enquiries**.
+3. Choose the function `setup` and click Run. Approve the permission prompt (it only touches this sheet). Three tabs appear: **Leads**, **Product Enquiries** and **Events** (button taps, no personal data). Then run `createDashboardKey` and copy the key from the Execution log: it unlocks `dashboard.html`.
 4. Deploy → New deployment → type *Web app*. *Execute as: Me. Who has access: Anyone.* Deploy and copy the Web app URL (ends in `/exec`).
 5. Paste that URL into `lead_endpoint` in `site.config.json`, run `python3 build.py`, commit and push.
 6. Test: submit the contact form with your own number. A row should appear within a few seconds with Status **New**.

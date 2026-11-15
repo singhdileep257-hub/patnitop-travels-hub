@@ -524,6 +524,270 @@ var AGENT_DATA = {
           "a": "A wider itinerary can be discussed. See our Srinagar taxi and J&K tour packages pages, or call or WhatsApp 9103331334."
         }
       ]
+    },
+    {
+      "id": "jammu-airport",
+      "label": "Jammu Airport Taxi",
+      "path": "jammu-airport-taxi.html",
+      "summary": "Landing at Jammu Airport and need a taxi waiting? Patnitop Travels Hub arranges airport pickup for travellers heading to Patnitop, Katra, Udhampur, Ramban, Banihal and Srinagar, and airport drop for the journey back.",
+      "defaultPickup": "Jammu Airport",
+      "defaultDrop": "Patnitop, Katra or your hotel",
+      "askSightseeing": false,
+      "askHotel": true,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Do you offer taxi pickup at Jammu Airport?",
+          "a": "Yes. Call or WhatsApp 9103331334 with your flight details and destination and we will confirm the pickup and the vehicle."
+        },
+        {
+          "q": "Can you take me from Jammu Airport straight to Patnitop?",
+          "a": "Yes, Jammu Airport to Patnitop is one of the trips we arrange. See also our Jammu to Patnitop taxi page."
+        },
+        {
+          "q": "What should I tell you when I book an airport pickup?",
+          "a": "Your flight number, arrival time, number of people, luggage and where you are going. This lets us suggest a suitable vehicle."
+        },
+        {
+          "q": "What if my flight is delayed?",
+          "a": "Tell us as soon as you know and we will adjust the pickup. Call 9103331334 so we can plan around the new arrival time."
+        },
+        {
+          "q": "How much does the Jammu Airport taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "katra-railway",
+      "label": "Katra Railway Station Taxi",
+      "path": "katra-railway-station-taxi.html",
+      "summary": "Arriving at Katra Railway Station and looking for a taxi? Patnitop Travels Hub arranges pickup at the station for travellers heading to Patnitop, Jammu, Udhampur or onward to Srinagar, and drop at the station when you return.",
+      "defaultPickup": "Katra Railway Station",
+      "defaultDrop": "Patnitop, Jammu or your hotel",
+      "askSightseeing": false,
+      "askHotel": true,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can you pick me up from Katra Railway Station?",
+          "a": "Yes. Call or WhatsApp 9103331334 with your train details and destination and we will confirm the pickup."
+        },
+        {
+          "q": "Can I go from Katra Railway Station directly to Patnitop?",
+          "a": "Yes, Katra to Patnitop is a route we arrange. See our Katra to Patnitop taxi page for more."
+        },
+        {
+          "q": "What details do you need for a railway station pickup?",
+          "a": "Your train name or number, arrival time, number of people, luggage and where you want to go."
+        },
+        {
+          "q": "What if my train is late?",
+          "a": "Call 9103331334 and tell us the new arrival time so we can adjust the pickup."
+        },
+        {
+          "q": "How much does the Katra Railway Station taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "katra-jammu",
+      "label": "Katra to Jammu Taxi",
+      "path": "katra-to-jammu-taxi.html",
+      "summary": "Patnitop Travels Hub arranges taxi service between Katra and Jammu in both directions, including drop at Jammu Airport and Jammu Railway Station after your yatra, and pickup from Jammu for the trip up to Katra.",
+      "defaultPickup": "Katra town or Katra Railway Station",
+      "defaultDrop": "Jammu (Airport / Railway Station / city)",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can I book a one-way taxi from Katra to Jammu?",
+          "a": "Yes. One-way drop is available, along with round-trip service. Call 9103331334 with your pickup point and date."
+        },
+        {
+          "q": "Can you drop me at Jammu Airport or Jammu Railway Station?",
+          "a": "Yes. Tell us your flight or train time and we will plan the drop so you have enough time at the station or airport."
+        },
+        {
+          "q": "Can the same taxi continue to Patnitop or Srinagar?",
+          "a": "A longer itinerary can be planned. See our Katra to Patnitop and Srinagar taxi pages, or call 9103331334."
+        },
+        {
+          "q": "What details should I share for a Katra to Jammu booking?",
+          "a": "Pickup point in Katra, drop point in Jammu, date, number of people and luggage, and whether you need one-way or round trip."
+        },
+        {
+          "q": "How much does the Katra to Jammu taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "tempo-traveller",
+      "label": "Tempo Traveller Booking",
+      "path": "tempo-traveller-booking.html",
+      "summary": "Travelling with a big family or a group? Patnitop Travels Hub can arrange a Tempo Traveller for trips to Patnitop, Nathatop, Sanasar, Katra, Srinagar and other Jammu & Kashmir destinations, subject to availability.",
+      "defaultPickup": "Jammu, Katra, Udhampur or your hotel",
+      "defaultDrop": "Patnitop or your destination",
+      "askSightseeing": true,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "How do I book a Tempo Traveller?",
+          "a": "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."
+        },
+        {
+          "q": "How many people can travel in a Tempo Traveller?",
+          "a": "Seating can differ between vehicles, so we confirm the exact seating for your trip when you enquire. Tell us your group size and luggage."
+        },
+        {
+          "q": "Can a Tempo Traveller be used for Patnitop sightseeing?",
+          "a": "Yes, it can be arranged for local sightseeing, subject to availability. See our Patnitop sightseeing taxi page."
+        },
+        {
+          "q": "Can you pick up a group from the airport or railway station?",
+          "a": "Yes. Share your flight or train details and we will plan the pickup."
+        },
+        {
+          "q": "How much does the Tempo Traveller cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "urbania",
+      "label": "Urbania Booking",
+      "path": "urbania-booking.html",
+      "summary": "Need a larger, comfortable vehicle for a group? Patnitop Travels Hub can arrange an Urbania for trips between Jammu, Katra, Udhampur, Patnitop and onward to Srinagar, subject to availability.",
+      "defaultPickup": "Jammu, Katra, Udhampur or your hotel",
+      "defaultDrop": "Patnitop or your destination",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "How do I book an Urbania?",
+          "a": "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."
+        },
+        {
+          "q": "How many people does an Urbania seat?",
+          "a": "Seating can differ, so we confirm the exact seating for your trip when you enquire. Tell us your group size."
+        },
+        {
+          "q": "Should I choose an Urbania or a Tempo Traveller?",
+          "a": "It depends on your group size, luggage and route. Tell us your plan and we will suggest what suits you. See our Tempo Traveller booking page for comparison."
+        },
+        {
+          "q": "What details should I share when I enquire about an Urbania?",
+          "a": "Pickup point, destination, date, number of people and luggage, so we can confirm whether an Urbania suits your trip."
+        },
+        {
+          "q": "How much does the Urbania cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "glanza",
+      "label": "Glanza Taxi Service",
+      "path": "glanza-taxi-service.html",
+      "summary": "Travelling as a couple or a small group with light luggage? Patnitop Travels Hub can arrange a Glanza for trips between Jammu, Katra, Udhampur and Patnitop, and onward drops, subject to availability.",
+      "defaultPickup": "Jammu, Katra, Udhampur or your hotel",
+      "defaultDrop": "Patnitop or your destination",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "How do I book a Glanza taxi?",
+          "a": "Call 9103331334 or send the enquiry form with your pickup point, date, destination and number of people. We confirm availability and the rate before booking."
+        },
+        {
+          "q": "Is a Glanza suitable for a family with luggage?",
+          "a": "It suits couples and small groups with light luggage. Tell us your group size and bags and we will suggest the right vehicle."
+        },
+        {
+          "q": "Can I book a Glanza for Patnitop sightseeing?",
+          "a": "Ask us when you enquire. We confirm what can be arranged, subject to availability."
+        },
+        {
+          "q": "What details should I share for a Glanza booking?",
+          "a": "Pickup point, destination, date, number of people and luggage, and whether you need one-way or round trip."
+        },
+        {
+          "q": "How much does the Glanza taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "ramban",
+      "label": "Ramban Taxi Service",
+      "path": "ramban-taxi-service.html",
+      "summary": "Ramban lies on the Jammu\u2013Srinagar highway (NH 44), between Patnitop and Banihal. Patnitop Travels Hub can arrange taxi service to and from Ramban for travellers from Jammu, Udhampur, Katra and Patnitop, subject to availability.",
+      "defaultPickup": "Jammu, Udhampur, Katra or Patnitop",
+      "defaultDrop": "Ramban",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Do you provide taxi service to Ramban?",
+          "a": "Yes, we arrange Ramban trips subject to availability. Call or WhatsApp 9103331334 with your pickup point, date and group size."
+        },
+        {
+          "q": "Can I book a taxi from Patnitop to Ramban?",
+          "a": "Yes. Patnitop to Ramban is one of the trips we can arrange. Tell us your date and we will confirm."
+        },
+        {
+          "q": "Can I stop at Ramban on the way to Srinagar?",
+          "a": "A stop can be planned into a longer trip. See our Srinagar taxi page and tell us your plan."
+        },
+        {
+          "q": "How do weather and roads affect the trip?",
+          "a": "Weather and road conditions on NH 44 change with the season and can affect timing. We advise based on current conditions when you call."
+        },
+        {
+          "q": "How much does the Ramban taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
+    },
+    {
+      "id": "banihal",
+      "label": "Banihal Taxi Service",
+      "path": "banihal-taxi-service.html",
+      "summary": "Banihal is on the Jammu\u2013Srinagar highway (NH 44), on the way to the Kashmir valley. This page is for travellers whose trip starts or ends at Banihal: a pickup from Banihal, a drop at Banihal, or a change of vehicle there.",
+      "defaultPickup": "Jammu, Udhampur, Katra or Patnitop",
+      "defaultDrop": "Banihal",
+      "askSightseeing": false,
+      "askHotel": false,
+      "quoteEndpoints": null,
+      "faqs": [
+        {
+          "q": "Can you pick me up from Banihal?",
+          "a": "Yes, we can arrange it subject to availability. Share the exact pickup spot, your date and the number of people when you call or WhatsApp 9103331334."
+        },
+        {
+          "q": "Can I get a one-way drop to Banihal?",
+          "a": "Yes, one-way drops can be arranged. Tell us where you start and your travel date."
+        },
+        {
+          "q": "Do you go beyond Banihal?",
+          "a": "Longer trips can be planned. See our Srinagar taxi page and tell us your plan."
+        },
+        {
+          "q": "What details should I give for a Banihal booking?",
+          "a": "Pickup point, drop point, date, number of people and luggage, and whether you need one-way or round trip."
+        },
+        {
+          "q": "How much does the Banihal taxi cost, and is it confirmed when I enquire?",
+          "a": "We do not publish fixed fares, because the rate depends on your pickup point, date, vehicle and group size. Call 9103331334 (or WhatsApp) for the current rate. The enquiry form only sends us your request: your taxi is confirmed only when we confirm the vehicle, driver and rate with you by call or WhatsApp. Trips use our vehicles and partner drivers, depending on availability."
+        }
+      ]
     }
   ],
   "taxiServices": [
@@ -600,6 +864,38 @@ var AGENT_DATA = {
       "desc": "Taxi to the sacred Gauri Kund near Sudh Mahadev, from Patnitop and Jammu."
     },
     {
+      "name": "Jammu Airport Taxi",
+      "desc": "Airport pickup and drop with onward travel to Patnitop, Katra and Srinagar."
+    },
+    {
+      "name": "Katra Railway Station Taxi",
+      "desc": "Pickup and drop at Katra Railway Station, with onward travel to Patnitop and Jammu."
+    },
+    {
+      "name": "Katra to Jammu Taxi",
+      "desc": "Taxi between Katra and Jammu, in both directions."
+    },
+    {
+      "name": "Ramban Taxi Service",
+      "desc": "Taxi to and from Ramban on the Jammu&ndash;Srinagar highway, subject to availability."
+    },
+    {
+      "name": "Banihal Taxi Service",
+      "desc": "Taxi to and from Banihal on the Jammu&ndash;Srinagar highway, subject to availability."
+    },
+    {
+      "name": "Tempo Traveller Booking",
+      "desc": "Tempo Traveller for family and group trips, subject to availability."
+    },
+    {
+      "name": "Urbania Booking",
+      "desc": "Urbania for larger groups, subject to availability; seating confirmed when you enquire."
+    },
+    {
+      "name": "Glanza Taxi Service",
+      "desc": "Glanza for couples and small groups, subject to availability."
+    },
+    {
       "name": "Hotel Pickup & Drop",
       "desc": "Pickup and drop from your Patnitop hotel for onward travel."
     }
@@ -668,6 +964,16 @@ var AGENT_DATA = {
       "name": "Tempo Traveller",
       "desc": "Larger vehicle for groups and bigger families travelling together.",
       "capacity": null
+    },
+    {
+      "name": "Glanza",
+      "desc": "Compact hatchback suited to couples and small groups with light luggage, subject to availability.",
+      "capacity": null
+    },
+    {
+      "name": "Urbania",
+      "desc": "Larger passenger van for bigger groups and families travelling together; confirm seating and availability when you enquire.",
+      "capacity": null
     }
   ],
   "packageDestinations": [
@@ -724,7 +1030,7 @@ var AGENT_DATA = {
     },
     {
       "q": "How can I contact Dileep Singh?",
-      "a": "You can call or WhatsApp Dileep Singh at 9103331334 or email singhdileep257@gmail.com."
+      "a": "You can call or WhatsApp Dileep Singh at 9103331334 or email patnitoptravelshub@gmail.com."
     }
   ],
   "rates": []

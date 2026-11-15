@@ -66,7 +66,7 @@ CASES = [
     ("an availability claim on Doodhpathri",
      lambda d: edit_all(d, "doodhpathri-taxi.html", "Interested in Doodhpathri?", "We provide daily service to Doodhpathri. Interested in Doodhpathri?"), "doodhpathri-taxi.html"),
     ("Doodhpathri listed as an area served in the Service schema",
-     lambda d: edit(d, "doodhpathri-taxi.html", '"areaServed": ["Jammu","Katra","Udhampur"]', '"areaServed": ["Doodhpathri","Jammu","Katra","Udhampur"]'), "doodhpathri-taxi.html"),
+     lambda d: edit(d, "doodhpathri-taxi.html", '"url": "https://patnitoptravelshub.netlify.app/"\n  },\n  "areaServed": [', '"url": "https://patnitoptravelshub.netlify.app/"\n  },\n  "areaServed": [\n    {"@type": "City", "name": "Doodhpathri"},'), "doodhpathri-taxi.html"),
     ("a local sightseeing claim",
      lambda d: edit_all(d, "yusmarg-taxi.html", "We do not publish fares", "Local sightseeing is included. We do not publish fares"), "yusmarg-taxi.html"),
     ("'Kudh' in written content",

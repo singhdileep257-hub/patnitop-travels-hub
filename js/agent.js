@@ -465,7 +465,7 @@
   // ---------------------------------------------------------------
   var MONTHS = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
   var MONTH_RE = '(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)';
-  var VEHICLE_WORDS = [['dzire', 'Dzire'], ['ertiga', 'Ertiga'], ['innova', 'Innova / Toyota Crysta'], ['crysta', 'Innova / Toyota Crysta'], ['tempo', 'Tempo Traveller'], ['traveller', 'Tempo Traveller'], ['traveler', 'Tempo Traveller']];
+  var VEHICLE_WORDS = [['dzire', 'Dzire'], ['ertiga', 'Ertiga'], ['glanza', 'Glanza'], ['urbania', 'Urbania'], ['innova', 'Innova / Toyota Crysta'], ['crysta', 'Innova / Toyota Crysta'], ['tempo', 'Tempo Traveller'], ['traveller', 'Tempo Traveller'], ['traveler', 'Tempo Traveller']];
 
   function buildDate(y, mo, d, explicitYear) {
     var today = startOfToday();

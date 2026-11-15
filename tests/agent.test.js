@@ -51,14 +51,14 @@ async function test(name, fn) {
   async function newPage(url, { viewport, mutateData } = {}) {
     const ctx = await browser.newContext({ viewport: viewport || { width: 1100, height: 800 } });
     const page = await ctx.newPage();
-    page.posts = []; page.errors = [];
+    page.posts = []; page.events = []; page.errors = [];
     page.on('pageerror', e => page.errors.push('pageerror: ' + e.message));
     page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) page.errors.push('console: ' + m.text()); });
     await page.route('**/*', route => {
       const u = route.request().url();
       if (u === LEAD_URL) {
         if (page.failLead) return route.abort('failed');
-        page.posts.push(JSON.parse(route.request().postData())); return route.fulfill({ status: 200, body: '{"ok":true}' });
+        const body = JSON.parse(route.request().postData()); (body.type === 'event' ? page.events : page.posts).push(body); return route.fulfill({ status: 200, body: '{"ok":true}' });
       }
       if (u.startsWith(base)) {
         if (mutateData && u.endsWith('/js/agent-data.js')) {
